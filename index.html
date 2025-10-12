@@ -18,13 +18,13 @@
   <link rel="manifest" href="site.webmanifest">
   <link rel="shortcut icon" href="favicon.ico">
 
-  <!-- Open Graph  -->
+  <!-- Open Graph (cards use 1200×630; site keeps hero-image.jpg in CSS) -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://katariinatamm.com/">
   <meta property="og:site_name" content="Katariina Tamm">
   <meta property="og:title" content="Katariina Tamm - Estonian Actor">
   <meta property="og:description" content="Official website of Estonian actor Katariina Tamm.">
-  <meta property="og:image" content="https://katariinatamm.com/og/katariina-tamm-1200x630.jpg?v=3">
+  <meta property="og:image" content="https://katariinatamm.com/katariina-tamm-1200x630.jpg?v=4">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Portrait of actor Katariina Tamm">
@@ -34,7 +34,7 @@
   <meta name="twitter:url" content="https://katariinatamm.com/">
   <meta name="twitter:title" content="Katariina Tamm - Estonian Actor">
   <meta name="twitter:description" content="Official website of Estonian actor Katariina Tamm.">
-  <meta name="twitter:image" content="https://katariinatamm.com/og/katariina-tamm-1200x630.jpg?v=3">
+  <meta name="twitter:image" content="https://katariinatamm.com/katariina-tamm-1200x630.jpg?v=4">
   <meta name="twitter:image:alt" content="Portrait of actor Katariina Tamm">
 
   <!-- JSON-LD (Person) -->
@@ -45,7 +45,7 @@
     "name":"Katariina Tamm",
     "jobTitle":"Actor",
     "url":"https://katariinatamm.com/",
-    "image":"https://katariinatamm.com/og/katariina-tamm-1200x630.jpg",
+    "image":"https://katariinatamm.com/katariina-tamm-1200x630.jpg",
     "knowsLanguage":["et","en"],
     "nationality":"Estonia",
     "sameAs":["https://www.imdb.com/name/nm5518685/"]
@@ -64,7 +64,7 @@
   </script>
 
   <style>
-    
+    /* original styling kept */
     body {
       margin: 0;
       padding: 0;
@@ -76,18 +76,13 @@
       height: 100vh;
       overflow: hidden;
     }
-
     body::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0, 0, 0, 0.3);
       z-index: 1;
     }
-
     .container {
       display: flex;
       flex-direction: column;
@@ -97,7 +92,6 @@
       position: relative;
       z-index: 2;
     }
-
     h1 {
       font-size: clamp(2rem, 5vw, 6rem);
       font-weight: 100;
@@ -110,12 +104,10 @@
       opacity: 0;
       animation: fadeInText 2s ease-out 0.25s forwards;
     }
-
     @keyframes fadeInText {
       from { opacity: 0; transform: translateY(30px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-
     .bottom-nav {
       display: flex;
       justify-content: center;
@@ -123,11 +115,9 @@
       margin-bottom: 1rem;
       position: fixed;
       bottom: 2rem;
-      left: 0;
-      right: 0;
+      left: 0; right: 0;
       z-index: 100;
     }
-
     .bottom-nav a {
       color: #f8f8f8 !important;
       text-decoration: none;
@@ -139,26 +129,18 @@
       position: relative;
       display: inline-block;
     }
-
     .bottom-nav a:hover { transform: scale(1.05); }
     .bottom-nav a:active { transform: scale(0.95); transition: transform 0.1s ease; }
-
     .bottom-nav a:active::after {
       content: '';
       position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      border-radius: 50%;
+      top: 50%; left: 50%;
+      width: 0; height: 0; border-radius: 50%;
       background: rgba(255, 255, 255, 0.3);
       transform: translate(-50%, -50%);
       animation: ripple 0.6s ease-out;
     }
-
-    @keyframes ripple {
-      to { width: 100px; height: 100px; opacity: 0; }
-    }
+    @keyframes ripple { to { width: 100px; height: 100px; opacity: 0; } }
   </style>
 </head>
 <body>
