@@ -1,161 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Katariina Tamm - Actor</title>
-    
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="Katariina Tamm - Actor">
-    <meta name="description" content="Official website of Estonian actor Katariina Tamm.">
-    <meta name="keywords" content="Katariina Tamm, actor, actress, Estonia, film, theatre, television">
-    <meta name="author" content="Katariina Tamm">
-    <meta name="robots" content="index,follow">
-    <link rel="canonical" href="https://katariinatamm.com/">
+  <!-- Basics -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="manifest" href="site.webmanifest">
-    <link rel="shortcut icon" href="favicon.ico">
+  <title>Katariina Tamm - Estonian Actor</title>
 
-    <!-- Open Graph / Facebook Meta Tags -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://katariinatamm.com/">
-    <meta property="og:title" content="Katariina Tamm - Actor">
-    <meta property="og:description" content="Official website of Estonian actor Katariina Tamm.">
-    <meta property="og:image" content="https://katariinatamm.com/hero-image.jpg">
-    <meta property="og:site_name" content="Katariina Tamm">
+  <!-- Primary SEO -->
+  <meta name="title" content="Katariina Tamm - Estonian Actor" />
+  <meta name="description" content="Official website of Estonian actor Katariina Tamm." />
+  <meta name="author" content="Katariina Tamm" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="canonical" href="https://katariinatamm.com/" />
 
-    <!-- Twitter Meta Tags -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://katariinatamm.com/">
-    <meta property="twitter:title" content="Katariina Tamm - Actor">
-    <meta property="twitter:description" content="Official website of Estonian actor Katariina Tamm.">
-    <meta property="twitter:image" content="https://katariinatamm.com/hero-image.jpg">
-    <meta property="twitter:image:alt" content="Portrait of Katariina Tamm">
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            background: url('hero-image.jpg') no-repeat center center fixed;
-            background-size: cover;
-            background-position: center 20%;
-            color: white;
-            height: 100vh;
-            overflow: hidden;
-        }
+  <!-- Performance -->
+  <link rel="preload" as="image" href="/hero-image.jpg" imagesizes="100vw" />
 
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.3);
-            z-index: 1;
-        }
+  <!-- Icons / Manifest (you already have these files) -->
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+  <link rel="manifest" href="site.webmanifest" />
+  <link rel="shortcut icon" href="favicon.ico" />
+  <meta name="theme-color" content="#000000" />
 
-        .container {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 100vh;
-            padding: 2rem;
-            position: relative;
-            z-index: 2;
-        }
+  <!-- Open Graph  -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://katariinatamm.com/" />
+  <meta property="og:site_name" content="Katariina Tamm" />
+  <meta property="og:title" content="Katariina Tamm - Estonian Actor" />
+  <meta property="og:description" content="Official website of Estonian actor Katariina Tamm." />
+  <!-- Use a 1200×630 JPG for perfect link cards; ?v=2 busts preview caches -->
+  <meta property="og:image" content="https://katariinatamm.com/og/katariina-tamm-1200x630.jpg?v=2" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Portrait of actor Katariina Tamm" />
 
-        h1 {
-            font-size: clamp(2rem, 5vw, 6rem);
-            font-weight: 100;
-            line-height: 0.8;
-            margin: 0;
-            text-align: center;
-            letter-spacing: 0.2em;
-            align-self: center;
-            color: #f8f8f8;
-            opacity: 0;
-            animation: fadeInText 2s ease-out 0.25s forwards;
-        }
-        
-        @keyframes fadeInText {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+  <!-- Twitter (X) -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://katariinatamm.com/" />
+  <meta name="twitter:title" content="Katariina Tamm - Estonian Actor" />
+  <meta name="twitter:description" content="Official website of Estonian actor Katariina Tamm." />
+  <meta name="twitter:image" content="https://katariinatamm.com/og/katariina-tamm-1200x630.jpg?v=2" />
+  <meta name="twitter:image:alt" content="Portrait of actor Katariina Tamm" />
 
-        .bottom-nav {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            margin-bottom: 1rem;
-            position: fixed;
-            bottom: 2rem;
-            left: 0;
-            right: 0;
-            z-index: 100;
-        }
+  <!-- JSON-LD (Person) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Person",
+    "name":"Katariina Tamm",
+    "jobTitle":"Actor",
+    "url":"https://katariinatamm.com/",
+    "image":"https://katariinatamm.com/og/katariina-tamm-1200x630.jpg",
+    "knowsLanguage":["et","en"],
+    "nationality":"Estonia",
+    "sameAs":["https://www.imdb.com/name/nm5518685/"]
+  }
+  </script>
 
-        .bottom-nav a {
-            color: #f8f8f8 !important;
-            text-decoration: none;
-            font-weight: 100;
-            font-size: 1rem;
-            letter-spacing: 0.1em;
-            transition: all 0.3s ease;
-            text-shadow: 0 0 10px rgba(0,0,0,0.8);
-            position: relative;
-            display: inline-block;
-        }
+  <!-- JSON-LD (WebSite) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebSite",
+    "url":"https://katariinatamm.com/",
+    "name":"Katariina Tamm",
+    "inLanguage":"en"
+  }
+  </script>
 
-        .bottom-nav a:hover {
-            transform: scale(1.05);
-        }
-        
-        .bottom-nav a:active {
-            transform: scale(0.95);
-            transition: transform 0.1s ease;
-        }
-        
-        .bottom-nav a:active::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: translate(-50%, -50%);
-            animation: ripple 0.6s ease-out;
-        }
-        
-        @keyframes ripple {
-            to {
-                width: 100px;
-                height: 100px;
-                opacity: 0;
-            }
-        }
-    </style>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      background: url('hero-image.jpg') no-repeat center center fixed;
+      background-size: cover;
+      background-position: center 20%;
+      color: white;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.2) 35%, rgba(0,0,0,0.55));
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    h1 {
+      margin: 0;
+      padding-top: 12vh;
+      letter-spacing: 0.35em;
+      font-size: clamp(1.6rem, 8vw, 4rem);
+      font-weight: 700;
+      text-shadow: 0 0 10px rgba(0,0,0,0.8);
+    }
+
+    .bottom-nav {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      bottom: 2rem; left: 0; right: 0;
+      z-index: 100;
+    }
+
+    .bottom-nav a {
+      color: #f8f8f8 !important;
+      text-decoration: none;
+      font-weight: 100;
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      transition: all 0.3s ease;
+      text-shadow: 0 0 10px rgba(0,0,0,0.8);
+      position: relative;
+      display: inline-block;
+    }
+
+    .bottom-nav a:hover { transform: scale(1.05); }
+    .bottom-nav a:active { transform: scale(0.95); transition: transform 0.1s ease; }
+    .bottom-nav a:active::after {
+      content: '';
+      position: absolute;
+      inset: -0.25rem;
+      border-radius: 0.25rem;
+    }
+
+    @media (max-width: 600px) {
+      .bottom-nav a { font-size: 0.9rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .bottom-nav a { transition: none; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>KATARIINA TAMM</h1>
-        <nav class="bottom-nav">
-            <a href="mailto:contact@katariinatamm.com">CONTACT</a>
-            <a href="https://www.imdb.com/name/nm5518685/" target="_blank">IMDB</a>
-        </nav>
-    </div>
-    
+  <div class="container">
+    <h1>KATARIINA TAMM</h1>
+    <nav class="bottom-nav">
+      <a href="mailto:contact@katariinatamm.com">CONTACT</a>
+      <a href="https://www.imdb.com/name/nm5518685/" target="_blank" rel="noopener">IMDB</a>
+    </nav>
+  </div>
 </body>
 </html>
