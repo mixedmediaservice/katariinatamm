@@ -37,7 +37,7 @@
   <meta name="twitter:image" content="https://katariinatamm.com/katariina-tamm-1200x630.jpg?v=4">
   <meta name="twitter:image:alt" content="Portrait of actor Katariina Tamm">
 
-  <!-- JSON-LD (Person) --> 
+  <!-- JSON-LD (Person) -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -303,7 +303,7 @@
   </div>
 
 <div class="bio-overlay" id="bio-overlay" aria-hidden="true"></div>
-<aside class="bio-sheet" id="bio-sheet" role="dialog" aria-modal="true" aria-labelledby="bio-title">
+<div id="bio"  class="bio-sheet" id="bio-sheet" role="dialog" aria-modal="true" aria-labelledby="bio-title">
   <button class="bio-close" id="bio-close" aria-label="Close bio">×</button>
   <div class="bio-content">
     <h2 id="bio-title">BIO</h2>
@@ -346,35 +346,49 @@ Languages: Estonian, English, Finnish, Russian</p>
   <footer class="bio-footer">
     <button class="bio-close-bottom" id="bio-close-bottom" aria-label="Close bio">Close</button>
   </footer>
-</aside>
+</div>
+
 
 
 <script>
 (function(){
-  const sheet = document.getElementById('bio-sheet');
+  const sheet = document.getElementById('bio');
   const overlay = document.getElementById('bio-overlay');
+  const openBtn = document.getElementById('bio-open');
   const closeBtn = document.getElementById('bio-close');
   const closeBottom = document.getElementById('bio-close-bottom');
   const details = sheet ? sheet.querySelector('.bio-details') : null;
   const summary = details ? details.querySelector('summary') : null;
 
+  function show(){ 
+    if(sheet && overlay){ sheet.classList.add('open'); overlay.classList.add('open'); }
+    if(location.hash !== '#bio'){ history.replaceState(null,'','#bio'); }
+  }
   function hide(){ 
     if(sheet && overlay){ sheet.classList.remove('open'); overlay.classList.remove('open'); }
     history.replaceState(null,'',' ');
   }
 
+  // Open from nav
+  if(openBtn){ openBtn.addEventListener('click', function(e){ e.preventDefault(); show(); }); }
+  // Open on deep-link
+  if(location.hash === '#bio'){ show(); }
+
+  // Close wiring
+  if(closeBottom){ closeBottom.addEventListener('click', hide); }
+  if(overlay){ overlay.addEventListener('click', hide); }
+  if(closeBtn){ closeBtn.addEventListener('click', hide); }
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') hide(); });
+
+  // Stop "More" jump while preserving scroll
   if(summary && details){
     summary.addEventListener('click', function(e){
       e.preventDefault();
-      // Preserve scroll position to avoid "spring" on iOS
       const y = sheet ? sheet.scrollTop : window.scrollY;
       details.open = !details.open;
       if(sheet){ sheet.scrollTop = y; } else { window.scrollTo(0, y); }
     });
   }
-  if(closeBottom){ closeBottom.addEventListener('click', hide); }
-  if(overlay){ overlay.addEventListener('click', hide); }
-  if(closeBtn){ closeBtn.addEventListener('click', hide); }
 })();
 </script>
 </body>
