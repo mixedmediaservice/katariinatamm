@@ -8,6 +8,8 @@
   <title>Katariina Tamm - Actor</title>
   <meta name="description" content="Official website of Estonian actor Katariina Tamm.">
   <meta name="author" content="Katariina Tamm">
+  <meta name="theme-color" content="#141414">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="robots" content="index,follow,max-image-preview:large">
   <link rel="canonical" href="https://katariinatamm.com/">
 
@@ -16,6 +18,8 @@
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="manifest" href="site.webmanifest">
+  <link rel="preload" as="image" href="hero-image.avif">
+<link rel="preload" as="image" href="hero-image.webp">
   <link rel="shortcut icon" href="favicon.ico">
 
   <!-- Open Graph (cards use 1200×630; site keeps hero-image.jpg in CSS) -->
@@ -39,18 +43,47 @@
 
   <!-- JSON-LD (Person) -->
   <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"Person",
-    "name":"Katariina Tamm",
-    "jobTitle":"Actor",
-    "url":"https://katariinatamm.com/",
-    "image":"https://katariinatamm.com/katariina-tamm-1200x630.jpg",
-    "knowsLanguage":["et","en"],
-    "nationality":"Estonia",
-    "sameAs":["https://www.imdb.com/name/nm5518685/"]
-  }
-  </script>
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Katariina Tamm",
+  "jobTitle": "Actor",
+  "url": "https://katariinatamm.com/",
+  "image": "https://katariinatamm.com/katariina-tamm-1200x630.jpg",
+  "knowsLanguage": [
+    "et",
+    "en",
+    "fi",
+    "ru"
+  ],
+  "nationality": "Estonia",
+  "homeLocation": {
+    "@type": "Place",
+    "name": "Tallinn, Estonia"
+  },
+  "alumniOf": [
+    {
+      "@type": "CollegeOrUniversity",
+      "name": "Royal Academy of Dramatic Art (RADA)",
+      "address": "London, UK"
+    },
+    {
+      "@type": "CollegeOrUniversity",
+      "name": "Turku University of Applied Sciences \u2013 Arts Academy",
+      "address": "Turku, Finland"
+    },
+    {
+      "@type": "EducationalOrganization",
+      "name": "Theatre Institute of Barcelona",
+      "address": "Barcelona, Spain"
+    }
+  ],
+  "award": "Estonian Annual Theatre Awards nominee 2023",
+  "sameAs": [
+    "https://www.imdb.com/name/nm5518685/"
+  ]
+}
+</script>
 
   <!-- JSON-LD (WebSite) -->
   <script type="application/ld+json">
@@ -157,6 +190,17 @@
 
 
 
+
+<style>
+/* Modern formats for the hero with fallbacks */
+@supports (background-image: image-set(url("hero-image.avif") type("image/avif"))) {
+  body{
+    background-image: -webkit-image-set(url("hero-image.avif") type("image/avif"), url("hero-image.webp") type("image/webp"), url("hero-image.jpg") type("image/jpeg"));
+    background-image: image-set(url("hero-image.avif") type("image/avif"), url("hero-image.webp") type("image/webp"), url("hero-image.jpg") type("image/jpeg"));
+  }
+}
+</style>
+
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -212,9 +256,11 @@ Languages: Estonian, English, Finnish, Russian</p>
 </details>
   </div>
   <footer class="bio-footer">
+    <!-- <a class="bio-cv" href="Katariina_Tamm_CV.pdf" download>Download CV</a> -->
     <button class="bio-close-bottom" id="bio-close-bottom" aria-label="Close bio">Close</button>
   </footer>
 </div>
+
 
 
 
@@ -230,18 +276,35 @@ Languages: Estonian, English, Finnish, Russian</p>
   const details = sheet ? sheet.querySelector('.bio-details') : null;
   const summary = details ? details.querySelector('summary') : null;
 
-  function show(){ if(details){ details.open = false; } if(sheet && overlay){ sheet.classList.add('open'); overlay.classList.add('open'); } if(location.hash !== '#bio'){ history.replaceState(null,'','#bio'); } }
-  function hideAll(){ 
+  function actuallyOpen(){
+    if(details){ details.open = false; }
+    if(sheet && overlay){ sheet.classList.add('open'); overlay.classList.add('open'); }
+  }
+  function actuallyClose(){
     if(details){ details.open = false; }
     if(sheet && overlay){ sheet.classList.remove('open'); overlay.classList.remove('open'); }
-    history.replaceState(null,'',' ');
   }
 
-  if(openBtn) openBtn.addEventListener('click', function(e){ e.preventDefault(); show(); });
-  if(closeBtn) closeBtn.addEventListener('click', hideAll);
-  if(closeBottom) closeBottom.addEventListener('click', hideAll);
-  if(overlay) overlay.addEventListener('click', hideAll);
-  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') hideAll(); });
+  function show(push=true){
+    actuallyOpen();
+    if(push){ history.pushState({bio:true}, '', '#bio'); }
+  }
+  function hideAll(fromPop=false){
+    actuallyClose();
+    if(!fromPop){
+      if(history.state && history.state.bio){
+        history.back();
+      }else{
+        history.replaceState(null, '', ' ');
+      }
+    }
+  }
+
+  if(openBtn) openBtn.addEventListener('click', function(e){ e.preventDefault(); show(true); });
+  if(closeBtn) closeBtn.addEventListener('click', function(){ hideAll(false); });
+  if(closeBottom) closeBottom.addEventListener('click', function(){ hideAll(false); });
+  if(overlay) overlay.addEventListener('click', function(){ hideAll(false); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') hideAll(false); });
 
   if(summary && details){
     summary.addEventListener('click', function(e){
@@ -252,9 +315,18 @@ Languages: Estonian, English, Finnish, Russian</p>
     });
   }
 
-  if(location.hash === '#bio'){ show(); }
+  window.addEventListener('popstate', function(){
+    if(location.hash === '#bio'){
+      if(!(sheet && sheet.classList.contains('open'))) actuallyOpen();
+    }else{
+      actuallyClose();
+    }
+  });
+
+  if(location.hash === '#bio'){ show(false); }
 })();
 </script>
+
 
 </body>
 </html>
