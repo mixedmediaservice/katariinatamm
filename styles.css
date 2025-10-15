@@ -232,3 +232,12 @@
 .bio-overlay.open{ pointer-events: auto; }
 .bio-sheet{ pointer-events: none; }
 .bio-sheet.open{ pointer-events: auto; }
+
+
+/* === Mobile pull-to-refresh restore (minimal) === */
+.bio-overlay{ display: none; }              /* overlay entirely removed when closed */
+.bio-overlay.open{ display: block; }        /* only exists when opened */
+@media (max-width: 1024px){
+  html, body{ overscroll-behavior: auto; }
+  body{ overflow: auto; -webkit-overflow-scrolling: touch; }
+}
