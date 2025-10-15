@@ -215,3 +215,9 @@
 @media (max-width: 420px){
   .bio-footer .bio-meta{ left: .75rem; }
 }
+
+/* First section top separator */
+.bio-details section:first-of-type{
+  border-top:1px solid rgba(255,255,255,.10);
+  padding-top:.9rem; margin-top:.9rem;
+}
