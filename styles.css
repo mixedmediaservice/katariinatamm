@@ -1,266 +1,4 @@
-
-/* === katariinatamm.com — BIO overlay styles (consolidated) === */
-
-/* Base overlay and sheet */
-.bio-overlay{
-  position: fixed; inset: 0; background: rgba(0,0,0,0.35);
-  backdrop-filter: blur(2px); opacity: 0; pointer-events: none;
-  transition: opacity .3s ease; z-index: 90;
-}
-.bio-overlay.open{ opacity: 1; pointer-events: auto; }
-
-.bio-sheet{ 
-  position: fixed; left: 50%; transform: translateX(-50%) translateY(110%);
-  bottom: 0; width: min(860px, 92vw); max-height: 80vh; overflow: auto;
-  background: linear-gradient(to bottom,
-    rgba(20,20,20,0.65) 0%,
-    rgba(20,20,20,0.88) 70%,
-    rgba(20,20,20,0.92) 100%);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 20px 60px rgba(0,0,0,0.45);
-  border-radius: 18px 18px 0 0; padding: 1.1rem 1.25rem 0; color: #f5f5f5; z-index: 99;
-  transition: transform .38s cubic-bezier(.2,.8,.2,1);
-  pointer-events: none;
-}
-.bio-sheet.open{ transform: translateX(-50%) translateY(0); pointer-events: auto; }
-
-/* Typography harmonization */
-.bio-sheet, .bio-content, .bio-details{
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
-  font-synthesis-weight: none;
-}
-.bio-content{ max-width: 58ch; margin: 0 auto; position: relative; z-index: 3; padding-bottom: 140px; }
-.bio-content h2, .bio-details summary{ font-weight: 200; letter-spacing: .18em; text-transform: uppercase; text-align: center; }
-.bio-lines{ font-weight: 300; font-size: clamp(15px, 1.6vw, 17px); line-height: 1.65; letter-spacing: .01em; text-align: center; text-wrap: balance; margin: 0 auto .25rem; }
-.bio-details summary{ margin: .4rem auto .6rem; cursor: pointer; list-style: none; }
-.bio-details summary::-webkit-details-marker{ display: none; }
-.bio-details h3{ font-weight: 300; letter-spacing: .06em; margin: 1rem 0 .35rem; }
-.bio-details ul{ margin: .35rem 0 0; padding-left: 1.1em; }
-.bio-details li, .bio-details p{ font-weight: 300; line-height: 1.6; max-width: 60ch; }
-
-/* Top close */
-.bio-close{ position: sticky; top: 6px; margin-left: auto; display: inline-block;
-  background: rgba(0,0,0,0.15); color: #fff; border: 0; font-size: 1.75rem; line-height: 1;
-  opacity: .9; cursor: pointer; z-index: 5; border-radius: 9999px; padding: 2px 10px; }
-.bio-close:hover{ background: rgba(0,0,0,0.22); }
-
-/* Bottom fade prevents bleed under footer */
-.bio-sheet::after{
-  content: ""; position: absolute; left: 0; right: 0; bottom: 0;
-  height: 120px; pointer-events: none;
-  background: linear-gradient(to bottom, rgba(20,20,20,0), rgba(20,20,20,0.98));
-  border-radius: 0 0 18px 18px; z-index: 2;
-}
-
-/* Footer */
-.bio-footer{ position: sticky; bottom: 0; left: 0; right: 0; z-index: 4;
-  background: rgba(20,20,20,0.98); backdrop-filter: blur(10px);
-  border-top: 1px solid rgba(255,255,255,0.10);
-  padding: .75rem 0 max(1.1rem, env(safe-area-inset-bottom));
-  display: flex; justify-content: center;
-}
-.bio-close-bottom{
-  display: inline-flex; align-items: center; justify-content: center;
-  min-width: 96px; height: 44px; padding: 0 18px;
-  border-radius: 9999px; border: 1px solid rgba(255,255,255,0.22);
-  background: rgba(255,255,255,0.10); color: #fff;
-  font-size: 13px; letter-spacing: .16em; text-transform: uppercase; cursor: pointer;
-}
-.bio-close-bottom:hover{ background: rgba(255,255,255,0.14); }
-
-/* Allow pull-to-refresh on mobile */
-@media (max-width: 768px){
-  body{ overflow: auto; -webkit-overflow-scrolling: touch; }
-}
-
-
-/* === Compact spacing pass (both mobile & desktop) === */
-
-/* Reduce bottom fade height so less dead space above footer */
-.bio-sheet::after{
-  height: 72px;
-}
-
-/* Lower content padding so last lines sit closer to footer (but never under it) */
-.bio-content{
-  padding-bottom: 88px;
-}
-
-/* Tighten "More" spacing to lessen gap after top card */
-.bio-details summary{
-  margin: .28rem auto .44rem;
-}
-
-/* Footer vertical padding tightened */
-.bio-footer{
-  padding: .5rem 0 max(.8rem, env(safe-area-inset-bottom));
-}
-
-/* Keep button height but make it feel tighter with smaller border radius/letter-spacing */
-.bio-close-bottom{
-  height: 42px;
-  letter-spacing: .14em;
-  border-radius: 32px;
-}
-
-/* On very small screens, shave a little more space */
-@media (max-width: 420px){
-  .bio-sheet::after{ height: 64px; }
-  .bio-content{ padding-bottom: 84px; }
-  .bio-footer{ padding: .45rem 0 max(.7rem, env(safe-area-inset-bottom)); }
-}
-
-
-/* === Spacing & behavior for MORE === */
-/* More space between the card and the MORE toggle */
-.bio-details summary{
-  margin: .8rem auto .6rem; /* increased top margin */
-}
-
-/* When expanded, hide the MORE summary */
-.bio-details[open] > summary{
-  display: none;
-}
-
-
-/* === Mobile font consistency pass === */
-.bio-sheet *{
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
-
-/* Base body text rhythm */
-.bio-details li,
-.bio-details p{ line-height: 1.6; font-weight: 300; }
-
-@media (max-width: 480px){
-  /* Unify sizes on small screens */
-  .bio-content h2{ 
-    font-size: 18px; 
-    letter-spacing: .20em; 
-    font-weight: 200;
-  }
-  .bio-lines{ 
-    font-size: 16px; 
-    line-height: 1.65; 
-    letter-spacing: .01em; 
-    font-weight: 300;
-  }
-  .bio-details h3{
-    font-size: 18px;
-    font-weight: 300;
-    letter-spacing: .06em;
-  }
-  .bio-details li,
-  .bio-details p{
-    font-size: 15px;
-    line-height: 1.6;
-    font-weight: 300;
-  }
-  /* Keep bullets tidy and aligned */
-  .bio-details ul{ padding-left: 1.1em; margin-top: .25rem; }
-  .bio-details li{ margin: .12rem 0; }
-  /* Keep MORE spacing stable on mobile */
-  .bio-details summary{ margin: .8rem auto .6rem; }
-}
-
-
-/* Footer CV link styles */
-.bio-footer{ display:flex; justify-content:center; align-items:center; position:sticky; }
-.bio-footer .bio-cv{
-  position: absolute; left: 1rem;
-  color: #ddd; text-decoration: none; font-weight: 300; letter-spacing: .08em;
-  border-bottom: 1px solid rgba(255,255,255,.25);
-  padding-bottom: 2px;
-}
-.bio-footer .bio-cv:hover{ color: #fff; border-bottom-color: rgba(255,255,255,.5); }
-@media (max-width: 420px){
-  .bio-footer .bio-cv{ left: .75rem; }
-}
-
-
-/* === Variant A: 2-column details + definition style + pills === */
-
-/* Two-column sections on desktop */
-@media (min-width: 900px){
-  .bio-details section{ 
-    display: grid; grid-template-columns: 14ch 1fr; gap: 1.25rem;
-    align-items: start;
-  }
-  .bio-details h3{ margin: 0; } /* label column */
-}
-
-/* Definition-style list (no bullets) */
-.bio-details ul{ list-style: none; padding-left: 0; margin: .35rem 0 0; }
-.bio-details li + li{ margin-top: .5rem; }
-.bio-details li b{ font-weight: 500; }
-.bio-details li small{ opacity: .85; }
-
-/* Language pills */
-.langs{ display:flex; flex-wrap:wrap; gap:.4rem .5rem; margin-top:.35rem; }
-.langs span{ border:1px solid rgba(255,255,255,.22); border-radius:9999px; padding:.15rem .55rem; font-size:.95em; font-weight:300; }
-
-/* Section separators for pacing */
-.bio-details section + section{ border-top:1px solid rgba(255,255,255,.10); padding-top:.9rem; margin-top:.9rem; }
-
-/* Recognition fine-tuning */
-.recog i{ opacity:.9; }
-
-/* Footer meta (left) */
-.bio-footer{ position: sticky; bottom: 0; }
-.bio-footer .bio-meta{
-  position: absolute; left: 1rem; color: #cfcfcf; font-weight: 300; letter-spacing: .05em;
-}
-@media (max-width: 420px){
-  .bio-footer .bio-meta{ left: .75rem; }
-}
-
-/* First section top separator */
-.bio-details section:first-of-type{
-  border-top:1px solid rgba(255,255,255,.10);
-  padding-top:.9rem; margin-top:.9rem;
-}
-
-
-/* Ensure pull-to-refresh works on mobile and closed overlays don't block gestures */
-@media (max-width: 768px){
-  html, body{ overscroll-behavior: auto; }
-  body{ overflow: auto; -webkit-overflow-scrolling: touch; }
-}
-.bio-overlay{ pointer-events: none; }
-.bio-overlay.open{ pointer-events: auto; }
-.bio-sheet{ pointer-events: none; }
-.bio-sheet.open{ pointer-events: auto; }
-
-
-/* === Mobile pull-to-refresh restore (minimal) === */
-.bio-overlay{ display: none; }              /* overlay entirely removed when closed */
-.bio-overlay.open{ display: block; }        /* only exists when opened */
-@media (max-width: 1024px){
-  html, body{ overscroll-behavior: auto; }
-  body{ overflow: auto; -webkit-overflow-scrolling: touch; }
-}
-
-
-/* === iOS pull-to-refresh hard fix === */
-@supports (-webkit-touch-callout: none){
-  /* Closed layers don't exist; they can't block the gesture */
-  .bio-overlay{ display: none !important; }
-  .bio-overlay.open{ display: block !important; }
-  .bio-sheet{ display: none !important; }
-  .bio-sheet.open{ display: block !important; }
-
-  /* Root scroll must be on body for iOS PTR */
-  html, body{ overflow: auto !important; }
-  body{ -webkit-overflow-scrolling: touch; min-height: 101vh; }
-
-  /* tiny spacer ensures scrollable extent for PTR even on short pages */
-  body::after{ content: ""; display: block; height: 1px; }
-}
-
-
-/* === Universal pull-to-refresh fix (final) === */
+/* === Base layout & hero === */
 html, body{
   height: auto;
   min-height: 100%;
@@ -271,7 +9,194 @@ html, body{
 @supports (-webkit-touch-callout: none){
   body{ -webkit-overflow-scrolling: touch; }
 }
-/* Closed overlays removed from tree; cannot intercept gesture */
-.bio-overlay, .bio-sheet{ display: none; }
-.bio-overlay.open, .bio-sheet.open{ display: block; }
 
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background: url('hero-image.jpg') no-repeat center center fixed;
+  background-size: cover;
+  background-position: center 20%;
+  color: white;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  padding: 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, 6rem);
+  font-weight: 100;
+  line-height: 0.8;
+  margin: 0;
+  text-align: center;
+  letter-spacing: 0.2em;
+  align-self: center;
+  color: #f8f8f8;
+  opacity: 0;
+  animation: fadeInText 2s ease-out 0.25s forwards;
+  -webkit-font-smoothing: antialiased;
+  font-synthesis-weight: none;
+}
+
+@keyframes fadeInText {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.bottom-nav {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  margin-bottom: 1rem;
+  position: fixed;
+  bottom: 2rem;
+  left: 0; right: 0;
+  z-index: 100;
+}
+
+.bottom-nav a {
+  color: #f8f8f8 !important;
+  text-decoration: none;
+  font-weight: 100;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 10px rgba(0,0,0,0.8);
+  position: relative;
+  display: inline-block;
+}
+.bottom-nav a:hover { transform: scale(1.05); }
+.bottom-nav a:active { transform: scale(0.95); transition: transform 0.1s ease; }
+.bottom-nav a:active::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 0; height: 0; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  animation: ripple 0.6s ease-out;
+}
+@keyframes ripple { to { width: 100px; height: 100px; opacity: 0; } }
+
+/* === BIO overlay styles (centralized) === */
+
+.bio-overlay{
+  position: fixed; inset: 0; background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(2px); opacity: 0; pointer-events: none;
+  transition: opacity .3s ease; z-index: 90;
+  display: none;                   /* closed state removed from tree */
+}
+.bio-overlay.open{ opacity: 1; pointer-events: auto; display: block; }
+
+.bio-sheet{
+  position: fixed; left: 50%; transform: translateX(-50%) translateY(110%);
+  bottom: 0; width: min(860px, 92vw); max-height: 80vh; overflow: auto;
+  background: linear-gradient(to bottom,
+  rgba(20,20,20,0.65) 0%,
+  rgba(20,20,20,0.88) 70%,
+  rgba(20,20,20,0.92) 100%);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+  border-radius: 18px 18px 0 0; padding: 1.1rem 1.25rem 0; color: #f5f5f5; z-index: 99;
+  transition: transform .38s cubic-bezier(.2,.8,.2,1);
+  pointer-events: none;
+  display: none;                   /* closed state removed from tree */
+}
+.bio-sheet.open{ transform: translateX(-50%) translateY(0); pointer-events: auto; display: block; }
+
+/* Typography harmonization (matches hero font rendering on mobile) */
+.bio-sheet, .bio-content, .bio-details{
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  font-synthesis-weight: none;
+}
+.bio-content{ max-width: 58ch; margin: 0 auto; position: relative; z-index: 3; padding-bottom: 88px; }
+.bio-content h2, .bio-details summary{ font-weight: 200; letter-spacing: .18em; text-transform: uppercase; text-align: center; }
+.bio-lines{ font-weight: 300; font-size: clamp(15px, 1.6vw, 17px); line-height: 1.65; letter-spacing: .01em; text-align: center; text-wrap: balance; margin: 0 auto .25rem; }
+.bio-details summary{ margin: .8rem auto .6rem; cursor: pointer; list-style: none; }
+.bio-details summary::-webkit-details-marker{ display: none; }
+.bio-details h3{ font-weight: 300; letter-spacing: .06em; margin: 1rem 0 .35rem; }
+.bio-details ul{ list-style: none; padding-left: 0; margin: .35rem 0 0; }
+.bio-details li, .bio-details p{ font-weight: 300; line-height: 1.6; max-width: 60ch; }
+.bio-details li + li{ margin-top: .5rem; }
+.recog i{ opacity:.9; }
+
+/* Top close */
+.bio-close{ position: sticky; top: 6px; margin-left: auto; display: inline-block;
+  background: rgba(0,0,0,0.15); color: #fff; border: 0; font-size: 1.75rem; line-height: 1;
+  opacity: .9; cursor: pointer; z-index: 5; border-radius: 9999px; padding: 2px 10px; }
+.bio-close:hover{ background: rgba(0,0,0,0.22); }
+
+/* Bottom fade prevents bleed under footer */
+.bio-sheet::after{
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0;
+  height: 72px; pointer-events: none;
+  background: linear-gradient(to bottom, rgba(20,20,20,0), rgba(20,20,20,0.98));
+  border-radius: 0 0 18px 18px; z-index: 2;
+}
+
+/* Footer */
+.bio-footer{ position: sticky; bottom: 0; left: 0; right: 0; z-index: 4;
+  background: rgba(20,20,20,0.98); backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255,255,255,0.10);
+  padding: .5rem 0 max(.8rem, env(safe-area-inset-bottom));
+  display: flex; justify-content: center; align-items: center;
+}
+.bio-close-bottom{
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 96px; height: 42px; padding: 0 18px;
+  border-radius: 32px; border: 1px solid rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.10); color: #fff;
+  font-size: 13px; letter-spacing: .14em; text-transform: uppercase; cursor: pointer;
+}
+.bio-close-bottom:hover{ background: rgba(255,255,255,0.14); }
+
+/* Footer left-side meta + CV link */
+.bio-footer .bio-meta{
+  position: absolute; left: 1rem; color: #cfcfcf; font-weight: 300; letter-spacing: .05em;
+}
+.bio-footer .bio-cv{
+  position: absolute; right: 1rem;
+  color: #ddd; text-decoration: none; font-weight: 300; letter-spacing: .08em;
+  border-bottom: 1px solid rgba(255,255,255,.25);
+  padding-bottom: 2px;
+}
+.bio-footer .bio-cv:hover{ color: #fff; border-bottom-color: rgba(255,255,255,.5); }
+
+/* Desktop details layout */
+@media (min-width: 900px){
+  .bio-details section{
+    display: grid; grid-template-columns: 14ch 1fr; gap: 1.25rem; align-items: start;
+  }
+  .bio-details h3{ margin: 0; }
+}
+
+/* Mobile parity */
+@media (max-width: 768px){
+  html, body{ overscroll-behavior: auto; }
+  body{ overflow: auto; -webkit-overflow-scrolling: touch; }
+}
+
+@media (max-width: 480px){
+  .bio-content h2{ font-size: 18px; letter-spacing: .20em; font-weight: 200; }
+  .bio-lines{ font-size: 16px; line-height: 1.65; letter-spacing: .01em; font-weight: 300; }
+  .bio-details h3{ font-size: 18px; font-weight: 300; letter-spacing: .06em; }
+  .bio-details li, .bio-details p{ font-size: 15px; line-height: 1.6; font-weight: 300; }
+  .bio-footer .bio-meta{ left: .75rem; }
+  .bio-footer .bio-cv{ right: .75rem; }
+}
