@@ -178,6 +178,33 @@
 .bio-details h3{ font-weight: 300; letter-spacing: .06em; margin: 1.25rem 0 .5rem; }
 .bio-details ul{ margin: 0; padding-left: 1em; }
 </style>
+
+<style>
+/* === BIO type harmonize — Option A === */
+.bio-sheet { 
+  font-family: inherit;
+  -webkit-font-smoothing: antialiased; 
+  -moz-osx-font-smoothing: grayscale;
+  font-synthesis-weight: none;
+}
+.bio-content { max-width: 58ch; }
+.bio-content h2,
+.bio-details summary { 
+  font-weight: 200; letter-spacing: .18em; text-transform: uppercase;
+}
+.bio-lines{
+  font-weight: 300; 
+  font-size: clamp(15px, 1.6vw, 17px);
+  line-height: 1.65; 
+  letter-spacing: .01em; 
+  text-align: center;
+  text-wrap: balance;
+}
+.bio-details h3{ font-weight: 300; letter-spacing: .06em; }
+.bio-details ul{ margin: .2rem 0 0; padding-left: 1.1em; }
+.bio-details li,
+.bio-details p{ font-weight: 300; line-height: 1.6; }
+</style>
 </head>
 <body>
   <div class="container">
@@ -196,11 +223,11 @@
   <div class="bio-content">
     <h2 id="bio-title">BIO</h2>
 
-    <p class="bio-lines">Estonian actor based in Tallinn.<br>
-RADA MA Acting.<br>
-Von Krahl, Theatre Ekspeditsioon, Estonian Theatre for Young Audiences.<br>
-Estonian Annual Theatre Awards nominee 2023 for Melancholia and Wear Wolf.<br>
-Languages: Estonian, English, Finnish, Russian.</p>
+    <p class="bio-lines">Estonian actor based in Tallinn<br>
+RADA MA Acting<br>
+Von Krahl, Theatre Ekspeditsioon, Estonian Theatre for Young Audiences<br>
+Estonian Annual Theatre Awards nominee 2023 for Melancholia and Wear Wolf<br>
+Languages: Estonian, English, Finnish, Russian</p>
 
     <details class="bio-details">
   <summary>More</summary>
