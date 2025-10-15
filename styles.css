@@ -221,3 +221,14 @@
   border-top:1px solid rgba(255,255,255,.10);
   padding-top:.9rem; margin-top:.9rem;
 }
+
+
+/* Ensure pull-to-refresh works on mobile and closed overlays don't block gestures */
+@media (max-width: 768px){
+  html, body{ overscroll-behavior: auto; }
+  body{ overflow: auto; -webkit-overflow-scrolling: touch; }
+}
+.bio-overlay{ pointer-events: none; }
+.bio-overlay.open{ pointer-events: auto; }
+.bio-sheet{ pointer-events: none; }
+.bio-sheet.open{ pointer-events: auto; }
