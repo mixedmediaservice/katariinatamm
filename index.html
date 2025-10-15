@@ -353,11 +353,11 @@
 <body>
   <div class="container">
     <h1>KATARIINA TAMM</h1>
-    <nav class="bottom-nav"><a href="mailto:contact@katariinatamm.com">CONTACT</a>
+    <nav class="bottom-nav">
+      <a href="mailto:contact@katariinatamm.com">CONTACT</a>
       <a href="https://www.imdb.com/name/nm5518685/" target="_blank" rel="noopener">IMDB</a>
     
-  <a href="#bio" id="bio-open"BIO</a>
-    <a href="#bio" id="bio-open">BIO</a>
+  <a href="#bio" id="bio-open">BIO</a>
 </nav>
   </div>
 
@@ -403,52 +403,52 @@ Languages: Estonian, English, Finnish, Russian</p>
 </details>
   </div>
   <footer class="bio-footer">
-    <button class="bio-close-bottom" id="bio-close-bottom" aria-label="Close bio" id="bio-close">Close</button>
+    <button class="bio-close-bottom" id="bio-close-bottom" aria-label="Close bio">Close</button>
   </footer>
 </div>
 
 
 
-
 <script>
 (function(){
-  var sheet = document.getElementById('bio');
-  var overlay = document.getElementById('bio-overlay');
-  var openBtn = document.getElementById('bio-open');
-  var closeBtn = document.getElementById('bio-close');
-  var closeBottom = document.getElementById('bio-close-bottom');
-  var details = sheet ? sheet.querySelector('.bio-details') : null;
-  var summary = details ? details.querySelector('summary') : null;
+  const sheet = document.getElementById('bio');
+  const overlay = document.getElementById('bio-overlay');
+  const openBtn = document.getElementById('bio-open');
+  const closeBtn = document.getElementById('bio-close');
+  const closeBottom = document.getElementById('bio-close-bottom');
+  const details = sheet ? sheet.querySelector('.bio-details') : null;
+  const summary = details ? details.querySelector('summary') : null;
 
-  function show(){
-    if(details){ details.open = false; }
+  function show(){ 
     if(sheet && overlay){ sheet.classList.add('open'); overlay.classList.add('open'); }
     if(location.hash !== '#bio'){ history.replaceState(null,'','#bio'); }
   }
-  function hideAll(){
-    if(details){ details.open = false; }
+  function hide(){ 
     if(sheet && overlay){ sheet.classList.remove('open'); overlay.classList.remove('open'); }
-    if(location.hash === '#bio'){ history.replaceState(null,'',' '); }
+    history.replaceState(null,'',' ');
   }
 
+  // Open from nav
   if(openBtn){ openBtn.addEventListener('click', function(e){ e.preventDefault(); show(); }); }
-  if(closeBtn){ closeBtn.addEventListener('click', hideAll); }
-  if(closeBottom){ closeBottom.addEventListener('click', hideAll); }
-  if(overlay){ overlay.addEventListener('click', hideAll); }
-  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') hideAll(); });
+  // Open on deep-link
+  if(location.hash === '#bio'){ show(); }
 
+  // Close wiring
+  if(closeBottom){ closeBottom.addEventListener('click', hide); }
+  if(overlay){ overlay.addEventListener('click', hide); }
+  if(closeBtn){ closeBtn.addEventListener('click', hide); }
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') hide(); });
+
+  // Stop "More" jump while preserving scroll
   if(summary && details){
     summary.addEventListener('click', function(e){
       e.preventDefault();
-      var y = sheet ? sheet.scrollTop : window.scrollY;
+      const y = sheet ? sheet.scrollTop : window.scrollY;
       details.open = !details.open;
       if(sheet){ sheet.scrollTop = y; } else { window.scrollTo(0, y); }
     });
   }
-
-  if(location.hash === '#bio'){ show(); }
 })();
 </script>
-
 </body>
 </html>

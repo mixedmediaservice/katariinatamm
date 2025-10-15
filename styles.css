@@ -274,15 +274,3 @@ html, body{
 /* Closed overlays removed from tree; cannot intercept gesture */
 .bio-overlay, .bio-sheet{ display: none; }
 .bio-overlay.open, .bio-sheet.open{ display: block; }
-
-
-/* === PTR reset (minimal, conflict-free) === */
-/* Body is the scroller; allow vertical panning and momentum scrolling */
-html, body { 
-  overflow-y: auto !important; 
-  overscroll-behavior-y: auto !important; 
-  touch-action: pan-y !important; 
-}
-body { -webkit-overflow-scrolling: touch !important; }
-/* When BIO is closed, no full-viewport fixed layers exist */
-.bio-overlay:not(.open), .bio-sheet:not(.open) { display: none !important; }
