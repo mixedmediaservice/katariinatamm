@@ -351,45 +351,11 @@
 </style>
 
 <style>
-/* === BIO: typography harmonize + glass parity + spacing + footer === */
-.bio-sheet{ 
-  position: fixed; left: 50%; transform: translateX(-50%) translateY(100%);
-  bottom: 0; width: min(860px, 92vw); max-height: 80vh; overflow: auto;
-  background: linear-gradient(to bottom,
-    rgba(20,20,20,0.65) 0%,
-    rgba(20,20,20,0.88) 70%,
-    rgba(20,20,20,0.92) 100%);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 20px 60px rgba(0,0,0,0.45);
-  border-radius: 18px 18px 0 0; padding: 1.1rem 1.25rem 0; color: #f5f5f5; z-index: 99;
-  transition: transform .38s cubic-bezier(.2,.8,.2,1);
-}
-.bio-sheet.open{ transform: translateX(-50%) translateY(0); }
-.bio-overlay{ position: fixed; inset: 0; background: rgba(0,0,0,0.35); backdrop-filter: blur(2px); opacity: 0; pointer-events: none; transition: opacity .3s ease; z-index: 90; }
-.bio-overlay.open{ opacity: 1; pointer-events: auto; }
-
-/* Type harmonization */
-.bio-sheet, .bio-content, .bio-details{ font-family: inherit; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-synthesis-weight: none; }
-.bio-content{ max-width: 58ch; margin: 0 auto; position: relative; z-index: 3; padding-bottom: 96px; }
-.bio-content h2, .bio-details summary{ font-weight: 200; letter-spacing: .18em; text-transform: uppercase; text-align: center; }
-.bio-lines{ font-weight: 300; font-size: clamp(15px, 1.6vw, 17px); line-height: 1.65; letter-spacing: .01em; text-align: center; text-wrap: balance; margin: 0 auto .25rem; }
-.bio-details summary{ margin: .35rem auto .6rem; cursor: pointer; list-style: none; }
-.bio-details summary::-webkit-details-marker{ display: none; }
-.bio-details h3{ font-weight: 300; letter-spacing: .06em; margin: 1rem 0 .3rem; }
-.bio-details ul{ margin: .35rem 0 0; padding-left: 1.1em; }
-.bio-details li, .bio-details p{ font-weight: 300; line-height: 1.6; }
-
-/* Top close stays visible */
-.bio-close{ position: sticky; top: 6px; margin-left: auto; display: inline-block; background: rgba(0,0,0,0.15); color: #fff; border: 0; font-size: 1.75rem; line-height: 1; opacity: .9; cursor: pointer; z-index: 4; border-radius: 9999px; padding: 2px 10px; }
-.bio-close:hover{ background: rgba(0,0,0,0.22); }
-
-/* Bottom fade overlay to prevent text showing through */
-.bio-sheet::after{ content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 96px; pointer-events: none; background: linear-gradient(to bottom, rgba(20,20,20,0), rgba(20,20,20,0.98)); border-radius: 0 0 18px 18px; z-index: 2; }
-
-/* Footer close button */
-.bio-footer{ position: sticky; bottom: 0; left: 0; right: 0; z-index: 4; background: rgba(20,20,20,0.96); backdrop-filter: blur(10px); border-top: 1px solid rgba(255,255,255,0.10); padding: .75rem 0 max(1.1rem, env(safe-area-inset-bottom)); display: flex; justify-content: center; }
-.bio-close-bottom{ display: inline-flex; align-items: center; justify-content: center; min-width: 96px; height: 44px; padding: 0 18px; border-radius: 9999px; border: 1px solid rgba(255,255,255,0.22); background: rgba(255,255,255,0.10); color: #fff; font-size: 13px; letter-spacing: .16em; text-transform: uppercase; cursor: pointer; }
-.bio-close-bottom:hover{ background: rgba(255,255,255,0.14); }
+/* === Interaction fix: don't block taps or pull-to-refresh when closed === */
+.bio-sheet{ pointer-events: none; }
+.bio-sheet.open{ pointer-events: auto; }
+.bio-overlay{ pointer-events: none; }
+.bio-overlay.open{ pointer-events: auto; }
 </style>
 </head>
 <body>
@@ -409,11 +375,10 @@
   <div class="bio-content">
     <h2 id="bio-title">BIO</h2>
 
-    <p class="bio-lines">RADA MA Acting<br>
-Theatre Ekspeditsioon &amp; Von Krahl Theatre<br>
-Estonian Theatre for Young Audiences<br>
-Estonian Annual Theatre Awards nominee 2023<br>
-Based in Tallinn, Estonia<br>
+    <p class="bio-lines">Estonian actor based in Tallinn<br>
+RADA MA Acting<br>
+Von Krahl, Theatre Ekspeditsioon, Estonian Theatre for Young Audiences<br>
+Estonian Annual Theatre Awards nominee 2023 for Melancholia and Wear Wolf<br>
 Languages: Estonian, English, Finnish, Russian</p>
 
     <details class="bio-details">
@@ -452,27 +417,37 @@ Languages: Estonian, English, Finnish, Russian</p>
 
 
 
-
 <script>
 (function(){
-  const sheet   = document.getElementById('bio-sheet');
+  const sheet = document.getElementById('bio');
   const overlay = document.getElementById('bio-overlay');
   const openBtn = document.getElementById('bio-open');
-  const closeBtn= document.getElementById('bio-close');
+  const closeBtn = document.getElementById('bio-close');
   const closeBottom = document.getElementById('bio-close-bottom');
   const details = sheet ? sheet.querySelector('.bio-details') : null;
   const summary = details ? details.querySelector('summary') : null;
 
-  function show(){ if(sheet&&overlay){ sheet.classList.add('open'); overlay.classList.add('open'); } if(location.hash!=='#bio'){ history.replaceState(null,'','#bio'); } }
-  function hideAll(){ if(details){ details.open = false; } if(sheet&&overlay){ sheet.classList.remove('open'); overlay.classList.remove('open'); } history.replaceState(null,'',' '); }
+  function show(){ 
+    if(sheet && overlay){ sheet.classList.add('open'); overlay.classList.add('open'); }
+    if(location.hash !== '#bio'){ history.replaceState(null,'','#bio'); }
+  }
+  function hide(){ 
+    if(sheet && overlay){ sheet.classList.remove('open'); overlay.classList.remove('open'); }
+    history.replaceState(null,'',' ');
+  }
 
+  // Open from nav
   if(openBtn){ openBtn.addEventListener('click', function(e){ e.preventDefault(); show(); }); }
-  if(closeBtn){ closeBtn.addEventListener('click', hideAll); }
-  if(closeBottom){ closeBottom.addEventListener('click', hideAll); }
-  if(overlay){ overlay.addEventListener('click', hideAll); }
-  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') hideAll(); });
+  // Open on deep-link
+  if(location.hash === '#bio'){ show(); }
 
-  // Stop auto-scroll "jump" when toggling details; preserve scrollTop
+  // Close wiring
+  if(closeBottom){ closeBottom.addEventListener('click', hide); }
+  if(overlay){ overlay.addEventListener('click', hide); }
+  if(closeBtn){ closeBtn.addEventListener('click', hide); }
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') hide(); });
+
+  // Stop "More" jump while preserving scroll
   if(summary && details){
     summary.addEventListener('click', function(e){
       e.preventDefault();
@@ -481,11 +456,7 @@ Languages: Estonian, English, Finnish, Russian</p>
       if(sheet){ sheet.scrollTop = y; } else { window.scrollTo(0, y); }
     });
   }
-
-  // Deep link open
-  if(location.hash === '#bio'){ show(); }
 })();
 </script>
-
 </body>
 </html>
