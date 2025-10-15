@@ -241,3 +241,20 @@
   html, body{ overscroll-behavior: auto; }
   body{ overflow: auto; -webkit-overflow-scrolling: touch; }
 }
+
+
+/* === iOS pull-to-refresh hard fix === */
+@supports (-webkit-touch-callout: none){
+  /* Closed layers don't exist; they can't block the gesture */
+  .bio-overlay{ display: none !important; }
+  .bio-overlay.open{ display: block !important; }
+  .bio-sheet{ display: none !important; }
+  .bio-sheet.open{ display: block !important; }
+
+  /* Root scroll must be on body for iOS PTR */
+  html, body{ overflow: auto !important; }
+  body{ -webkit-overflow-scrolling: touch; min-height: 101vh; }
+
+  /* tiny spacer ensures scrollable extent for PTR even on short pages */
+  body::after{ content: ""; display: block; height: 1px; }
+}
