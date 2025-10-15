@@ -275,18 +275,3 @@ html, body{
 .bio-overlay, .bio-sheet{ display: none; }
 .bio-overlay.open, .bio-sheet.open{ display: block; }
 
-/* ——— Pull-to-refresh (minimal, conflict-free) ——— */
-html, body {
-  overflow-y: auto !important;
-  overscroll-behavior-y: auto !important;
-  touch-action: pan-y !important;
-}
-body {
-  -webkit-overflow-scrolling: touch !important;
-  min-height: 101vh; /* ensures a tiny scroll extent at top */
-}
-/* When BIO is closed, no fixed layer should exist to intercept the gesture */
-.bio-overlay:not(.open),
-.bio-sheet:not(.open) {
-  display: none !important;
-}
