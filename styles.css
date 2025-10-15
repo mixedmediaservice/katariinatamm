@@ -258,3 +258,19 @@
   /* tiny spacer ensures scrollable extent for PTR even on short pages */
   body::after{ content: ""; display: block; height: 1px; }
 }
+
+
+/* === Universal pull-to-refresh fix (final) === */
+html, body{
+  height: auto;
+  min-height: 100%;
+  overflow-y: auto;
+  overscroll-behavior-y: auto;
+  touch-action: pan-y;
+}
+@supports (-webkit-touch-callout: none){
+  body{ -webkit-overflow-scrolling: touch; }
+}
+/* Closed overlays removed from tree; cannot intercept gesture */
+.bio-overlay, .bio-sheet{ display: none; }
+.bio-overlay.open, .bio-sheet.open{ display: block; }
