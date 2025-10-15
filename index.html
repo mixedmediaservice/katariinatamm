@@ -8,8 +8,6 @@
   <title>Katariina Tamm - Actor</title>
   <meta name="description" content="Official website of Estonian actor Katariina Tamm.">
   <meta name="author" content="Katariina Tamm">
-  <meta name="theme-color" content="#141414">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="robots" content="index,follow,max-image-preview:large">
   <link rel="canonical" href="https://katariinatamm.com/">
 
@@ -18,8 +16,6 @@
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="manifest" href="site.webmanifest">
-  <link rel="preload" as="image" href="hero-image.avif">
-<link rel="preload" as="image" href="hero-image.webp">
   <link rel="shortcut icon" href="favicon.ico">
 
   <!-- Open Graph (cards use 1200×630; site keeps hero-image.jpg in CSS) -->
@@ -43,47 +39,18 @@
 
   <!-- JSON-LD (Person) -->
   <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Katariina Tamm",
-  "jobTitle": "Actor",
-  "url": "https://katariinatamm.com/",
-  "image": "https://katariinatamm.com/katariina-tamm-1200x630.jpg",
-  "knowsLanguage": [
-    "et",
-    "en",
-    "fi",
-    "ru"
-  ],
-  "nationality": "Estonia",
-  "homeLocation": {
-    "@type": "Place",
-    "name": "Tallinn, Estonia"
-  },
-  "alumniOf": [
-    {
-      "@type": "CollegeOrUniversity",
-      "name": "Royal Academy of Dramatic Art (RADA)",
-      "address": "London, UK"
-    },
-    {
-      "@type": "CollegeOrUniversity",
-      "name": "Turku University of Applied Sciences \u2013 Arts Academy",
-      "address": "Turku, Finland"
-    },
-    {
-      "@type": "EducationalOrganization",
-      "name": "Theatre Institute of Barcelona",
-      "address": "Barcelona, Spain"
-    }
-  ],
-  "award": "Estonian Annual Theatre Awards nominee 2023",
-  "sameAs": [
-    "https://www.imdb.com/name/nm5518685/"
-  ]
-}
-</script>
+  {
+    "@context":"https://schema.org",
+    "@type":"Person",
+    "name":"Katariina Tamm",
+    "jobTitle":"Actor",
+    "url":"https://katariinatamm.com/",
+    "image":"https://katariinatamm.com/katariina-tamm-1200x630.jpg",
+    "knowsLanguage":["et","en"],
+    "nationality":"Estonia",
+    "sameAs":["https://www.imdb.com/name/nm5518685/"]
+  }
+  </script>
 
   <!-- JSON-LD (WebSite) -->
   <script type="application/ld+json">
@@ -174,34 +141,216 @@
       animation: ripple 0.6s ease-out;
     }
     @keyframes ripple { to { width: 100px; height: 100px; opacity: 0; } }
-  </style>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<style>
-/* Modern formats for the hero with fallbacks */
-@supports (background-image: image-set(url("hero-image.avif") type("image/avif"))) {
-  body{
-    background-image: -webkit-image-set(url("hero-image.avif") type("image/avif"), url("hero-image.webp") type("image/webp"), url("hero-image.jpg") type("image/jpeg"));
-    background-image: image-set(url("hero-image.avif") type("image/avif"), url("hero-image.webp") type("image/webp"), url("hero-image.jpg") type("image/jpeg"));
-  }
-}
+  
+.bio-details section:first-of-type{ border-top:1px solid rgba(255,255,255,.10); padding-top:.9rem; margin-top:.9rem; }
 </style>
 
-<link rel="stylesheet" href="styles.css">
+<style>
+/* === BIO bottom sheet & overlay (non-destructive) === */
+.bio-overlay{
+  position: fixed; inset: 0; background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(2px); opacity: 0; pointer-events: none; transition: opacity .3s ease; z-index: 90;
+}
+.bio-sheet{
+  position: fixed; left: 50%; transform: translateX(-50%) translateY(100%);
+  bottom: 0; width: min(860px, 92vw); max-height: 80vh; overflow: auto;
+  background: rgba(20,20,20,0.55); backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+  border-radius: 18px 18px 0 0; padding: 1.25rem 1.25rem 1.5rem; color: #f5f5f5; z-index: 99;
+  transition: transform .38s cubic-bezier(.2,.8,.2,1);
+}
+.bio-sheet.open{ transform: translateX(-50%) translateY(0); }
+.bio-overlay.open{ opacity: 1; pointer-events: auto; }
+
+.bio-close{
+  position: sticky; top: 0; margin-left: auto; display: inline-block;
+  background: transparent; color: #fff; border: 0; font-size: 1.75rem; line-height: 1;
+  opacity: .8; cursor: pointer;
+}
+.bio-close:hover{ opacity: 1; }
+
+.bio-content{ max-width: 60ch; margin: 0 auto; }
+.bio-content h2{ font-weight: 100; letter-spacing: .2em; margin: .25rem 0 1rem; text-align:center; }
+.bio-lines{ font-weight: 200; letter-spacing: .02em; line-height: 1.6; text-align: center; }
+.bio-details summary{
+  list-style: none; cursor: pointer; margin: 1rem auto; text-align: center; font-weight: 200; letter-spacing: .15em;
+}
+.bio-details summary::-webkit-details-marker{ display:none; }
+.bio-details[open] summary{ opacity: .7; }
+.bio-details h3{ font-weight: 300; letter-spacing: .06em; margin: 1.25rem 0 .5rem; }
+.bio-details ul{ margin: 0; padding-left: 1em; }
+</style>
+
+<style>
+/* === BIO type harmonize — Option A === */
+.bio-sheet { 
+  font-family: inherit;
+  -webkit-font-smoothing: antialiased; 
+  -moz-osx-font-smoothing: grayscale;
+  font-synthesis-weight: none;
+}
+.bio-content { max-width: 58ch; }
+.bio-content h2,
+.bio-details summary { 
+  font-weight: 200; letter-spacing: .18em; text-transform: uppercase;
+}
+.bio-lines{
+  font-weight: 300; 
+  font-size: clamp(15px, 1.6vw, 17px);
+  line-height: 1.65; 
+  letter-spacing: .01em; 
+  text-align: center;
+  text-wrap: balance;
+}
+.bio-details h3{ font-weight: 300; letter-spacing: .06em; }
+.bio-details ul{ margin: .2rem 0 0; padding-left: 1.1em; }
+.bio-details li,
+.bio-details p{ font-weight: 300; line-height: 1.6; }
+</style>
+
+<style>
+/* === BIO visual tweaks: raise content and add heavier bottom gradient === */
+.bio-sheet{
+  /* darker toward bottom to mask page links */
+  background: linear-gradient(to bottom,
+    rgba(20,20,20,0.35) 0%,
+    rgba(20,20,20,0.55) 40%,
+    rgba(20,20,20,0.80) 100%);
+  padding-bottom: calc(2.25rem + 72px); /* space above bottom nav peeking through */
+}
+/* extra breathing room so "card" and "More" sit higher */
+.bio-lines{ margin-bottom: .9rem; }
+.bio-details{ padding-bottom: .3rem; }
+</style>
+
+<style>
+/* === BIO mobile parity + UX tweaks === */
+/* Heavier glass to match mobile feel, with bottom-weighted gradient */
+.bio-sheet{
+  background: linear-gradient(to bottom,
+    rgba(20,20,20,0.55) 0%,
+    rgba(20,20,20,0.78) 60%,
+    rgba(20,20,20,0.90) 100%);
+}
+@media (min-width: 900px){
+  .bio-sheet{
+    background: linear-gradient(to bottom,
+      rgba(20,20,20,0.65) 0%,
+      rgba(20,20,20,0.88) 70%,
+      rgba(20,20,20,0.92) 100%);
+  }
+}
+/* Keep the top X visible and above content */
+.bio-close{
+  position: sticky; top: 6px; z-index: 3;
+  padding: 2px 10px; border-radius: 9999px;
+  background: rgba(0,0,0,0.15);
+}
+.bio-close:hover{ background: rgba(0,0,0,0.22); }
+/* Bottom close button */
+.bio-close-bottom{
+  position: sticky; bottom: 6px; z-index: 3;
+  display: block; margin: 1rem auto 0; width: 44px; height: 44px;
+  border-radius: 9999px; border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.08); color: #fff;
+  font-size: 22px; line-height: 42px; text-align: center;
+  cursor: pointer;
+}
+.bio-close-bottom:hover{ background: rgba(255,255,255,0.14); }
+/* Prevent weird bullets overflow on small screens */
+.bio-details ul{ padding-left: 1.1em; }
+</style>
+
+<style>
+/* === BIO footer + refined opacity === */
+.bio-sheet{
+  background: linear-gradient(to bottom,
+    rgba(20,20,20,0.65) 0%,
+    rgba(20,20,20,0.88) 70%,
+    rgba(20,20,20,0.92) 100%);
+  padding-bottom: 0; /* footer provides spacing */
+  display: flex; flex-direction: column;
+}
+.bio-content{ padding-bottom: .75rem; }
+.bio-footer{
+  position: sticky; bottom: 0; left: 0; right: 0;
+  backdrop-filter: blur(10px);
+  background: linear-gradient(to top, rgba(20,20,20,0.65), rgba(20,20,20,0));
+  padding: .75rem 0 1.1rem;
+  display: flex; justify-content: center;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.bio-close-bottom{
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 84px; height: 42px; padding: 0 14px;
+  border-radius: 9999px; border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.08); color: #fff;
+  font-size: 14px; letter-spacing: .12em; text-transform: uppercase;
+  cursor: pointer;
+}
+.bio-close-bottom:hover{ background: rgba(255,255,255,0.14); }
+/* Keep top X visible but subtle */
+.bio-close{ position: sticky; top: 6px; z-index: 3; padding: 2px 10px; border-radius: 9999px; background: rgba(0,0,0,0.15); }
+</style>
+
+<style>
+/* === Unify desktop opacity to mobile + tidy mobile type === */
+/* Use the heavier mobile-style glass everywhere */
+.bio-sheet{
+  background: linear-gradient(to bottom,
+    rgba(20,20,20,0.65) 0%,
+    rgba(20,20,20,0.88) 70%,
+    rgba(20,20,20,0.92) 100%) !important;
+}
+
+/* Harmonize heading and summary across breakpoints */
+.bio-content h2,
+.bio-details summary{
+  font-weight: 200 !important;
+  letter-spacing: .18em !important;
+  text-transform: uppercase !important;
+}
+
+/* Make the top "card" consistent and stable on small screens */
+.bio-lines{
+  font-weight: 300 !important;
+  font-size: clamp(15px, 1.6vw, 17px) !important;
+  line-height: 1.65 !important;
+  letter-spacing: .01em !important;
+  text-align: center !important;
+  text-wrap: balance;
+  margin-left: auto; margin-right: auto;
+  max-width: 58ch;
+}
+
+/* Lists and paragraphs in details: consistent rhythm */
+.bio-details h3{ 
+  font-weight: 300 !important; 
+  letter-spacing: .06em !important; 
+  margin-top: 1.15rem !important;
+}
+.bio-details ul{ 
+  margin: .35rem 0 0 !important; 
+  padding-left: 1.1em !important; 
+}
+.bio-details li,
+.bio-details p{
+  font-weight: 300 !important; 
+  line-height: 1.6 !important; 
+  max-width: 60ch;
+}
+
+/* Footer close button: keep centered and clear above iOS bottom bar */
+.bio-footer{ 
+  padding: .75rem 0 max(1.1rem, env(safe-area-inset-bottom)) !important; 
+}
+.bio-close-bottom{
+  min-width: 96px; height: 44px; padding: 0 18px;
+  border-radius: 9999px; border: 1px solid rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.10); color: #fff;
+  font-size: 13px; letter-spacing: .16em; text-transform: uppercase;
+}
+</style>
 </head>
 <body>
   <div class="container">
@@ -226,64 +375,74 @@ Estonian Theatre for Young Audiences<br>
 Estonian Annual Theatre Awards nominee 2023<br>
 Languages: Estonian, English, Finnish, Russian<br>
 Based in Tallinn, Estonia</p>
+
+    <details class="bio-details">
+  <summary>MORE</summary>
+  <section>
+    <h3>Education and training</h3>
+    <ul>
+      <li>Royal Academy of Dramatic Art, UK, 2016 to 2018, MA Acting</li>
+      <li>Turku University of Applied Sciences, Arts Academy, Finland, 2007 to 2011, BA Visual Theatre</li>
+      <li>Theatre Institute of Barcelona, 2010 to 2011, Physical Theatre, exchange</li>
+    </ul>
+  </section>
+  <section>
+    <h3>Work</h3>
+    <ul>
+      <li>Freelance actor, 2024 to present</li>
+      <li>Theatre Ekspeditsioon, actor, 2022 to 2024</li>
+      <li>Von Krahl Theatre, actor, 2020 to 2022</li>
+      <li>Estonian Theatre for Young Audiences, actor, 2011 to 2016</li>
+    </ul>
+  </section>
+  <section>
+    <h3>Languages</h3>
+    <p>Estonian native, English fluent, Finnish advanced, Russian intermediate</p>
   </section>
   <section>
     <h3>Recognition</h3>
-    <p class="recog">Estonian Annual Theatre Awards nominee (2023): <i>Melancholia</i>, <i>Wear Wolf</i></p>
+    <p>Estonian Annual Theatre Awards nominee, 2023, Melancholia directed by Juhan Ulfsak, and Wear Wolf directed by Peeter Jalakas</p>
   </section>
 </details>
   </div>
   <footer class="bio-footer">
-    <!-- <a class="bio-cv" href="Katariina_Tamm_CV.pdf" download>Download CV</a> -->
     <button class="bio-close-bottom" id="bio-close-bottom" aria-label="Close bio">Close</button>
   </footer>
 </div>
 
 
 
-
-
-
 <script>
 (function(){
-  const sheet   = document.getElementById('bio');
+  const sheet = document.getElementById('bio');
   const overlay = document.getElementById('bio-overlay');
   const openBtn = document.getElementById('bio-open');
-  const closeBtn= document.getElementById('bio-close');
+  const closeBtn = document.getElementById('bio-close');
   const closeBottom = document.getElementById('bio-close-bottom');
   const details = sheet ? sheet.querySelector('.bio-details') : null;
   const summary = details ? details.querySelector('summary') : null;
 
-  function actuallyOpen(){
-    if(details){ details.open = false; }
+  function show(){ 
     if(sheet && overlay){ sheet.classList.add('open'); overlay.classList.add('open'); }
+    if(location.hash !== '#bio'){ history.replaceState(null,'','#bio'); }
   }
-  function actuallyClose(){
-    if(details){ details.open = false; }
+  function hide(){ 
     if(sheet && overlay){ sheet.classList.remove('open'); overlay.classList.remove('open'); }
+    history.replaceState(null,'',' ');
   }
 
-  function show(push=true){
-    actuallyOpen();
-    if(push){ history.pushState({bio:true}, '', '#bio'); }
-  }
-  function hideAll(fromPop=false){
-    actuallyClose();
-    if(!fromPop){
-      if(history.state && history.state.bio){
-        history.back();
-      }else{
-        history.replaceState(null, '', ' ');
-      }
-    }
-  }
+  // Open from nav
+  if(openBtn){ openBtn.addEventListener('click', function(e){ e.preventDefault(); show(); }); }
+  // Open on deep-link
+  if(location.hash === '#bio'){ show(); }
 
-  if(openBtn) openBtn.addEventListener('click', function(e){ e.preventDefault(); show(true); });
-  if(closeBtn) closeBtn.addEventListener('click', function(){ hideAll(false); });
-  if(closeBottom) closeBottom.addEventListener('click', function(){ hideAll(false); });
-  if(overlay) overlay.addEventListener('click', function(){ hideAll(false); });
-  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') hideAll(false); });
+  // Close wiring
+  if(closeBottom){ closeBottom.addEventListener('click', hide); }
+  if(overlay){ overlay.addEventListener('click', hide); }
+  if(closeBtn){ closeBtn.addEventListener('click', hide); }
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') hide(); });
 
+  // Stop "More" jump while preserving scroll
   if(summary && details){
     summary.addEventListener('click', function(e){
       e.preventDefault();
@@ -292,19 +451,7 @@ Based in Tallinn, Estonia</p>
       if(sheet){ sheet.scrollTop = y; } else { window.scrollTo(0, y); }
     });
   }
-
-  window.addEventListener('popstate', function(){
-    if(location.hash === '#bio'){
-      if(!(sheet && sheet.classList.contains('open'))) actuallyOpen();
-    }else{
-      actuallyClose();
-    }
-  });
-
-  if(location.hash === '#bio'){ show(false); }
 })();
 </script>
-
-
 </body>
 </html>
