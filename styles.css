@@ -122,3 +122,45 @@
 .bio-details[open] > summary{
   display: none;
 }
+
+
+/* === Mobile font consistency pass === */
+.bio-sheet *{
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Base body text rhythm */
+.bio-details li,
+.bio-details p{ line-height: 1.6; font-weight: 300; }
+
+@media (max-width: 480px){
+  /* Unify sizes on small screens */
+  .bio-content h2{ 
+    font-size: 18px; 
+    letter-spacing: .20em; 
+    font-weight: 200;
+  }
+  .bio-lines{ 
+    font-size: 16px; 
+    line-height: 1.65; 
+    letter-spacing: .01em; 
+    font-weight: 300;
+  }
+  .bio-details h3{
+    font-size: 18px;
+    font-weight: 300;
+    letter-spacing: .06em;
+  }
+  .bio-details li,
+  .bio-details p{
+    font-size: 15px;
+    line-height: 1.6;
+    font-weight: 300;
+  }
+  /* Keep bullets tidy and aligned */
+  .bio-details ul{ padding-left: 1.1em; margin-top: .25rem; }
+  .bio-details li{ margin: .12rem 0; }
+  /* Keep MORE spacing stable on mobile */
+  .bio-details summary{ margin: .8rem auto .6rem; }
+}
