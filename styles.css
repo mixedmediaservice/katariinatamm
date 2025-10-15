@@ -178,3 +178,40 @@
 @media (max-width: 420px){
   .bio-footer .bio-cv{ left: .75rem; }
 }
+
+
+/* === Variant A: 2-column details + definition style + pills === */
+
+/* Two-column sections on desktop */
+@media (min-width: 900px){
+  .bio-details section{ 
+    display: grid; grid-template-columns: 14ch 1fr; gap: 1.25rem;
+    align-items: start;
+  }
+  .bio-details h3{ margin: 0; } /* label column */
+}
+
+/* Definition-style list (no bullets) */
+.bio-details ul{ list-style: none; padding-left: 0; margin: .35rem 0 0; }
+.bio-details li + li{ margin-top: .5rem; }
+.bio-details li b{ font-weight: 500; }
+.bio-details li small{ opacity: .85; }
+
+/* Language pills */
+.langs{ display:flex; flex-wrap:wrap; gap:.4rem .5rem; margin-top:.35rem; }
+.langs span{ border:1px solid rgba(255,255,255,.22); border-radius:9999px; padding:.15rem .55rem; font-size:.95em; font-weight:300; }
+
+/* Section separators for pacing */
+.bio-details section + section{ border-top:1px solid rgba(255,255,255,.10); padding-top:.9rem; margin-top:.9rem; }
+
+/* Recognition fine-tuning */
+.recog i{ opacity:.9; }
+
+/* Footer meta (left) */
+.bio-footer{ position: sticky; bottom: 0; }
+.bio-footer .bio-meta{
+  position: absolute; left: 1rem; color: #cfcfcf; font-weight: 300; letter-spacing: .05em;
+}
+@media (max-width: 420px){
+  .bio-footer .bio-meta{ left: .75rem; }
+}
