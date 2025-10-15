@@ -110,3 +110,15 @@
   .bio-content{ padding-bottom: 84px; }
   .bio-footer{ padding: .45rem 0 max(.7rem, env(safe-area-inset-bottom)); }
 }
+
+
+/* === Spacing & behavior for MORE === */
+/* More space between the card and the MORE toggle */
+.bio-details summary{
+  margin: .8rem auto .6rem; /* increased top margin */
+}
+
+/* When expanded, hide the MORE summary */
+.bio-details[open] > summary{
+  display: none;
+}

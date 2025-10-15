@@ -230,10 +230,7 @@ Languages: Estonian, English, Finnish, Russian</p>
   const details = sheet ? sheet.querySelector('.bio-details') : null;
   const summary = details ? details.querySelector('summary') : null;
 
-  function show(){ 
-    if(sheet && overlay){ sheet.classList.add('open'); overlay.classList.add('open'); }
-    if(location.hash !== '#bio'){ history.replaceState(null,'','#bio'); }
-  }
+  function show(){ if(details){ details.open = false; } if(sheet && overlay){ sheet.classList.add('open'); overlay.classList.add('open'); } if(location.hash !== '#bio'){ history.replaceState(null,'','#bio'); } }
   function hideAll(){ 
     if(details){ details.open = false; }
     if(sheet && overlay){ sheet.classList.remove('open'); overlay.classList.remove('open'); }
