@@ -1,5 +1,5 @@
 
-/* === katariinatamm.com — BIO overlay styles (clean) === */
+/* === katariinatamm.com — BIO overlay styles (consolidated) === */
 
 /* Base overlay and sheet */
 .bio-overlay{
@@ -30,42 +30,25 @@
   -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
   font-synthesis-weight: none;
 }
-.bio-content{ max-width: 58ch; margin: 0 auto; position: relative; z-index: 3; padding-bottom: 96px; }
+.bio-content{ max-width: 58ch; margin: 0 auto; position: relative; z-index: 3; padding-bottom: 140px; }
 .bio-content h2, .bio-details summary{ font-weight: 200; letter-spacing: .18em; text-transform: uppercase; text-align: center; }
-.bio-lines{ font-weight: 300; font-size: clamp(15px, 1.6vw, 17px); line-height: 1.65; letter-spacing: .01em; text-align: center; text-wrap: balance; margin: 0 auto .35rem; }
-
-/* "More" */
-.bio-details summary{ margin: .8rem auto .6rem; cursor: pointer; list-style: none; }
+.bio-lines{ font-weight: 300; font-size: clamp(15px, 1.6vw, 17px); line-height: 1.65; letter-spacing: .01em; text-align: center; text-wrap: balance; margin: 0 auto .25rem; }
+.bio-details summary{ margin: .4rem auto .6rem; cursor: pointer; list-style: none; }
 .bio-details summary::-webkit-details-marker{ display: none; }
-.bio-details[open] > summary{ display: none; }
+.bio-details h3{ font-weight: 300; letter-spacing: .06em; margin: 1rem 0 .35rem; }
+.bio-details ul{ margin: .35rem 0 0; padding-left: 1.1em; }
+.bio-details li, .bio-details p{ font-weight: 300; line-height: 1.6; max-width: 60ch; }
 
-/* Sections */
-.bio-details h3{ font-weight: 300; letter-spacing: .06em; margin: 0 0 .35rem; }
-.bio-details ul{ margin: .35rem 0 0; padding-left: 0; list-style: none; }
-.bio-details li + li{ margin-top: .5rem; }
-.bio-details li b{ font-weight: 500; }
-.bio-details li small{ opacity: .85; }
+/* Top close */
+.bio-close{ position: sticky; top: 6px; margin-left: auto; display: inline-block;
+  background: rgba(0,0,0,0.15); color: #fff; border: 0; font-size: 1.75rem; line-height: 1;
+  opacity: .9; cursor: pointer; z-index: 5; border-radius: 9999px; padding: 2px 10px; }
+.bio-close:hover{ background: rgba(0,0,0,0.22); }
 
-/* Two-column layout on desktop */
-@media (min-width: 900px){
-  .bio-details section{ display: grid; grid-template-columns: 14ch 1fr; gap: 1.25rem; align-items: start; }
-  .bio-details h3{ margin: 0; }
-}
-
-/* Language pills */
-.langs{ display:flex; flex-wrap:wrap; gap:.4rem .5rem; margin-top:.35rem; }
-.langs span{ border:1px solid rgba(255,255,255,.22); border-radius:9999px; padding:.15rem .55rem; font-size:.95em; font-weight:300; }
-
-/* Separators */
-.bio-details section + section{ border-top:1px solid rgba(255,255,255,.10); padding-top:.9rem; margin-top:.9rem; }
-.bio-details section:first-of-type{ border-top:1px solid rgba(255,255,255,.10); padding-top:.9rem; margin-top:.9rem; }
-
-/* Recognition italic subtle */
-.recog i{ opacity:.95; }
-
-/* Fade above footer to prevent bleed */
+/* Bottom fade prevents bleed under footer */
 .bio-sheet::after{
-  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 72px; pointer-events: none;
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0;
+  height: 120px; pointer-events: none;
   background: linear-gradient(to bottom, rgba(20,20,20,0), rgba(20,20,20,0.98));
   border-radius: 0 0 18px 18px; z-index: 2;
 }
@@ -74,25 +57,220 @@
 .bio-footer{ position: sticky; bottom: 0; left: 0; right: 0; z-index: 4;
   background: rgba(20,20,20,0.98); backdrop-filter: blur(10px);
   border-top: 1px solid rgba(255,255,255,0.10);
-  padding: .5rem 0 max(.8rem, env(safe-area-inset-bottom));
+  padding: .75rem 0 max(1.1rem, env(safe-area-inset-bottom));
   display: flex; justify-content: center;
 }
 .bio-close-bottom{
   display: inline-flex; align-items: center; justify-content: center;
-  min-width: 96px; height: 42px; padding: 0 18px;
-  border-radius: 32px; border: 1px solid rgba(255,255,255,0.22);
+  min-width: 96px; height: 44px; padding: 0 18px;
+  border-radius: 9999px; border: 1px solid rgba(255,255,255,0.22);
   background: rgba(255,255,255,0.10); color: #fff;
-  font-size: 13px; letter-spacing: .14em; text-transform: uppercase; cursor: pointer;
+  font-size: 13px; letter-spacing: .16em; text-transform: uppercase; cursor: pointer;
 }
 .bio-close-bottom:hover{ background: rgba(255,255,255,0.14); }
 
-/* Mobile base: allow body to scroll for pull-to-refresh */
+/* Allow pull-to-refresh on mobile */
+@media (max-width: 768px){
+  body{ overflow: auto; -webkit-overflow-scrolling: touch; }
+}
+
+
+/* === Compact spacing pass (both mobile & desktop) === */
+
+/* Reduce bottom fade height so less dead space above footer */
+.bio-sheet::after{
+  height: 72px;
+}
+
+/* Lower content padding so last lines sit closer to footer (but never under it) */
+.bio-content{
+  padding-bottom: 88px;
+}
+
+/* Tighten "More" spacing to lessen gap after top card */
+.bio-details summary{
+  margin: .28rem auto .44rem;
+}
+
+/* Footer vertical padding tightened */
+.bio-footer{
+  padding: .5rem 0 max(.8rem, env(safe-area-inset-bottom));
+}
+
+/* Keep button height but make it feel tighter with smaller border radius/letter-spacing */
+.bio-close-bottom{
+  height: 42px;
+  letter-spacing: .14em;
+  border-radius: 32px;
+}
+
+/* On very small screens, shave a little more space */
+@media (max-width: 420px){
+  .bio-sheet::after{ height: 64px; }
+  .bio-content{ padding-bottom: 84px; }
+  .bio-footer{ padding: .45rem 0 max(.7rem, env(safe-area-inset-bottom)); }
+}
+
+
+/* === Spacing & behavior for MORE === */
+/* More space between the card and the MORE toggle */
+.bio-details summary{
+  margin: .8rem auto .6rem; /* increased top margin */
+}
+
+/* When expanded, hide the MORE summary */
+.bio-details[open] > summary{
+  display: none;
+}
+
+
+/* === Mobile font consistency pass === */
+.bio-sheet *{
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Base body text rhythm */
+.bio-details li,
+.bio-details p{ line-height: 1.6; font-weight: 300; }
+
+@media (max-width: 480px){
+  /* Unify sizes on small screens */
+  .bio-content h2{ 
+    font-size: 18px; 
+    letter-spacing: .20em; 
+    font-weight: 200;
+  }
+  .bio-lines{ 
+    font-size: 16px; 
+    line-height: 1.65; 
+    letter-spacing: .01em; 
+    font-weight: 300;
+  }
+  .bio-details h3{
+    font-size: 18px;
+    font-weight: 300;
+    letter-spacing: .06em;
+  }
+  .bio-details li,
+  .bio-details p{
+    font-size: 15px;
+    line-height: 1.6;
+    font-weight: 300;
+  }
+  /* Keep bullets tidy and aligned */
+  .bio-details ul{ padding-left: 1.1em; margin-top: .25rem; }
+  .bio-details li{ margin: .12rem 0; }
+  /* Keep MORE spacing stable on mobile */
+  .bio-details summary{ margin: .8rem auto .6rem; }
+}
+
+
+/* Footer CV link styles */
+.bio-footer{ display:flex; justify-content:center; align-items:center; position:sticky; }
+.bio-footer .bio-cv{
+  position: absolute; left: 1rem;
+  color: #ddd; text-decoration: none; font-weight: 300; letter-spacing: .08em;
+  border-bottom: 1px solid rgba(255,255,255,.25);
+  padding-bottom: 2px;
+}
+.bio-footer .bio-cv:hover{ color: #fff; border-bottom-color: rgba(255,255,255,.5); }
+@media (max-width: 420px){
+  .bio-footer .bio-cv{ left: .75rem; }
+}
+
+
+/* === Variant A: 2-column details + definition style + pills === */
+
+/* Two-column sections on desktop */
+@media (min-width: 900px){
+  .bio-details section{ 
+    display: grid; grid-template-columns: 14ch 1fr; gap: 1.25rem;
+    align-items: start;
+  }
+  .bio-details h3{ margin: 0; } /* label column */
+}
+
+/* Definition-style list (no bullets) */
+.bio-details ul{ list-style: none; padding-left: 0; margin: .35rem 0 0; }
+.bio-details li + li{ margin-top: .5rem; }
+.bio-details li b{ font-weight: 500; }
+.bio-details li small{ opacity: .85; }
+
+/* Language pills */
+.langs{ display:flex; flex-wrap:wrap; gap:.4rem .5rem; margin-top:.35rem; }
+.langs span{ border:1px solid rgba(255,255,255,.22); border-radius:9999px; padding:.15rem .55rem; font-size:.95em; font-weight:300; }
+
+/* Section separators for pacing */
+.bio-details section + section{ border-top:1px solid rgba(255,255,255,.10); padding-top:.9rem; margin-top:.9rem; }
+
+/* Recognition fine-tuning */
+.recog i{ opacity:.9; }
+
+/* Footer meta (left) */
+.bio-footer{ position: sticky; bottom: 0; }
+.bio-footer .bio-meta{
+  position: absolute; left: 1rem; color: #cfcfcf; font-weight: 300; letter-spacing: .05em;
+}
+@media (max-width: 420px){
+  .bio-footer .bio-meta{ left: .75rem; }
+}
+
+/* First section top separator */
+.bio-details section:first-of-type{
+  border-top:1px solid rgba(255,255,255,.10);
+  padding-top:.9rem; margin-top:.9rem;
+}
+
+
+/* Ensure pull-to-refresh works on mobile and closed overlays don't block gestures */
 @media (max-width: 768px){
   html, body{ overscroll-behavior: auto; }
   body{ overflow: auto; -webkit-overflow-scrolling: touch; }
 }
+.bio-overlay{ pointer-events: none; }
+.bio-overlay.open{ pointer-events: auto; }
+.bio-sheet{ pointer-events: none; }
+.bio-sheet.open{ pointer-events: auto; }
 
-/* Focus states (accessibility) */
-.bottom-nav a:focus-visible, .bio-close-bottom:focus-visible{
-  outline: 2px solid rgba(255,255,255,.6); outline-offset: 3px;
+
+/* === Mobile pull-to-refresh restore (minimal) === */
+.bio-overlay{ display: none; }              /* overlay entirely removed when closed */
+.bio-overlay.open{ display: block; }        /* only exists when opened */
+@media (max-width: 1024px){
+  html, body{ overscroll-behavior: auto; }
+  body{ overflow: auto; -webkit-overflow-scrolling: touch; }
 }
+
+
+/* === iOS pull-to-refresh hard fix === */
+@supports (-webkit-touch-callout: none){
+  /* Closed layers don't exist; they can't block the gesture */
+  .bio-overlay{ display: none !important; }
+  .bio-overlay.open{ display: block !important; }
+  .bio-sheet{ display: none !important; }
+  .bio-sheet.open{ display: block !important; }
+
+  /* Root scroll must be on body for iOS PTR */
+  html, body{ overflow: auto !important; }
+  body{ -webkit-overflow-scrolling: touch; min-height: 101vh; }
+
+  /* tiny spacer ensures scrollable extent for PTR even on short pages */
+  body::after{ content: ""; display: block; height: 1px; }
+}
+
+
+/* === Universal pull-to-refresh fix (final) === */
+html, body{
+  height: auto;
+  min-height: 100%;
+  overflow-y: auto;
+  overscroll-behavior-y: auto;
+  touch-action: pan-y;
+}
+@supports (-webkit-touch-callout: none){
+  body{ -webkit-overflow-scrolling: touch; }
+}
+/* Closed overlays removed from tree; cannot intercept gesture */
+.bio-overlay, .bio-sheet{ display: none; }
+.bio-overlay.open, .bio-sheet.open{ display: block; }
