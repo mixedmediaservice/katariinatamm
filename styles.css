@@ -73,3 +73,40 @@
 @media (max-width: 768px){
   body{ overflow: auto; -webkit-overflow-scrolling: touch; }
 }
+
+
+/* === Compact spacing pass (both mobile & desktop) === */
+
+/* Reduce bottom fade height so less dead space above footer */
+.bio-sheet::after{
+  height: 72px;
+}
+
+/* Lower content padding so last lines sit closer to footer (but never under it) */
+.bio-content{
+  padding-bottom: 88px;
+}
+
+/* Tighten "More" spacing to lessen gap after top card */
+.bio-details summary{
+  margin: .28rem auto .44rem;
+}
+
+/* Footer vertical padding tightened */
+.bio-footer{
+  padding: .5rem 0 max(.8rem, env(safe-area-inset-bottom));
+}
+
+/* Keep button height but make it feel tighter with smaller border radius/letter-spacing */
+.bio-close-bottom{
+  height: 42px;
+  letter-spacing: .14em;
+  border-radius: 32px;
+}
+
+/* On very small screens, shave a little more space */
+@media (max-width: 420px){
+  .bio-sheet::after{ height: 64px; }
+  .bio-content{ padding-bottom: 84px; }
+  .bio-footer{ padding: .45rem 0 max(.7rem, env(safe-area-inset-bottom)); }
+}
