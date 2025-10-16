@@ -265,3 +265,11 @@
     transition: none !important;
   }
 }
+
+
+/* --- Safe removal of showreel close "X" without touching JS --- */
+#showreel-close, .showreel-close {
+  display: none !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
