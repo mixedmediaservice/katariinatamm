@@ -355,6 +355,59 @@
   font-size: 13px; letter-spacing: .16em; text-transform: uppercase;
 }
 </style>
+
+<style>
+/* === SHOWREEL centered modal & overlay === */
+.reel-overlay{
+  position: fixed; inset: 0; background: rgba(0,0,0,0.35);
+  backdrop-filter: none; opacity: 0; pointer-events: none; transition: opacity .3s ease; z-index: 90;
+}
+.reel-modal{
+  position: fixed; left: 50%; top: 50%;
+  transform: translate(-50%, -40%) scale(.96);
+  width: min(920px, 92vw); max-height: 80vh; overflow: hidden;
+  background: linear-gradient(to bottom,
+    rgba(20,20,20,0.65) 0%,
+    rgba(20,20,20,0.88) 70%,
+    rgba(20,20,20,0.92) 100%);
+  border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+  border-radius: 18px; padding: 0.75rem 0.75rem 0.25rem; color: #f5f5f5; z-index: 99;
+  opacity: 0; pointer-events: none;
+  transition: transform .38s cubic-bezier(.2,.8,.2,1), opacity .28s ease;
+  display: flex; flex-direction: column; align-items: stretch;
+}
+.reel-modal.open{
+  opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1);
+}
+.reel-header{
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin: 0 0 .5rem;
+}
+.reel-header h2{ font-size: 1rem; letter-spacing: .14em; font-weight: 600; margin: 0; opacity: .9; }
+.reel-close{
+  border: 1px solid rgba(255,255,255,0.18); background: rgba(255,255,255,0.08); color: #fff;
+  width: 36px; height: 32px; border-radius: 9999px; cursor: pointer; line-height: 30px; text-align: center;
+  position: relative;
+}
+.reel-close:hover{ background: rgba(255,255,255,0.14); }
+.reel-player-wrap{
+  position: relative; width: 100%; aspect-ratio: 16 / 9;
+  border-radius: 12px; overflow: hidden;
+  background: rgba(0,0,0,0.8); /* black glass while loading */
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.reel-footer{
+  display: flex; justify-content: center; padding: .5rem 0 .25rem;
+}
+.reel-close-bottom{
+  position: relative; z-index: 1;
+  display: block; margin: .5rem auto 0; width: 44px; height: 44px;
+  border-radius: 9999px; border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.08); color: #fff;
+  font-size: 22px; line-height: 42px; text-align: center;
+  cursor: pointer;
+}
+.reel-close-bottom:hover{ background: rgba(255,255,255,0.14); }
+</style>
 </head>
 <body>
   <div class="container">
@@ -364,6 +417,7 @@
       <a href="https://www.imdb.com/name/nm5518685/" target="_blank" rel="noopener">IMDB</a>
     
   <a href="#bio" id="bio-open">BIO</a>
+      <a href="#showreel" id="reel-open">SHOWREEL</a>
 </nav>
   </div>
 
@@ -476,6 +530,132 @@
       if (sheet){ sheet.scrollTop = y; } else { window.scrollTo(0, y); }
     });
   }
+})();
+</script>
+
+<div class="reel-overlay" id="reel-overlay" aria-hidden="true"></div>
+<div class="reel-modal" id="reel-modal" role="dialog" aria-modal="true" aria-labelledby="reel-title" aria-hidden="true">
+  <div class="reel-header">
+    <h2 id="reel-title">SHOWREEL</h2>
+    <button class="reel-close" id="reel-close" aria-label="Close">×</button>
+  </div>
+  <div class="reel-player-wrap">
+    <div id="reel-player" class="reel-player" aria-label="Showreel video"></div>
+  </div>
+  <div class="reel-footer">
+    <button class="reel-close-bottom" id="reel-close-bottom" aria-label="Close">×</button>
+  </div>
+</div>
+
+<!-- Vimeo API -->
+<script src="https://player.vimeo.com/api/player.js"></script>
+
+<script>
+(function(){
+  const overlay = document.getElementById('reel-overlay');
+  const modal = document.getElementById('reel-modal');
+  const openBtn = document.getElementById('reel-open');
+  const closeBtn = document.getElementById('reel-close');
+  const closeBottom = document.getElementById('reel-close-bottom');
+  const playerHost = document.getElementById('reel-player');
+  const vimeoId = '1127883519';
+
+  let lastFocus = null;
+  let player = null;
+
+  function mountIframe(){
+    if (player) return;
+    // build iframe only when opening
+    const iframe = document.createElement('iframe');
+    const params = new URLSearchParams({
+      badge: '0',
+      autopause: '0',
+      dnt: '1',
+      title: '0',
+      byline: '0',
+      portrait: '0',
+      muted: '1',
+      autoplay: '1',
+      app_id: '58479'
+    });
+    iframe.src = 'https://player.vimeo.com/video/' + vimeoId + '?' + params.toString();
+    iframe.allow = 'autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share';
+    iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+    iframe.style.position = 'absolute';
+    iframe.style.top = '0'; iframe.style.left = '0';
+    iframe.style.width = '100%'; iframe.style.height = '100%';
+    iframe.setAttribute('title','Katariina Tamm Showreel');
+    // position absolute needs a parent anchor
+    playerHost.style.position = 'relative';
+    playerHost.appendChild(iframe);
+    // optional: init API if needed later
+    if (window.Vimeo && window.Vimeo.Player){
+      player = new Vimeo.Player(iframe);
+    }
+  }
+
+  function unmountIframe(){
+    if (player) { try { player.unload(); } catch(e){} player = null; }
+    while (playerHost.firstChild){ playerHost.removeChild(playerHost.firstChild); }
+  }
+
+  function open(){
+    // Close BIO if open (mutual exclusivity)
+    const bioClose = document.querySelector('.bio-close');
+    if (bioClose){ bioClose.click(); }
+
+    lastFocus = document.activeElement;
+    overlay.style.opacity = '1';
+    overlay.style.pointerEvents = 'auto';
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden','false');
+    overlay.setAttribute('aria-hidden','false');
+    mountIframe();
+    // focus into modal
+    setTimeout(()=>{ (closeBtn || modal).focus(); }, 0);
+    if (location.hash !== '#showreel'){
+      history.pushState(null, '', '#showreel');
+    }
+  }
+
+  function close(){
+    overlay.style.opacity = '0';
+    overlay.style.pointerEvents = 'none';
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden','true');
+    overlay.setAttribute('aria-hidden','true');
+    unmountIframe();
+    // restore focus
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+    // clear hash if it was ours
+    if (location.hash === '#showreel'){
+      history.replaceState(null, '', location.pathname + location.search);
+    }
+  }
+
+  function bindTap(el, fn){
+    if (!el) return;
+    el.addEventListener('click', fn);
+    el.addEventListener('touchend', function(e){ e.preventDefault(); fn(); }, {passive:false});
+  }
+
+  // openers & closers
+  bindTap(openBtn, open);
+  bindTap(closeBtn, close);
+  bindTap(closeBottom, close);
+  bindTap(overlay, close);
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+
+  // Deep link open
+  if (location.hash === '#showreel'){ open(); }
+
+  // Respect reduced data / motion
+  const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReducedMotion){
+    // no special handling needed beyond CSS-less animations
+  }
+
 })();
 </script>
 </body>
