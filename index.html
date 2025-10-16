@@ -414,6 +414,38 @@
   top: .5rem !important;
   right: .6rem !important;
 }
+</style><style>
+/* === SHOWREEL: truly frameless (remove orange-highlighted frame) === */
+.showreel-modal{ background: transparent !important; }
+
+/* Kill any card chrome completely */
+.showreel-card,
+.showreel-card::before,
+.showreel-card::after{
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+  padding: 0 !important;
+  filter: none !important;
+}
+
+/* Make the close button anchor to the video itself */
+.showreel-card{ position: static !important; }
+.showreel-frame{
+  position: relative !important;
+  margin: 0 !important;
+  border-radius: 12px !important; /* keep only the video rounding */
+  overflow: hidden !important;
+}
+.showreel-close{
+  position: absolute !important;
+  top: 6px !important;
+  right: 8px !important;
+  border: 0 !important;
+  background: rgba(0,0,0,0.35) !important;
+  box-shadow: none !important;
+}
 </style></head>
 <body>
 <div class="container">
