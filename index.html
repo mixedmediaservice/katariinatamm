@@ -355,6 +355,13 @@
   font-size: 13px; letter-spacing: .16em; text-transform: uppercase;
 }
 </style>
+<style id="perf-patch">
+/* === Performance patch (overlay-only blur, no sticky-in-scroller) === */
+.bio-sheet { backdrop-filter: none !important; will-change: transform; }
+.bio-overlay { will-change: opacity; }
+/* Remove sticky inside the scrollable sheet to avoid slow compositing paths */
+.bio-close, .bio-close-bottom, .bio-footer { position: static !important; top: auto !important; bottom: auto !important; }
+</style>
 </head>
 <body>
   <div class="container">
@@ -467,15 +474,7 @@
   bindTap(overlay, hide);
   document.addEventListener('keydown', e => { if (e.key === 'Escape') hide(); });
 
-  // Keep sheet scroll position stable when toggling details
-  if (summary && details){
-    summary.addEventListener('click', function(e){
-      e.preventDefault();
-      const y = sheet ? sheet.scrollTop : window.scrollY;
-      details.open = !details.open;
-      if (sheet){ sheet.scrollTop = y; } else { window.scrollTo(0, y); }
-    });
-  }
+  // Allow native <details>/<summary> behavior (perf patch): removed custom scroll locking.
 })();
 </script>
 </body>

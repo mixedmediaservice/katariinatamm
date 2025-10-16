@@ -338,3 +338,7 @@ html, body{
   backdrop-filter: blur(12px) !important;
   will-change: opacity;
 }
+
+/* === Performance patch mirror (external) === */
+.bio-sheet { backdrop-filter: none !important; will-change: transform; }
+.bio-overlay { will-change: opacity; }
