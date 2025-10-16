@@ -63,19 +63,25 @@
   }
   </script>
 
+  <link rel="stylesheet" href="styles.css">
+
   <style>
     /* original styling kept */
     body {
       margin: 0;
       padding: 0;
       font-family: 'Helvetica Neue', Arial, sans-serif;
-      background: url('hero-image.jpg') no-repeat center center fixed;
-      background-size: cover;
-      background-position: center 20%;
+      /* Use cover image without fixing it to the viewport */
+      background: url('hero-image.jpg') no-repeat center 20% / cover;
+      /* Allow the page to scroll (desktop + enables iOS pull-to-refresh) */
+      height: auto;
+      min-height: 100vh;
+      overflow-y: auto;
+      overscroll-behavior-y: auto;
+      -webkit-overflow-scrolling: touch;
       color: white;
-      height: 100vh;
-      overflow: hidden;
     }
+
     body::before {
       content: '';
       position: absolute;
