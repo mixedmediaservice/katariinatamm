@@ -400,40 +400,72 @@
 }
 </style>
 <style>
-/* === SHOWREEL: pixel-true centering fix (handles scrollbars + iOS safe areas) === */
-:root{
-  --safe-left: env(safe-area-inset-left, 0px);
-  --safe-right: env(safe-area-inset-right, 0px);
-  --safe-top: env(safe-area-inset-top, 0px);
-  --safe-bottom: env(safe-area-inset-bottom, 0px);
-}
-.showreel-modal{
-  position: fixed !important;
-  inset: 0 !important;                /* avoids 100vw scrollbar shift */
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: 100% !important;
-  height: 100% !important;
-  padding: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left) !important;
-  box-sizing: border-box !important;
-  transform: none !important;
-}
+/* === SHOWREEL: frameless look (video only) === */
 .showreel-card{
-  position: relative !important;
-  display: block !important;
-  margin: 0 auto !important;          /* extra belt-and-braces centering */
-  max-width: 100% !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
 }
+/* Keep the video with a subtle rounded corner */
+.showreel-frame{ border-radius: 12px !important; }
+/* Keep the floating close button at the same visual spot */
+.showreel-close{
+  top: .5rem !important;
+  right: .6rem !important;
+}
+</style><style>
+/* === SHOWREEL: truly frameless (remove orange-highlighted frame) === */
+.showreel-modal{ background: transparent !important; }
+
+/* Kill any card chrome completely */
+.showreel-card,
+.showreel-card::before,
+.showreel-card::after{
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+  padding: 0 !important;
+  filter: none !important;
+}
+
+/* Make the close button anchor to the video itself */
+.showreel-card{ position: static !important; }
 .showreel-frame{
-  aspect-ratio: 16 / 9 !important;
-  width: min(920px, calc(100% - 2px), 92vw, calc((100vh - var(--safe-top) - var(--safe-bottom) - 40px) * 16/9)) !important;
-  max-height: calc(100vh - var(--safe-top) - var(--safe-bottom) - 40px) !important;
-  border-radius: 12px !important;
+  position: relative !important;
+  margin: 0 !important;
+  border-radius: 12px !important; /* keep only the video rounding */
   overflow: hidden !important;
-  margin: 0 auto !important;
 }
-.showreel-frame iframe{ display:block !important; width:100% !important; height:100% !important; }
+.showreel-close{
+  position: absolute !important;
+  top: 6px !important;
+  right: 8px !important;
+  border: 0 !important;
+  background: rgba(0,0,0,0.35) !important;
+  box-shadow: none !important;
+}
+</style><style>.showreel-frame iframe{display:block;width:100%;height:100%;pointer-events:auto;}</style><style>
+/* === SHOWREEL: put the × back on the LEFT and ensure it sits above the video === */
+.showreel-close{
+  left: 8px !important;
+  right: auto !important;
+  z-index: 3 !important;
+}
+</style><style>
+/* === SHOWREEL: close button on RIGHT (like BIO) === */
+.showreel-close{
+  right: 8px !important;
+  left: auto !important;
+  z-index: 3 !important;
+}
+
+/* === BIO: make X the same size as the video X, keep it in the same spot (top-right) === */
+.bio-close{
+  font-size: 18px !important;   /* match .showreel-close font size */
+  line-height: 1 !important;
+}
 </style></head>
 <body>
 <div class="container">
@@ -515,6 +547,7 @@
   const summary = details ? details.querySelector('summary') : null;
 
   function show(){
+    if (overlay) overlay.style.pointerEvents = 'auto';
     if (details) details.open = false; // always start with top fold only
     if (sheet && overlay){
       sheet.classList.add('open');
@@ -524,6 +557,7 @@
   }
 
   function hide(){
+    if (overlay) overlay.style.pointerEvents = '';
     if (sheet && overlay){
       sheet.classList.remove('open');
       overlay.classList.remove('open');
@@ -584,9 +618,21 @@
 
   function mountIframe(){
     if (playerIframe) return;
-    const url = 'https://player.vimeo.com/video/1127883519?autoplay=1&muted=1&dnt=1&title=0&byline=0&portrait=0&playsinline=1';
+    // Detect touch / mobile (no hover or coarse pointer)
+    const isTouch = (('ontouchstart' in window) || window.matchMedia('(hover: none)').matches || window.matchMedia('(pointer: coarse)').matches);
+    const params = new URLSearchParams({
+      autoplay: isTouch ? '0' : '1',
+      muted: isTouch ? '0' : '1',
+      dnt: '1',
+      title: '0',
+      byline: '0',
+      portrait: '0',
+      playsinline: '1'
+    });
+    const url = 'https://player.vimeo.com/video/1127883519?' + params.toString();
     playerIframe = document.createElement('iframe');
-    playerIframe.setAttribute('src', url);
+    playerIframe.id = 'vimeo-showreel';
+    playerIframe.setAttribute('src', url + '&autopause=1');
     playerIframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share');
     playerIframe.setAttribute('allowfullscreen', 'true');
     playerIframe.setAttribute('frameborder', '0');
@@ -595,13 +641,8 @@
     playerIframe.title = 'Katariina Tamm Showreel';
     frame.appendChild(playerIframe);
   }
-  function unmountIframe(){
-    if (playerIframe){
-      playerIframe.remove();
-      playerIframe = null;
-    }
-  }
   function openShowreel(pushHash=true){
+    if (overlay) overlay.style.pointerEvents = 'auto';
     // Close BIO if open
     if (bioSheet && bioSheet.classList.contains('open')){
       bioSheet.classList.remove('open');
@@ -616,7 +657,18 @@
   function closeShowreel(){
     showreelModal.classList.remove('open');
     overlay.classList.remove('open');
-    unmountIframe();
+    try {
+      if (playerIframe && playerIframe.contentWindow) {
+        playerIframe.contentWindow.postMessage(JSON.stringify({ method: 'pause' }), 'https://player.vimeo.com');
+      }
+    } catch (e) { /* ignore */ }
+    try { if (playerIframe) { playerIframe.src = 'about:blank'; } } catch (e) {}
+    // Tear down the entire frame container to guarantee media stop on Safari/iOS
+    try {
+      if (frame){ frame.innerHTML = ''; }
+    } catch (e) {}
+    playerIframe = null;
+    if (showreelOpen) showreelOpen.focus({ preventScroll: true });
     // restore focus
     if (showreelOpen) showreelOpen.focus({ preventScroll: true });
     if (location.hash === '#showreel') history.replaceState(null, '', location.pathname + location.search);
@@ -630,9 +682,17 @@
   }
   if (showreelClose) showreelClose.addEventListener('click', closeShowreel);
   if (showreelCloseBottom) showreelCloseBottom.addEventListener('click', closeShowreel);
-  if (overlay) overlay.addEventListener('click', function(e){
+  if (overlay) {
+  overlay.addEventListener('click', function(e){
     if (e.target === overlay && showreelModal.classList.contains('open')) closeShowreel();
   });
+  overlay.addEventListener('touchend', function(e){
+    if (e.target === overlay && showreelModal.classList.contains('open')) {
+      e.preventDefault();
+      closeShowreel();
+    }
+  }, {passive:false});
+}
   document.addEventListener('keydown', function(e){
     if (e.key === 'Escape' && showreelModal.classList.contains('open')) closeShowreel();
   });
@@ -641,6 +701,25 @@
     if (location.hash === '#showreel') openShowreel(false);
     else if (showreelModal.classList.contains('open')) closeShowreel();
   });
+  
+  // Close showreel when any other link is clicked
+  document.addEventListener('click', function(e){
+    const a = e.target.closest('a');
+    if (!a) return;
+    // Ignore if clicking the showreel toggle itself (handled above)
+    if (a === showreelOpen) return;
+    if (showreelModal.classList.contains('open')) {
+      closeShowreel();
+    }
+  });
+    
+  
+  document.addEventListener('visibilitychange', function(){
+    if (document.hidden && showreelModal.classList.contains('open')) {
+      closeShowreel();
+    }
+  });
+    
   if (location.hash === '#showreel') openShowreel(false);
 })();
 </script>
