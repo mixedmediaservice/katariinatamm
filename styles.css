@@ -344,6 +344,6 @@ html, body{
 .bio-overlay { will-change: opacity; }
 
 /* === Ultra perf mirror (external) === */
-.bio-sheet { contain: paint; scrollbar-gutter: stable; overscroll-behavior: contain; transform: translate3d(0,0,0); backface-visibility: hidden; }
+.bio-sheet { contain: paint; scrollbar-gutter: stable; overscroll-behavior: contain; will-change: transform; backface-visibility: hidden; }
 .bio-overlay { -webkit-backdrop-filter: blur(12px); transform: translateZ(0); }
 .bio-sheet .bio-body, .bio-sheet .bio-content, .bio-sheet main, .bio-sheet section { content-visibility: auto; contain-intrinsic-size: 800px 1200px; }

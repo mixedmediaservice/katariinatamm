@@ -369,7 +369,7 @@
   transform: translateZ(0);
 }
 .bio-sheet {
-  transform: translate3d(0,0,0); /* ensure compositor layer */
+  /* compositor hint only */ will-change: transform;
   backface-visibility: hidden;
   contain: paint;                /* limit paint scope */
   scrollbar-gutter: stable;
