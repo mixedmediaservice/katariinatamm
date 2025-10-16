@@ -362,6 +362,33 @@
 /* Remove sticky inside the scrollable sheet to avoid slow compositing paths */
 .bio-close, .bio-close-bottom, .bio-footer { position: static !important; top: auto !important; bottom: auto !important; }
 </style>
+<style id="ultra-perf">
+/* === Ultra perf helpers (CSS-only, no visual overhaul) === */
+.bio-overlay { 
+  -webkit-backdrop-filter: blur(12px);
+  transform: translateZ(0);
+}
+.bio-sheet {
+  transform: translate3d(0,0,0); /* ensure compositor layer */
+  backface-visibility: hidden;
+  contain: paint;                /* limit paint scope */
+  scrollbar-gutter: stable;
+  overscroll-behavior: contain;
+}
+/* Virtualize heavy inner content so it doesn't lay out/paint until scrolled into view */
+.bio-sheet .bio-body, 
+.bio-sheet .bio-content, 
+.bio-sheet main, 
+.bio-sheet section {
+  content-visibility: auto;
+  contain-intrinsic-size: 800px 1200px; /* good guess for initial size to prevent jumps */
+}
+
+/* Keep shadows lightweight to reduce overdraw during scroll */
+.bio-sheet {
+  box-shadow: 0 6px 24px rgba(0,0,0,.18);
+}
+</style>
 </head>
 <body>
   <div class="container">
