@@ -631,7 +631,8 @@
     });
     const url = 'https://player.vimeo.com/video/1127883519?' + params.toString();
     playerIframe = document.createElement('iframe');
-    playerIframe.setAttribute('src', url);
+    playerIframe.id = 'vimeo-showreel';
+    playerIframe.setAttribute('src', url + '&autopause=1');
     playerIframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share');
     playerIframe.setAttribute('allowfullscreen', 'true');
     playerIframe.setAttribute('frameborder', '0');
@@ -654,10 +655,20 @@
     showreelClose.focus({ preventScroll: true });
   }
   function closeShowreel(){
-    if (overlay) overlay.style.pointerEvents = '';
     showreelModal.classList.remove('open');
     overlay.classList.remove('open');
-    unmountIframe();
+    try {
+      if (playerIframe && playerIframe.contentWindow) {
+        playerIframe.contentWindow.postMessage(JSON.stringify({ method: 'pause' }), 'https://player.vimeo.com');
+      }
+    } catch (e) { /* ignore */ }
+    try { if (playerIframe) { playerIframe.src = 'about:blank'; } } catch (e) {}
+    // Tear down the entire frame container to guarantee media stop on Safari/iOS
+    try {
+      if (frame){ frame.innerHTML = ''; }
+    } catch (e) {}
+    playerIframe = null;
+    if (showreelOpen) showreelOpen.focus({ preventScroll: true });
     // restore focus
     if (showreelOpen) showreelOpen.focus({ preventScroll: true });
     if (location.hash === '#showreel') history.replaceState(null, '', location.pathname + location.search);
@@ -693,7 +704,14 @@
       closeShowreel();
     }
   });
-
+    
+  
+  document.addEventListener('visibilitychange', function(){
+    if (document.hidden && showreelModal.classList.contains('open')) {
+      closeShowreel();
+    }
+  });
+    
   if (location.hash === '#showreel') openShowreel(false);
 })();
 </script>
