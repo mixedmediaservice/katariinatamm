@@ -489,6 +489,38 @@
   /* Keep it tidy on very small screens */
   .showreel-close{ transform: translate(40%, -40%) !important; }
 }
+</style><style>
+/* === SHOWREEL: full-viewport flex modal; click outside video closes without overlay conflicts === */
+.showreel-modal{
+  position: fixed !important;
+  inset: 0 !important;
+  margin: 0 !important;
+  display: none !important;            /* default hidden */
+  align-items: center !important;
+  justify-content: center !important;
+  pointer-events: none !important;     /* off by default */
+}
+.showreel-modal.open{
+  display: flex !important;
+  pointer-events: auto !important;     /* interactive when open */
+  opacity: 1 !important;
+  transform: none !important;
+}
+/* Keep the video size rules; no outer frame */
+.showreel-frame{
+  aspect-ratio: 16/9;
+  width: min(920px, 92vw);
+  border-radius: 12px;
+  overflow: hidden;
+}
+/* Keep close button outside top-right of the video */
+.showreel-close{
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  transform: translate(50%, -50%) !important;
+  z-index: 3 !important;
+}
 </style></head>
 <body>
 <div class="container">
@@ -665,7 +697,7 @@
     frame.appendChild(playerIframe);
   }
   function openShowreel(pushHash=true){
-    if (overlay) overlay.style.pointerEvents = 'auto';
+    if (overlay) overlay.style.pointerEvents = 'none';
     // Close BIO if open
     if (bioSheet && bioSheet.classList.contains('open')){
       bioSheet.classList.remove('open');
@@ -742,6 +774,21 @@
       closeShowreel();
     }
   });
+    
+  
+  // Close when clicking outside the video (on the modal container)
+  if (showreelModal){
+    showreelModal.addEventListener('click', function(e){
+      if (e.target === showreelModal && showreelModal.classList.contains('open')){
+        closeShowreel();
+      }
+    });
+    // Prevent bubbling from inside the video frame container
+    if (frame){
+      frame.addEventListener('click', function(e){ e.stopPropagation(); });
+      frame.addEventListener('touchend', function(e){ e.stopPropagation(); }, {passive:true});
+    }
+  }
     
   if (location.hash === '#showreel') openShowreel(false);
 })();
