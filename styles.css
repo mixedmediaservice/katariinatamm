@@ -1,3 +1,4 @@
+
 /* === katariinatamm.com — BIO overlay styles (consolidated) === */
 
 /* Base overlay and sheet */
@@ -8,13 +9,13 @@
 }
 .bio-overlay.open{ opacity: 1; pointer-events: auto; }
 
-.bio-sheet{
+.bio-sheet{ 
   position: fixed; left: 50%; transform: translateX(-50%) translateY(110%);
   bottom: 0; width: min(860px, 92vw); max-height: 80vh; overflow: auto;
   background: linear-gradient(to bottom,
-  rgba(20,20,20,0.65) 0%,
-  rgba(20,20,20,0.88) 70%,
-  rgba(20,20,20,0.92) 100%);
+    rgba(20,20,20,0.65) 0%,
+    rgba(20,20,20,0.88) 70%,
+    rgba(20,20,20,0.92) 100%);
   backdrop-filter: none;
   border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 20px 60px rgba(0,0,0,0.45);
   border-radius: 18px 18px 0 0; padding: 1.1rem 1.25rem 0; color: #f5f5f5; z-index: 99;
@@ -71,7 +72,7 @@
 /* Allow pull-to-refresh on mobile */
 @media (max-width: 768px){
   body{ overflow: auto; -webkit-overflow-scrolling: touch; }
-}
+*/
 
 
 /* === Compact spacing pass (both mobile & desktop) === */
@@ -108,7 +109,7 @@
   .bio-sheet::after{ height: 64px; }
   .bio-content{ padding-bottom: 84px; }
   .bio-footer{ padding: .45rem 0 max(.7rem, env(safe-area-inset-bottom)); }
-}
+*/
 
 
 /* === Spacing & behavior for MORE === */
@@ -135,15 +136,15 @@
 
 @media (max-width: 480px){
   /* Unify sizes on small screens */
-  .bio-content h2{
-    font-size: 18px;
-    letter-spacing: .20em;
+  .bio-content h2{ 
+    font-size: 18px; 
+    letter-spacing: .20em; 
     font-weight: 200;
   }
-  .bio-lines{
-    font-size: 16px;
-    line-height: 1.65;
-    letter-spacing: .01em;
+  .bio-lines{ 
+    font-size: 16px; 
+    line-height: 1.65; 
+    letter-spacing: .01em; 
     font-weight: 300;
   }
   .bio-details h3{
@@ -162,7 +163,7 @@
   .bio-details li{ margin: .12rem 0; }
   /* Keep MORE spacing stable on mobile */
   .bio-details summary{ margin: .8rem auto .6rem; }
-}
+*/
 
 
 /* Footer CV link styles */
@@ -176,14 +177,14 @@
 .bio-footer .bio-cv:hover{ color: #fff; border-bottom-color: rgba(255,255,255,.5); }
 @media (max-width: 420px){
   .bio-footer .bio-cv{ left: .75rem; }
-}
+*/
 
 
 /* === Variant A: 2-column details + definition style + pills === */
 
 /* Two-column sections on desktop */
 @media (min-width: 900px){
-  .bio-details section{
+  .bio-details section{ 
     display: grid; grid-template-columns: 14ch 1fr; gap: 1.25rem;
     align-items: start;
   }
@@ -213,7 +214,7 @@
 }
 @media (max-width: 420px){
   .bio-footer .bio-meta{ left: .75rem; }
-}
+*/
 
 /* First section top separator */
 .bio-details section:first-of-type{
@@ -226,7 +227,7 @@
 @media (max-width: 768px){
   html, body{ overscroll-behavior: auto; }
   body{ overflow: auto; -webkit-overflow-scrolling: touch; }
-}
+*/
 .bio-overlay{ pointer-events: none; }
 .bio-overlay.open{ pointer-events: auto; }
 .bio-sheet{ pointer-events: none; }
@@ -239,7 +240,7 @@
 @media (max-width: 1024px){
   html, body{ overscroll-behavior: auto; }
   body{ overflow: auto; -webkit-overflow-scrolling: touch; }
-}
+*/
 
 
 /* === iOS pull-to-refresh hard fix === */
@@ -256,7 +257,7 @@
 
   /* tiny spacer ensures scrollable extent for PTR even on short pages */
   body::after{ content: ""; display: block; height: 1px; }
-}
+*/
 
 
 /* === Universal pull-to-refresh fix (final) === */
@@ -269,7 +270,7 @@ html, body{
 }
 @supports (-webkit-touch-callout: none){
   body{ -webkit-overflow-scrolling: touch; }
-}
+*/
 /* Closed overlays removed from tree; cannot intercept gesture */
 .bio-overlay, .bio-sheet{ display: none; }
 .bio-overlay.open, .bio-sheet.open{ display: block; }
@@ -310,7 +311,7 @@ html, body{
 /* Respect reduced motion for accessibility */
 @media (prefers-reduced-motion: reduce){
   .bio-sheet, .bio-sheet *{ animation: none !important; transition: none !important; }
-}
+*/
 /* === End Readability Patch === */
 
 
@@ -360,18 +361,18 @@ html, body{
   pointer-events: none;
   z-index: 0;
   background:
-          linear-gradient(180deg, rgba(18,18,18,0.55) 0%, rgba(18,18,18,0.42) 24%, rgba(18,18,18,0.38) 52%, rgba(18,18,18,0.42) 76%, rgba(18,18,18,0.55) 100%),
-          radial-gradient(120% 120% at 50% 0%, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.00) 60%);
+    linear-gradient(180deg, rgba(18,18,18,0.55) 0%, rgba(18,18,18,0.42) 24%, rgba(18,18,18,0.38) 52%, rgba(18,18,18,0.42) 76%, rgba(18,18,18,0.55) 100%),
+    radial-gradient(120% 120% at 50% 0%, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.00) 60%);
   box-shadow:
-          inset 0 0 0 1px rgba(255,255,255,0.10),
-          0 8px 30px rgba(0,0,0,0.25);
+    inset 0 0 0 1px rgba(255,255,255,0.10),
+    0 8px 30px rgba(0,0,0,0.25);
 }
 
 /* Ensure content sits above scrim */
 .bio-sheet > * { position: relative; z-index: 1; }
 
 /* Smooth scrolling hints (safe, no visual change) */
-.bio-sheet {
+.bio-sheet { 
   will-change: transform;
   contain: paint;
   scrollbar-gutter: stable;
@@ -379,15 +380,22 @@ html, body{
 }
 
 
-/* === Close BAR scrim (behind the bottom "CLOSE" button) ===
-   Performance-friendly: gradient scrim by default; optional tiny blur if supported.
-   Does not change layout. Keeps existing footer content and spacing.
-*/
+/* === PERF-SAFE CLOSE BAR (no filters, matches sheet scrim) === */
+/* Keep footer sticky UX but use a lightweight scrim drawn behind its content. */
 .bio-footer{
-  isolation: isolate; /* allow a background pseudo-layer behind content */
-  background: transparent; /* let the scrim define the look (we still keep border + structure) */
+  position: sticky;
+  bottom: 0;
+  left: 0; right: 0;
+  display: flex; justify-content: center;
+  padding: .75rem 0 max(1.1rem, env(safe-area-inset-bottom));
+  border-top: 1px solid rgba(255,255,255,0.10);
+  background: transparent;          /* visuals are provided by ::before */
+  isolation: isolate;               /* ensure the pseudo sits behind content */
+  contain: paint;                   /* limit paint area to footer */
+  will-change: transform;           /* promote sticky footer into its own layer */
 }
 
+/* Draw the bar as a gradient-only scrim; zero jank, GPU-friendly */
 .bio-footer::before{
   content: "";
   position: absolute;
@@ -396,25 +404,33 @@ html, body{
   border-bottom-right-radius: inherit;
   pointer-events: none;
   z-index: 0;
-  /* Scrim: darker at bottom, softer toward content */
   background:
-          linear-gradient(180deg,
-          rgba(18,18,18,0.42) 0%,
-          rgba(18,18,18,0.50) 40%,
-          rgba(18,18,18,0.62) 100%),
-          radial-gradient(120% 80% at 50% 0%, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 60%);
+    /* subtle upward fade so the button sits on a clearer base */
+    linear-gradient(180deg,
+      rgba(18,18,18,0.40) 0%,
+      rgba(18,18,18,0.52) 45%,
+      rgba(18,18,18,0.64) 100%),
+    /* faint top gleam, mirrors card's inner highlight */
+    radial-gradient(120% 80% at 50% 0%, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 60%);
   box-shadow:
-          inset 0 1px 0 rgba(255,255,255,0.08),
-          0 -6px 24px rgba(0,0,0,0.28);
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    0 -6px 24px rgba(0,0,0,0.24);
   opacity: .98;
 }
 
+/* Keep footer content above the scrim plane */
 .bio-footer > *{ position: relative; z-index: 1; }
 
-/* Optional: enable a small blur in this tiny strip when the engine is fast enough */
-@supports ((-webkit-backdrop-filter: blur(2px)) or (backdrop-filter: blur(2px))) {
-  .bio-footer::before{
-    -webkit-backdrop-filter: saturate(1.05) blur(6px);
-    backdrop-filter: saturate(1.05) blur(6px);
-  }
+/* Maintain button style; optionally nudge contrast a touch */
+.bio-close-bottom{
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 96px; height: 44px; padding: 0 18px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.10);
+  color: #fff;
+  font-size: 13px; letter-spacing: .16em; text-transform: uppercase;
+  cursor: pointer;
 }
+.bio-close-bottom:hover{ background: rgba(255,255,255,0.14); }
+
