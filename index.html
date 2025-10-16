@@ -604,6 +604,7 @@
   }
 })();
 </script>
+
 <script>
 (function(){
   const overlay = document.getElementById('bio-overlay'); // reuse overlay
@@ -645,22 +646,26 @@
     playerIframe.title = 'Katariina Tamm Showreel';
     frame.appendChild(playerIframe);
   }
+
   function openShowreel(pushHash=true){
     if (overlay) overlay.style.pointerEvents = 'auto';
     // Close BIO if open
     if (bioSheet && bioSheet.classList.contains('open')){
       bioSheet.classList.remove('open');
     }
-    overlay.classList.add('open');
+    if (overlay) overlay.classList.add('open');
     showreelModal.classList.add('open');
     mountIframe();
     if (pushHash) location.hash = '#showreel';
     // focus for a11y
-    showreelClose.focus({ preventScroll: true });
+    if (showreelClose && showreelClose.focus) {
+      try { showreelClose.focus({ preventScroll: true }); } catch(_){}
+    }
   }
+
   function closeShowreel(){
     showreelModal.classList.remove('open');
-    overlay.classList.remove('open');
+    if (overlay) overlay.classList.remove('open');
     try {
       if (playerIframe && playerIframe.contentWindow) {
         playerIframe.contentWindow.postMessage(JSON.stringify({ method: 'pause' }), 'https://player.vimeo.com');
@@ -672,76 +677,99 @@
       if (frame){ frame.innerHTML = ''; }
     } catch (e) {}
     playerIframe = null;
-    if (showreelOpen) showreelOpen.focus({ preventScroll: true });
     // restore focus
-    if (showreelOpen) showreelOpen.focus({ preventScroll: true });
-    if (location.hash === '#showreel') history.replaceState(null, '', location.pathname + location.search);
+    if (showreelOpen && showreelOpen.focus) {
+      try { showreelOpen.focus({ preventScroll: true }); } catch(_){}
+    }
+    if (location.hash === '#showreel') {
+      try { history.replaceState(null, '', location.pathname + location.search); } catch(_){}
+    }
   }
 
+  // --- Helpers for "outside" detection ---
+  const pointInRect = (x, y, r) => x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
+  const getEventXY = (evt) => {
+    if (evt.changedTouches && evt.changedTouches.length) {
+      return { x: evt.changedTouches[0].clientX, y: evt.changedTouches[0].clientY };
+    } else if (evt.touches && evt.touches.length) {
+      return { x: evt.touches[0].clientX, y: evt.touches[0].clientY };
+    } else {
+      return { x: evt.clientX, y: evt.clientY };
+    }
+  };
+  const isOutsideModalFromEvent = (evt) => {
+    if (!showreelModal || !showreelModal.classList.contains('open')) return false;
+    const r = showreelModal.getBoundingClientRect();
+    const { x, y } = getEventXY(evt);
+    return !pointInRect(x, y, r);
+  };
+
+  // --- Open / Toggle ---
   if (showreelOpen){
     showreelOpen.addEventListener('click', function(e){
       e.preventDefault();
-      openShowreel(true);
+      if (showreelModal.classList.contains('open')) {
+        // Toggle: clicking SHOWREEL again closes it
+        closeShowreel();
+      } else {
+        openShowreel(true);
+      }
     });
   }
-  if (showreelClose) showreelClose.addEventListener('click', closeShowreel);
+
+  // --- Closers ---
+  // X button (click + touchend)
+  if (showreelClose){
+    showreelClose.addEventListener('click', closeShowreel);
+    showreelClose.addEventListener('touchend', function(e){ e.preventDefault(); closeShowreel(); }, { passive: false });
+  }
   if (showreelCloseBottom) showreelCloseBottom.addEventListener('click', closeShowreel);
+
+  // Overlay close: only when tapping/clicking OUTSIDE the modal.
   if (overlay) {
-    // Robust overlay close: only when tapping/clicking OUTSIDE the modal.
-  const pointInRect = (x, y, r) => x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
-  const shouldCloseFromEvent = (evt) => {
-    if (!showreelModal || !showreelModal.classList.contains('open')) return false;
-    const r = showreelModal.getBoundingClientRect();
-    let x = 0, y = 0;
-    if (evt.changedTouches && evt.changedTouches.length) {
-      x = evt.changedTouches[0].clientX; y = evt.changedTouches[0].clientY;
-    } else if (evt.touches && evt.touches.length) {
-      x = evt.touches[0].clientX; y = evt.touches[0].clientY;
-    } else {
-      x = evt.clientX; y = evt.clientY;
-    }
-    return !pointInRect(x, y, r);
-  };
-  ['pointerdown','pointerup','click','touchend'].forEach(type => {
-    overlay.addEventListener(type, function(e){
-      // If the event is within the modal bounds, ignore.
-      if (!shouldCloseFromEvent(e)) { return; }
-      // Otherwise close.
-      e.preventDefault();
-      e.stopPropagation();
+    ['pointerdown','pointerup','click','touchend'].forEach(type => {
+      overlay.addEventListener(type, function(e){
+        if (!isOutsideModalFromEvent(e)) return;
+        e.preventDefault();
+        e.stopPropagation();
+        closeShowreel();
+      }, {passive:false, capture:true});
+    });
+  }
+
+  // NEW: Global close-on-anywhere-else (icons, header, etc.) — not just links.
+  // If the showreel is open and a click/pointerdown occurs outside the modal bounds, close it.
+  ['pointerdown','click'].forEach(type => {
+    document.addEventListener(type, function(e){
+      if (!showreelModal.classList.contains('open')) return;
+      // Ignore if the event comes from inside the modal (robust check)
+      const path = (typeof e.composedPath === 'function') ? e.composedPath() : [];
+      if (path.includes(showreelModal) || showreelModal.contains(e.target)) return;
+      // Guard with geometry too (fixes Safari oddities)
+      if (!isOutsideModalFromEvent(e)) return;
+      // Close. Do not prevent default so page links still work.
       closeShowreel();
-    }, {passive:false, capture:true});
+    }, { passive: true });
   });
-  
-}
+
+  // Close with Escape
   document.addEventListener('keydown', function(e){
     if (e.key === 'Escape' && showreelModal.classList.contains('open')) closeShowreel();
   });
+
   // Deep link
   window.addEventListener('hashchange', function(){
     if (location.hash === '#showreel') openShowreel(false);
     else if (showreelModal.classList.contains('open')) closeShowreel();
   });
-  
-  // Close showreel when any other *page* link is clicked (not inside the modal)
-  document.addEventListener('click', function(e){
-    // If the click originated anywhere inside the modal (robust path check), ignore
-    if (showreelModal){
-      const path = (typeof e.composedPath === 'function') ? e.composedPath() : [];
-      if (path.includes(showreelModal) || showreelModal.contains(e.target)) return;
-    }
-    const a = e.target.closest('a');
-    if (!a) return;
-    // Ignore if clicking the showreel toggle itself (handled above)
-    if (a === showreelOpen) return;
-    if (showreelModal.classList.contains('open')) {
-      closeShowreel();
-    }
-  });
+
   // Removed visibilitychange-based auto-close to avoid unintended closes on media actions
-if (location.hash === '#showreel') openShowreel(false);
+  if (location.hash === '#showreel') openShowreel(false);
 })();
 </script>
+<!-- Dev note: If WebStorm reports "Element ul is not closed", search for any "<ul" without a matching "</ul>".
+Typical spots are the BIO lists. Ensure each <ul> wraps only <li> children and is closed before </details> or </section>. -->
+
 <!-- Dev note: If WebStorm reports "Element ul is not closed", search for any "<ul" without a matching "</ul>".
 Typical spots are the BIO lists. Ensure each <ul> wraps only <li> children and is closed before </details> or </section>. -->
 </body>
