@@ -403,6 +403,7 @@
 
 <div class="bio-overlay" id="bio-overlay" aria-hidden="true"></div>
 <div id="bio" class="bio-sheet" role="dialog" aria-modal="true" aria-labelledby="bio-title">
+  <div class="bio-glass" aria-hidden="true"></div>
   <button class="bio-close" id="bio-close" aria-label="Close bio">×</button>
   <div class="bio-content">
     <h2 id="bio-title">BIO</h2>
@@ -504,5 +505,16 @@
   // Allow native <details>/<summary> behavior (perf patch): removed custom scroll locking.
 })();
 </script>
+
+<script>
+(function(){
+  var ua = navigator.userAgent;
+  var root = document.documentElement;
+  if (/Safari\//.test(ua) && !/Chrome\//.test(ua)) { root.classList.add('ua-safari'); }
+  else if (/Firefox\//.test(ua)) { root.classList.add('ua-firefox'); }
+  else { root.classList.add('ua-chromium'); } // Chrome, Edge, Brave, etc.
+})();
+</script>
+
 </body>
 </html>
