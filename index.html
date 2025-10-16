@@ -476,7 +476,7 @@
 <a href="#bio" id="bio-open">BIO</a>
 <a href="#showreel" id="showreel-open">SHOWREEL</a>
 </nav>
-<div aria-modal="true" class="showreel-modal" id="showreel-modal" style="z-index: 10002;" role="dialog">
+<div aria-modal="true" class="showreel-modal" id="showreel-modal" role="dialog">
 <div class="showreel-card">
 <button aria-label="Close showreel" class="showreel-close" id="showreel-close">×</button>
 <div class="showreel-frame" id="showreel-frame"></div>
@@ -614,7 +614,11 @@
   const showreelClose = document.getElementById('showreel-close');
   const showreelCloseBottom = document.getElementById('showreel-close-bottom');
   const frame = document.getElementById('showreel-frame');
-  
+  if (showreelModal){
+    ['click','touchstart','pointerdown'].forEach(ev=>{
+      showreelModal.addEventListener(ev, function(e){ e.stopPropagation(); }, {passive:false, capture:true});
+    });
+  }
   let playerIframe = null;
 
   function mountIframe(){
@@ -731,8 +735,16 @@
   }
   if (showreelCloseBottom) showreelCloseBottom.addEventListener('click', closeShowreel);
 
-  // Overlay close handled by document-level listener to avoid first-tap interception.
-);
+  // Overlay close: only when tapping/clicking OUTSIDE the modal.
+  if (overlay) {
+    ['pointerdown','pointerup','click','touchend'].forEach(type => {
+      overlay.addEventListener(type, function(e){
+        if (!isOutsideModalFromEvent(e)) return;
+        e.preventDefault();
+        e.stopPropagation();
+        closeShowreel();
+      }, {passive:false, capture:true});
+    });
   }
 
   // NEW: Global close-on-anywhere-else (icons, header, etc.) — not just links.
