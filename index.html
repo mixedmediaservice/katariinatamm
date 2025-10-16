@@ -159,7 +159,7 @@
   transform: translate(-50%, -50%) scale(.96);
   width: min(920px, 92vw); max-height: 80vh;
   display: none; opacity: 0;
-   z-index: 9999; pointer-events: none;
+  z-index: 101; pointer-events: none;
   transition: opacity .25s ease, transform .25s ease;
 }
 .showreel-modal.open{ display:block; opacity:1; pointer-events:auto; transform: translate(-50%, -50%) scale(1); }
@@ -191,10 +191,6 @@
 }
 .showreel-close:focus{ outline: none; box-shadow: 0 0 0 2px rgba(255,255,255,0.2) inset; }
 /* Floating bottom Close button */
-
-/* Ensure modal and its children accept input above overlay */
-.showreel-modal, .showreel-card, .showreel-frame { pointer-events: auto; }
-
 </style>
 
 <style>
@@ -402,6 +398,19 @@
   background: rgba(255,255,255,0.10); color: #fff;
   font-size: 13px; letter-spacing: .16em; text-transform: uppercase;
 }
+
+/* Performance hints: keep BIO opening smooth without 'pop' */
+.bio-sheet{
+  will-change: transform;
+  contain: layout paint style;
+  transform: translateX(-50%) translateY(100%);
+}
+.bio-sheet.open{ transform: translateX(-50%) translateY(0); }
+.bio-overlay{ will-change: opacity; }
+@media (prefers-reduced-motion: reduce){
+  .bio-sheet{ transition: none !important; }
+  .bio-overlay{ transition: none !important; }
+}
 </style>
 </head>
 <body>
@@ -464,11 +473,16 @@
       <li>Estonian native, English fluent, Finnish advanced, Russian intermediate</li>
     </ul>
   </section>
-  <section>
-    <h3>Recognition</h3>
-    <ul>
-      <li>Estonian Annual Theatre Awards nominee, 2023, <i>Melancholia</i> directed by Juhan Ulfsak, and <i>Wear Wolf</i> directed by Peeter Jalakas</li>
-  </section>
+      <section>
+        <h3>Recognition</h3>
+        <ul>
+          <li>
+            Estonian Annual Theatre Awards nominee, 2023,
+            <i>Melancholia</i> directed by Juhan Ulfsak, and
+            <i>Wear Wolf</i> directed by Peeter Jalakas
+          </li>
+        </ul>
+      </section>
 </details>
   </div>
   <footer class="bio-footer">
@@ -516,7 +530,16 @@
 
   // Openers
   if (openBtn){ bindTap(openBtn, show); }
-  if (location.hash === '#bio'){ show(); }
+  if (location.hash === '#bio'){
+    // Open BIO without animation on initial load to avoid the 'pop-in'
+    if (sheet) sheet.style.transition = 'none';
+    if (overlay) overlay.style.transition = 'none';
+    show();
+    requestAnimationFrame(()=>{
+      if (sheet) sheet.style.transition = '';
+      if (overlay) overlay.style.transition = '';
+    });
+  }
 
   // Closers
   bindTap(closeBtn, hide);
@@ -546,8 +569,6 @@
   const showreelCloseBottom = document.getElementById('showreel-close-bottom');
   const frame = document.getElementById('showreel-frame');
   if (showreelModal) showreelModal.addEventListener('click', function(e){ e.stopPropagation(); });
-  const card = showreelModal.querySelector('.showreel-card');
-  if (card) card.addEventListener('click', function(e){ e.stopPropagation(); });
   let playerIframe = null;
 
   function mountIframe(){
@@ -576,8 +597,6 @@
     }
     overlay.classList.add('open');
     showreelModal.classList.add('open');
-    overlay.style.pointerEvents = 'auto';
-    showreelModal.style.pointerEvents = 'auto';
     mountIframe();
     if (pushHash) location.hash = '#showreel';
     // focus for a11y
@@ -586,8 +605,6 @@
   function closeShowreel(){
     showreelModal.classList.remove('open');
     overlay.classList.remove('open');
-    overlay.style.pointerEvents = '';
-    showreelModal.style.pointerEvents = '';
     unmountIframe();
     // restore focus
     if (showreelOpen) showreelOpen.focus({ preventScroll: true });
@@ -602,8 +619,7 @@
   }
   if (showreelClose) showreelClose.addEventListener('click', closeShowreel);
   if (showreelCloseBottom) showreelCloseBottom.addEventListener('click', closeShowreel);
-  if (overlay) overlay.addEventListener('mousedown', function(e){
-    // Close only when clicking directly on the overlay, never on modal
+  if (overlay) overlay.addEventListener('click', function(e){
     if (e.target === overlay && showreelModal.classList.contains('open')) closeShowreel();
   });
   document.addEventListener('keydown', function(e){
