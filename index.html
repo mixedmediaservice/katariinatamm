@@ -731,16 +731,8 @@
   }
   if (showreelCloseBottom) showreelCloseBottom.addEventListener('click', closeShowreel);
 
-  // Overlay close: only when tapping/clicking OUTSIDE the modal.
-  if (overlay) {
-    ['pointerdown','pointerup','click','touchend'].forEach(type => {
-      overlay.addEventListener(type, function(e){
-        if (!isOutsideModalFromEvent(e)) return;
-        e.preventDefault();
-        e.stopPropagation();
-        closeShowreel();
-      }, {passive:false, capture:true});
-    });
+  // Overlay close handled by document-level listener to avoid first-tap interception.
+);
   }
 
   // NEW: Global close-on-anywhere-else (icons, header, etc.) — not just links.
