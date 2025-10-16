@@ -151,26 +151,6 @@
 
 <style>
 /* === BIO bottom sheet & overlay (non-destructive) === */
-
-<style>
-/* Showreel player */
-.showreel-frame{
-  position: relative;
-  width: 100%;
-  max-width: min(920px, 92vw);
-  margin: 0 auto;
-  /* 16:9 */
-  padding-top: 56.25%;
-  background: #000;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.18);
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
-}
-.showreel-frame > iframe{
-  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-  display: block;
-}
-</style>
 .bio-overlay{
   position: fixed; inset: 0; background: rgba(0,0,0,0.35);
   backdrop-filter: none; opacity: 0; pointer-events: none; transition: opacity .3s ease; z-index: 90;
@@ -375,6 +355,42 @@
   font-size: 13px; letter-spacing: .16em; text-transform: uppercase;
 }
 </style>
+
+<style>
+/* === SHOWREEL modal (centered glass card) === */
+.showreel-modal{
+  position: fixed; inset: 0;
+  display: none; opacity: 0; pointer-events: none;
+  z-index: 91;
+  /* center card container */
+  display: grid; place-items: center;
+}
+.showreel-modal.open{ display: grid; opacity: 1; pointer-events: auto; }
+.showreel-content{
+  position: relative;
+  width: min(920px, 92vw);
+  max-height: 80vh;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+  overflow: hidden;
+  background: rgba(20,20,20,0.92);
+}
+.showreel-content h3{
+  margin: .9rem 1.25rem 0.5rem; padding: 0;
+  font-weight: 300; letter-spacing: .06em; color: #fff;
+}
+.showreel-player-outer{ padding: 0 1.25rem 1rem; }
+.showreel-player{
+  position: relative; width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000; border-radius: 10px;
+  border: 1px solid rgba(125,200,255,0.45);
+  overflow: hidden;
+}
+/* Reuse existing overlay styling via .bio-overlay */
+.sr-only{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+</style>
 </head>
 <body>
   <div class="container">
@@ -438,21 +454,6 @@
   <footer class="bio-footer">
     <button class="bio-close-bottom" id="bio-close-bottom" aria-label="Close bio">Close</button>
   </footer>
-
-<div class="bio-overlay" id="showreel-overlay" aria-hidden="true"></div>
-<div id="showreel" class="bio-sheet" role="dialog" aria-modal="true" aria-labelledby="showreel-title">
-  <button class="bio-close" id="showreel-close" aria-label="Close showreel">×</button>
-  <div class="bio-content">
-    <h2 id="showreel-title">SHOWREEL</h2>
-    <div class="showreel-frame" id="showreel-player" aria-label="Video player">
-      <!-- The iframe will be injected on open -->
-    </div>
-  </div>
-  <footer class="bio-footer">
-    <button class="bio-close-bottom" id="showreel-close-bottom" aria-label="Close showreel">Close</button>
-  </footer>
-</div>
-
 </div>
 
 
@@ -515,83 +516,113 @@
 })();
 </script>
 
-<script src="https://player.vimeo.com/api/player.js"></script>
+<!-- SHOWREEL overlay and modal -->
+<div class="bio-overlay" id="showreel-overlay" aria-hidden="true"></div>
+<div id="showreel" class="showreel-modal" role="dialog" aria-modal="true" aria-labelledby="showreel-title" aria-describedby="showreel-desc">
+  <button class="bio-close" id="showreel-close" aria-label="Close showreel">×</button>
+  <div class="showreel-content">
+    <h3 id="showreel-title">SHOWREEL</h3>
+    <div id="showreel-desc" class="sr-only">Embedded Vimeo showreel video player.</div>
+    <div class="showreel-player-outer">
+      <div class="showreel-player" id="showreel-player" aria-label="Vimeo player area"></div>
+    </div>
+    <div class="bio-footer">
+      <button class="bio-close-bottom" id="showreel-close-bottom" aria-label="Close">×</button>
+    </div>
+  </div>
+</div>
+
 <script>
 (function(){
-  const sheet   = document.getElementById('showreel');
-  const overlay = document.getElementById('showreel-overlay');
+  const bioSheet = document.getElementById('bio');
+  const bioOverlay = document.getElementById('bio-overlay');
+  const bioClose = document.getElementById('bio-close');
+  const bioCloseBottom = document.getElementById('bio-close-bottom');
+
   const openBtn = document.getElementById('showreel-open');
-  const closeTop = document.getElementById('showreel-close');
+  const sheet = document.getElementById('showreel');
+  const overlay = document.getElementById('showreel-overlay');
+  const closeBtn = document.getElementById('showreel-close');
   const closeBottom = document.getElementById('showreel-close-bottom');
-  const mount = document.getElementById('showreel-player');
-  let mounted = false;
-  let player = null;
+  const playerMount = document.getElementById('showreel-player');
 
-  function mountPlayer(){
-    if (mounted || !mount) return;
-    const wrapper = document.createElement('div');
-    wrapper.style.position = 'relative';
-    wrapper.style.width = '100%';
-    wrapper.style.height = '100%';
-    wrapper.style.position = 'absolute';
-    wrapper.style.top = '0'; wrapper.style.left = '0';
-    // build iframe
-    const iframe = document.createElement('iframe');
-    iframe.src = 'https://player.vimeo.com/video/1127883519?autoplay=1&muted=1&dnt=1&title=0&byline=0&portrait=0&app_id=58479';
-    iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share');
-    iframe.setAttribute('allowfullscreen', '');
-    iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
-    iframe.style.position = 'absolute';
-    iframe.style.top = '0'; iframe.style.left = '0';
-    iframe.style.width = '100%'; iframe.style.height = '100%';
-    wrapper.appendChild(iframe);
-    mount.appendChild(wrapper);
-    mounted = true;
-    try { player = new Vimeo.Player(iframe); } catch(e){ /* optional */ }
-  }
+  let lastFocus = null;
+  let playerIframe = null;
 
-  function unmountPlayer(){
-    if (!mounted) return;
-    mount.innerHTML = '';
-    mounted = false;
-    player = null;
-  }
-
-  function open(){
-    // close BIO if open
-    const bioSheet = document.getElementById('bio');
-    const bioOverlay = document.getElementById('bio-overlay');
-    if (bioSheet && bioSheet.classList.contains('open')){
+  function isOpen(el){ return el && el.classList.contains('open'); }
+  function openSheet(){
+    // Close BIO if open
+    if (bioSheet && bioSheet.classList && bioSheet.classList.contains('open')) {
       bioSheet.classList.remove('open');
-      bioOverlay && bioOverlay.classList.remove('open');
+      if (bioOverlay) { bioOverlay.style.opacity = '0'; bioOverlay.style.pointerEvents = 'none'; }
+      history.replaceState(null, '', '#');
     }
-    sheet.classList.add('open'); overlay.classList.add('open');
+    // Overlay
+    overlay.style.opacity = '1';
+    overlay.style.pointerEvents = 'auto';
+    // Open
+    sheet.classList.add('open');
     document.body.style.overflow = 'hidden';
-    mountPlayer();
-    // Focus management
-    setTimeout(()=>closeTop.focus(), 0);
+    // Focus trap
+    lastFocus = document.activeElement;
+    closeBtn.focus();
+    // Lazy mount iframe
+    if (!playerIframe){
+      const url = 'https://player.vimeo.com/video/1127883519?autoplay=1&muted=1&dnt=1&title=0&byline=0&portrait=0&playsinline=1';
+      playerIframe = document.createElement('iframe');
+      playerIframe.src = url;
+      playerIframe.setAttribute('title','Katariina Tamm Showreel');
+      playerIframe.setAttribute('allow','autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share');
+      playerIframe.setAttribute('allowfullscreen','');
+      playerIframe.style.position='absolute';
+      playerIframe.style.inset='0';
+      playerIframe.style.width='100%';
+      playerIframe.style.height='100%';
+      // wrapper for absolute fill
+      const wrapper = document.createElement('div');
+      wrapper.style.position='relative'; wrapper.style.width='100%'; wrapper.style.height='100%';
+      wrapper.appendChild(playerIframe);
+      playerMount.innerHTML='';
+      playerMount.appendChild(wrapper);
+    }
+    // hash
+    if (location.hash !== '#showreel'){ history.pushState(null,'','#showreel'); }
   }
-  function close(){
-    sheet.classList.remove('open'); overlay.classList.remove('open');
+  function closeSheet(){
+    sheet.classList.remove('open');
+    overlay.style.opacity = '0';
+    overlay.style.pointerEvents = 'none';
     document.body.style.overflow = '';
-    unmountPlayer();
-    openBtn && openBtn.focus();
-    if (location.hash === '#showreel'){ history.replaceState(null,'',location.pathname + location.search); }
+    // destroy iframe
+    if (playerMount){ playerMount.innerHTML=''; playerIframe=null; }
+    // hash
+    if (location.hash === '#showreel'){ history.replaceState(null,'','#'); }
+    // restore focus
+    if (lastFocus) { lastFocus.focus(); }
+  }
+  function bindTap(el, fn){ if (!el) return;
+    el.addEventListener('click', fn);
+    el.addEventListener('touchend', function(e){ e.preventDefault(); fn(); }, {passive:false});
   }
 
-  openBtn && openBtn.addEventListener('click', (e)=>{ e.preventDefault(); location.hash = 'showreel'; });
-  overlay && overlay.addEventListener('click', close);
-  closeTop && closeTop.addEventListener('click', close);
-  closeBottom && closeBottom.addEventListener('click', close);
-  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape' && sheet.classList.contains('open')) close(); });
+  bindTap(openBtn, openSheet);
+  bindTap(closeBtn, closeSheet);
+  bindTap(closeBottom, closeSheet);
+  bindTap(overlay, closeSheet);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && isOpen(sheet)) closeSheet(); });
 
-  function onHash(){
-    if (location.hash === '#showreel'){ open(); }
-    else if (sheet.classList.contains('open')){ close(); }
-  }
-  window.addEventListener('hashchange', onHash);
-  onHash();
+  // hash open
+  if (location.hash === '#showreel'){ openSheet(); }
+
+  // Keep mutual exclusivity when BIO opens later
+  document.addEventListener('click', function(e){
+    if (e.target && e.target.id === 'bio-open'){
+      if (isOpen(sheet)) closeSheet();
+    }
+  });
 })();
 </script>
+<script src="https://player.vimeo.com/api/player.js"></script>
+
 </body>
 </html>
