@@ -446,7 +446,7 @@
   background: rgba(0,0,0,0.35) !important;
   box-shadow: none !important;
 }
-</style></head>
+</style><style>.showreel-frame iframe{display:block;width:100%;height:100%;pointer-events:auto;}</style></head>
 <body>
 <div class="container">
 <h1>KATARIINA TAMM</h1>
@@ -527,6 +527,7 @@
   const summary = details ? details.querySelector('summary') : null;
 
   function show(){
+    if (overlay) overlay.style.pointerEvents = 'auto';
     if (details) details.open = false; // always start with top fold only
     if (sheet && overlay){
       sheet.classList.add('open');
@@ -536,6 +537,7 @@
   }
 
   function hide(){
+    if (overlay) overlay.style.pointerEvents = '';
     if (sheet && overlay){
       sheet.classList.remove('open');
       overlay.classList.remove('open');
@@ -614,6 +616,7 @@
     }
   }
   function openShowreel(pushHash=true){
+    if (overlay) overlay.style.pointerEvents = 'none';
     // Close BIO if open
     if (bioSheet && bioSheet.classList.contains('open')){
       bioSheet.classList.remove('open');
@@ -626,6 +629,7 @@
     showreelClose.focus({ preventScroll: true });
   }
   function closeShowreel(){
+    if (overlay) overlay.style.pointerEvents = '';
     showreelModal.classList.remove('open');
     overlay.classList.remove('open');
     unmountIframe();
