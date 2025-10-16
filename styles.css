@@ -313,3 +313,14 @@ html, body{
   .bio-sheet, .bio-sheet *{ animation: none !important; transition: none !important; }
 }
 /* === End Readability Patch === */
+
+
+/* === Center "More" toggle and ensure tap priority (2025-10-16) === */
+.bio-details summary{
+  display: block;
+  width: max-content;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+.bio-close{ pointer-events: auto; z-index: 5; }
