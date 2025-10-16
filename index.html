@@ -642,7 +642,7 @@
     frame.appendChild(playerIframe);
   }
   function openShowreel(pushHash=true){
-    if (overlay) overlay.style.pointerEvents = 'none';
+    if (overlay) overlay.style.pointerEvents = 'auto';
     // Close BIO if open
     if (bioSheet && bioSheet.classList.contains('open')){
       bioSheet.classList.remove('open');
@@ -682,9 +682,17 @@
   }
   if (showreelClose) showreelClose.addEventListener('click', closeShowreel);
   if (showreelCloseBottom) showreelCloseBottom.addEventListener('click', closeShowreel);
-  if (overlay) overlay.addEventListener('click', function(e){
+  if (overlay) {
+  overlay.addEventListener('click', function(e){
     if (e.target === overlay && showreelModal.classList.contains('open')) closeShowreel();
   });
+  overlay.addEventListener('touchend', function(e){
+    if (e.target === overlay && showreelModal.classList.contains('open')) {
+      e.preventDefault();
+      closeShowreel();
+    }
+  }, {passive:false});
+}
   document.addEventListener('keydown', function(e){
     if (e.key === 'Escape' && showreelModal.classList.contains('open')) closeShowreel();
   });
