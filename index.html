@@ -153,12 +153,12 @@
 /* === BIO bottom sheet & overlay (non-destructive) === */
 .bio-overlay{
   position: fixed; inset: 0; background: rgba(0,0,0,0.35);
-  backdrop-filter: blur(2px); opacity: 0; pointer-events: none; transition: opacity .3s ease; z-index: 90;
+  backdrop-filter: none; opacity: 0; pointer-events: none; transition: opacity .3s ease; z-index: 90;
 }
 .bio-sheet{
   position: fixed; left: 50%; transform: translateX(-50%) translateY(100%);
   bottom: 0; width: min(860px, 92vw); max-height: 80vh; overflow: auto;
-  background: rgba(20,20,20,0.55); backdrop-filter: blur(12px);
+  background: rgba(20,20,20,0.55); backdrop-filter: none;
   border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 20px 60px rgba(0,0,0,0.45);
   border-radius: 18px 18px 0 0; padding: 1.25rem 1.25rem 1.5rem; color: #f5f5f5; z-index: 99;
   transition: transform .38s cubic-bezier(.2,.8,.2,1);
@@ -278,7 +278,7 @@
 .bio-content{ padding-bottom: .75rem; }
 .bio-footer{
   position: sticky; bottom: 0; left: 0; right: 0;
-  backdrop-filter: blur(10px);
+  backdrop-filter: none;
   background: linear-gradient(to top, rgba(20,20,20,0.65), rgba(20,20,20,0));
   padding: .75rem 0 1.1rem;
   display: flex; justify-content: center;
@@ -355,40 +355,6 @@
   font-size: 13px; letter-spacing: .16em; text-transform: uppercase;
 }
 </style>
-<style id="perf-patch">
-/* === Performance patch (overlay-only blur, no sticky-in-scroller) === */
-.bio-sheet { backdrop-filter: none !important; will-change: transform; }
-.bio-overlay { will-change: opacity; }
-/* Remove sticky inside the scrollable sheet to avoid slow compositing paths */
-.bio-close, .bio-close-bottom, .bio-footer { position: static !important; top: auto !important; bottom: auto !important; }
-</style>
-<style id="ultra-perf">
-/* === Ultra perf helpers (CSS-only, no visual overhaul) === */
-.bio-overlay { 
-  -webkit-backdrop-filter: blur(12px);
-  transform: translateZ(0);
-}
-.bio-sheet {
-  /* compositor hint only */ will-change: transform;
-  backface-visibility: hidden;
-  contain: paint;                /* limit paint scope */
-  scrollbar-gutter: stable;
-  overscroll-behavior: contain;
-}
-/* Virtualize heavy inner content so it doesn't lay out/paint until scrolled into view */
-.bio-sheet .bio-body, 
-.bio-sheet .bio-content, 
-.bio-sheet main, 
-.bio-sheet section {
-  content-visibility: auto;
-  contain-intrinsic-size: 800px 1200px; /* good guess for initial size to prevent jumps */
-}
-
-/* Keep shadows lightweight to reduce overdraw during scroll */
-.bio-sheet {
-  box-shadow: 0 6px 24px rgba(0,0,0,.18);
-}
-</style>
 </head>
 <body>
   <div class="container">
@@ -403,7 +369,6 @@
 
 <div class="bio-overlay" id="bio-overlay" aria-hidden="true"></div>
 <div id="bio" class="bio-sheet" role="dialog" aria-modal="true" aria-labelledby="bio-title">
-  <div class="bio-glass" aria-hidden="true"></div>
   <button class="bio-close" id="bio-close" aria-label="Close bio">×</button>
   <div class="bio-content">
     <h2 id="bio-title">BIO</h2>
@@ -502,19 +467,16 @@
   bindTap(overlay, hide);
   document.addEventListener('keydown', e => { if (e.key === 'Escape') hide(); });
 
-  // Allow native <details>/<summary> behavior (perf patch): removed custom scroll locking.
+  // Keep sheet scroll position stable when toggling details
+  if (summary && details){
+    summary.addEventListener('click', function(e){
+      e.preventDefault();
+      const y = sheet ? sheet.scrollTop : window.scrollY;
+      details.open = !details.open;
+      if (sheet){ sheet.scrollTop = y; } else { window.scrollTo(0, y); }
+    });
+  }
 })();
 </script>
-
-<script>
-(function(){
-  var ua = navigator.userAgent;
-  var root = document.documentElement;
-  if (/Safari\//.test(ua) && !/Chrome\//.test(ua)) { root.classList.add('ua-safari'); }
-  else if (/Firefox\//.test(ua)) { root.classList.add('ua-firefox'); }
-  else { root.classList.add('ua-chromium'); } // Chrome, Edge, Brave, etc.
-})();
-</script>
-
 </body>
 </html>
