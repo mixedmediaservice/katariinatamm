@@ -453,6 +453,19 @@
   right: auto !important;
   z-index: 3 !important;
 }
+</style><style>
+/* === SHOWREEL: close button on RIGHT (like BIO) === */
+.showreel-close{
+  right: 8px !important;
+  left: auto !important;
+  z-index: 3 !important;
+}
+
+/* === BIO: make X the same size as the video X, keep it in the same spot (top-right) === */
+.bio-close{
+  font-size: 18px !important;   /* match .showreel-close font size */
+  line-height: 1 !important;
+}
 </style></head>
 <body>
 <div class="container">
@@ -605,7 +618,18 @@
 
   function mountIframe(){
     if (playerIframe) return;
-    const url = 'https://player.vimeo.com/video/1127883519?autoplay=1&muted=1&dnt=1&title=0&byline=0&portrait=0&playsinline=1';
+    // Detect touch / mobile (no hover or coarse pointer)
+    const isTouch = (('ontouchstart' in window) || window.matchMedia('(hover: none)').matches || window.matchMedia('(pointer: coarse)').matches);
+    const params = new URLSearchParams({
+      autoplay: isTouch ? '0' : '1',
+      muted: isTouch ? '0' : '1',
+      dnt: '1',
+      title: '0',
+      byline: '0',
+      portrait: '0',
+      playsinline: '1'
+    });
+    const url = 'https://player.vimeo.com/video/1127883519?' + params.toString();
     playerIframe = document.createElement('iframe');
     playerIframe.setAttribute('src', url);
     playerIframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share');
@@ -615,12 +639,6 @@
     playerIframe.style.height = '100%';
     playerIframe.title = 'Katariina Tamm Showreel';
     frame.appendChild(playerIframe);
-  }
-  function unmountIframe(){
-    if (playerIframe){
-      playerIframe.remove();
-      playerIframe = null;
-    }
   }
   function openShowreel(pushHash=true){
     if (overlay) overlay.style.pointerEvents = 'none';
