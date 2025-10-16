@@ -189,17 +189,8 @@
   color: #fff; font-size: 18px; line-height: 34px; text-align: center;
   cursor: pointer;
 }
-.showreel-close:focus{ outline:none; }
+.showreel-close:focus{ outline: none; box-shadow: 0 0 0 2px rgba(255,255,255,0.2) inset; }
 /* Floating bottom Close button */
-.showreel-close-bottom{
-  position: absolute; left:50%; bottom: .9rem; transform: translateX(-50%);
-  padding: .65rem 1.2rem; border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.14);
-  background: rgba(24,24,24,0.65);
-  color: #fff; font-size: 1rem; letter-spacing: .12em; text-transform: uppercase;
-  cursor: pointer;
-}
-.showreel-close-bottom:focus{ outline:none; }
 </style>
 
 <style>
@@ -424,7 +415,7 @@
   <div class="showreel-card">
     <button class="showreel-close" id="showreel-close" aria-label="Close showreel">×</button>
     <div class="showreel-frame" id="showreel-frame"></div>
-    <button class="showreel-close-bottom" id="showreel-close-bottom" aria-label="Close">Close</button>
+    
   </div>
 </div>
 </div>
@@ -550,11 +541,12 @@
   const showreelClose = document.getElementById('showreel-close');
   const showreelCloseBottom = document.getElementById('showreel-close-bottom');
   const frame = document.getElementById('showreel-frame');
+  if (showreelModal) showreelModal.addEventListener('click', function(e){ e.stopPropagation(); });
   let playerIframe = null;
 
   function mountIframe(){
     if (playerIframe) return;
-    const url = 'https://player.vimeo.com/video/1127883519?autoplay=1&muted=1&dnt=1&title=0&byline=0&portrait=0&playsinline=1';
+    const url = 'https://player.vimeo.com/video/1127883519?autoplay=1&muted=1&dnt=1&title=0&byline=0&portrait=0&playsinline=1#t=3s';
     playerIframe = document.createElement('iframe');
     playerIframe.setAttribute('src', url);
     playerIframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share');
@@ -600,8 +592,8 @@
   }
   if (showreelClose) showreelClose.addEventListener('click', closeShowreel);
   if (showreelCloseBottom) showreelCloseBottom.addEventListener('click', closeShowreel);
-  if (overlay) overlay.addEventListener('click', function(){
-    if (showreelModal.classList.contains('open')) closeShowreel();
+  if (overlay) overlay.addEventListener('click', function(e){
+    if (e.target === overlay && showreelModal.classList.contains('open')) closeShowreel();
   });
   document.addEventListener('keydown', function(e){
     if (e.key === 'Escape' && showreelModal.classList.contains('open')) closeShowreel();
@@ -614,6 +606,10 @@
   if (location.hash === '#showreel') openShowreel(false);
 })();
 </script>
+
+
+<!-- Dev note: If WebStorm reports "Element ul is not closed", search for any "<ul" without a matching "</ul>".
+Typical spots are the BIO lists. Ensure each <ul> wraps only <li> children and is closed before </details> or </section>. -->
 
 </body>
 </html>
