@@ -613,7 +613,11 @@
   const showreelClose = document.getElementById('showreel-close');
   const showreelCloseBottom = document.getElementById('showreel-close-bottom');
   const frame = document.getElementById('showreel-frame');
-  if (showreelModal) showreelModal.addEventListener('click', function(e){ e.stopPropagation(); });
+  if (showreelModal){
+    ['click','touchstart','pointerdown'].forEach(ev=>{
+      showreelModal.addEventListener(ev, function(e){ e.stopPropagation(); }, {passive:false, capture:true});
+    });
+  }
   let playerIframe = null;
 
   function mountIframe(){
@@ -702,8 +706,10 @@
     else if (showreelModal.classList.contains('open')) closeShowreel();
   });
   
-  // Close showreel when any other link is clicked
+  // Close showreel when any other *page* link is clicked (not inside the modal)
   document.addEventListener('click', function(e){
+    // If the click originated anywhere inside the modal, ignore
+    if (showreelModal && showreelModal.contains(e.target)) return;
     const a = e.target.closest('a');
     if (!a) return;
     // Ignore if clicking the showreel toggle itself (handled above)
@@ -712,15 +718,8 @@
       closeShowreel();
     }
   });
-    
-  
-  document.addEventListener('visibilitychange', function(){
-    if (document.hidden && showreelModal.classList.contains('open')) {
-      closeShowreel();
-    }
-  });
-    
-  if (location.hash === '#showreel') openShowreel(false);
+  // Removed visibilitychange-based auto-close to avoid unintended closes on media actions
+if (location.hash === '#showreel') openShowreel(false);
 })();
 </script>
 <!-- Dev note: If WebStorm reports "Element ul is not closed", search for any "<ul" without a matching "</ul>".
