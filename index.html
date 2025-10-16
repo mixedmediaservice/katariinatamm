@@ -446,7 +446,14 @@
   background: rgba(0,0,0,0.35) !important;
   box-shadow: none !important;
 }
-</style><style>.showreel-frame iframe{display:block;width:100%;height:100%;pointer-events:auto;}</style></head>
+</style><style>.showreel-frame iframe{display:block;width:100%;height:100%;pointer-events:auto;}</style><style>
+/* === SHOWREEL: put the × back on the LEFT and ensure it sits above the video === */
+.showreel-close{
+  left: 8px !important;
+  right: auto !important;
+  z-index: 3 !important;
+}
+</style></head>
 <body>
 <div class="container">
 <h1>KATARIINA TAMM</h1>
@@ -657,6 +664,18 @@
     if (location.hash === '#showreel') openShowreel(false);
     else if (showreelModal.classList.contains('open')) closeShowreel();
   });
+  
+  // Close showreel when any other link is clicked
+  document.addEventListener('click', function(e){
+    const a = e.target.closest('a');
+    if (!a) return;
+    // Ignore if clicking the showreel toggle itself (handled above)
+    if (a === showreelOpen) return;
+    if (showreelModal.classList.contains('open')) {
+      closeShowreel();
+    }
+  });
+    
   if (location.hash === '#showreel') openShowreel(false);
 })();
 </script>
