@@ -324,3 +324,17 @@ html, body{
   text-align: center;
 }
 .bio-close{ pointer-events: auto; z-index: 5; }
+
+
+/* === Performance optimization patch (2025-10-16) ===
+   Move blur from moving .bio-sheet to static .bio-overlay and promote compositor layers.
+   Visual appearance remains the same; animation becomes GPU-cheap.
+*/
+.bio-sheet{
+  backdrop-filter: none !important;
+  will-change: transform;
+}
+.bio-overlay{
+  backdrop-filter: blur(12px) !important;
+  will-change: opacity;
+}
