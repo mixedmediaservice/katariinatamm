@@ -275,3 +275,41 @@ html, body{
 .bio-overlay, .bio-sheet{ display: none; }
 .bio-overlay.open, .bio-sheet.open{ display: block; }
 
+/* === Readability Patch (2025-10-16) === */
+.bio-lines{
+  font-size: clamp(18px, 1.6vw, 19px);
+  line-height: 1.65;
+  font-weight: 400;
+  max-width: 56ch;
+  margin: 0 auto 0.5rem;
+  text-align: center;
+}
+.bio-lines span{ display:block; margin: 0.15rem 0; }
+
+@media (min-width: 700px){
+  .bio-lines span{ white-space: nowrap; }           /* lock each item to one line on desktop */
+}
+@media (max-width: 699px){
+  .bio-lines span{ white-space: normal; text-wrap: balance; }  /* tidy wrapping on small screens */
+}
+
+/* Slightly stronger glass for better text contrast */
+.bio-sheet{
+  backdrop-filter: blur(14px);
+  background-color: rgba(0,0,0,0.40); /* layered under existing gradient/glass */
+}
+
+/* Keep BIO heading as-is (all caps); just tighten tracking a hair */
+#bio-title{
+  letter-spacing: .06em;
+}
+
+/* Ensure tap targets meet 44px minimums */
+.bio-close{ padding: 8px 12px; min-height: 44px; }
+.bio-details summary{ padding: 10px 12px; min-height: 44px; display:inline-block; }
+
+/* Respect reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce){
+  .bio-sheet, .bio-sheet *{ animation: none !important; transition: none !important; }
+}
+/* === End Readability Patch === */
