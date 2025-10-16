@@ -521,6 +521,56 @@
   transform: translate(50%, -50%) !important;
   z-index: 3 !important;
 }
+</style><style>
+/* === FIX: center video, restore × visibility, no left shift === */
+.showreel-modal{
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  inset: 0 !important;
+}
+
+.showreel-card{
+  position: relative !important;         /* anchor for the close button */
+  display: inline-block !important;      /* shrink-wrap to video size */
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.showreel-frame{
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+
+/* Place the × just outside the video's top-right, relative to the CARD so it isn't clipped */
+.showreel-close{
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  transform: translate(50%, -50%) !important;
+  z-index: 5 !important;
+  background: rgba(0,0,0,0.35) !important;
+  border: 0 !important;
+  width: 36px !important;
+  height: 36px !important;
+  line-height: 34px !important;
+  text-align: center !important;
+  border-radius: 999px !important;
+}
+</style><style>
+/* === SHOWREEL: nudge the × a bit looser from the corner === */
+.showreel-close{
+  transform: translate(70%, -70%) !important;
+}
+@media (max-width: 420px){
+  /* Keep it from clipping on very small screens */
+  .showreel-close{ transform: translate(60%, -60%) !important; }
+}
 </style></head>
 <body>
 <div class="container">
