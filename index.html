@@ -152,7 +152,7 @@
   transform: translate(-50%, -50%) scale(.96);
   width: min(920px, 92vw); max-height: 80vh;
   display: none; opacity: 0;
-  z-index: 101; pointer-events: none;
+  z-index: 1001; pointer-events: none;
   transition: opacity .25s ease, transform .25s ease;
 }
 .showreel-modal.open{ display:block; opacity:1; pointer-events:auto; transform: translate(-50%, -50%) scale(1); }
@@ -687,15 +687,32 @@
   if (showreelClose) showreelClose.addEventListener('click', closeShowreel);
   if (showreelCloseBottom) showreelCloseBottom.addEventListener('click', closeShowreel);
   if (overlay) {
-  overlay.addEventListener('click', function(e){
-    if (e.target === overlay && showreelModal.classList.contains('open')) closeShowreel();
-  });
-  overlay.addEventListener('touchend', function(e){
-    if (e.target === overlay && showreelModal.classList.contains('open')) {
-      e.preventDefault();
-      closeShowreel();
+    // Robust overlay close: only when tapping/clicking OUTSIDE the modal.
+  const pointInRect = (x, y, r) => x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
+  const shouldCloseFromEvent = (evt) => {
+    if (!showreelModal || !showreelModal.classList.contains('open')) return false;
+    const r = showreelModal.getBoundingClientRect();
+    let x = 0, y = 0;
+    if (evt.changedTouches && evt.changedTouches.length) {
+      x = evt.changedTouches[0].clientX; y = evt.changedTouches[0].clientY;
+    } else if (evt.touches && evt.touches.length) {
+      x = evt.touches[0].clientX; y = evt.touches[0].clientY;
+    } else {
+      x = evt.clientX; y = evt.clientY;
     }
-  }, {passive:false});
+    return !pointInRect(x, y, r);
+  };
+  ['pointerdown','pointerup','click','touchend'].forEach(type => {
+    overlay.addEventListener(type, function(e){
+      // If the event is within the modal bounds, ignore.
+      if (!shouldCloseFromEvent(e)) { return; }
+      // Otherwise close.
+      e.preventDefault();
+      e.stopPropagation();
+      closeShowreel();
+    }, {passive:false, capture:true});
+  });
+  
 }
   document.addEventListener('keydown', function(e){
     if (e.key === 'Escape' && showreelModal.classList.contains('open')) closeShowreel();
@@ -708,8 +725,11 @@
   
   // Close showreel when any other *page* link is clicked (not inside the modal)
   document.addEventListener('click', function(e){
-    // If the click originated anywhere inside the modal, ignore
-    if (showreelModal && showreelModal.contains(e.target)) return;
+    // If the click originated anywhere inside the modal (robust path check), ignore
+    if (showreelModal){
+      const path = (typeof e.composedPath === 'function') ? e.composedPath() : [];
+      if (path.includes(showreelModal) || showreelModal.contains(e.target)) return;
+    }
     const a = e.target.closest('a');
     if (!a) return;
     // Ignore if clicking the showreel toggle itself (handled above)
