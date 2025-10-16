@@ -258,3 +258,18 @@
     transition: none !important;
   }
 }
+
+
+/* Dedicated backdrop for showreel modal (decoupled from BIO overlay) */
+.showreel-backdrop{
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.35);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease;
+  z-index: 100; /* below .showreel-modal (e.g., 101), above page */
+}
+.showreel-backdrop.open{
+  opacity: 1;
+  pointer-events: auto;
+}
