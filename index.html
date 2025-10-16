@@ -124,8 +124,7 @@
       left: 0; right: 0;
       z-index: 100;
     }
-    .bottom-nav a,
-    .bottom-nav button {
+    .bottom-nav a {
       color: #f8f8f8 !important;
       text-decoration: none;
       font-weight: 100;
@@ -135,15 +134,10 @@
       text-shadow: 0 0 10px rgba(0,0,0,0.8);
       position: relative;
       display: inline-block;
-      background: none;
-      border: 0;
-      padding: 0;
-      cursor: pointer;
-      font-family: inherit;
     }
-    .bottom-nav a:hover, .bottom-nav button:hover { transform: scale(1.05); }
-    .bottom-nav a:active, .bottom-nav button:active { transform: scale(0.95); transition: transform 0.1s ease; }
-    .bottom-nav a:active::after, .bottom-nav button:active::after {
+    .bottom-nav a:hover { transform: scale(1.05); }
+    .bottom-nav a:active { transform: scale(0.95); transition: transform 0.1s ease; }
+    .bottom-nav a:active::after {
       content: '';
       position: absolute;
       top: 50%; left: 50%;
@@ -155,43 +149,212 @@
     @keyframes ripple { to { width: 100px; height: 100px; opacity: 0; } }
   </style>
 
-  <!-- BIO styles that were previously inline remain, but we ensure no 'display' is set on .bio-sheet here.
-       Display is controlled in styles.css via .bio-sheet (display:none) and .bio-sheet.open (display:block/flex). -->
-  <style>
-  .bio-overlay{
-    position: fixed; inset: 0; background: rgba(0,0,0,0.35);
-    backdrop-filter: blur(2px); opacity: 0; pointer-events: none; transition: opacity .3s ease; z-index: 90;
-  }
+<style>
+/* === BIO bottom sheet & overlay (non-destructive) === */
+.bio-overlay{
+  position: fixed; inset: 0; background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(2px); opacity: 0; pointer-events: none; transition: opacity .3s ease; z-index: 90;
+}
+.bio-sheet{
+  position: fixed; left: 50%; transform: translateX(-50%) translateY(100%);
+  bottom: 0; width: min(860px, 92vw); max-height: 80vh; overflow: auto;
+  background: rgba(20,20,20,0.55); backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+  border-radius: 18px 18px 0 0; padding: 1.25rem 1.25rem 1.5rem; color: #f5f5f5; z-index: 99;
+  transition: transform .38s cubic-bezier(.2,.8,.2,1);
+}
+.bio-sheet.open{ transform: translateX(-50%) translateY(0); }
+.bio-overlay.open{ opacity: 1; pointer-events: auto; }
+
+.bio-close{
+  position: sticky; top: 0; margin-left: auto; display: inline-block;
+  background: transparent; color: #fff; border: 0; font-size: 1.75rem; line-height: 1;
+  opacity: .8; cursor: pointer;
+}
+.bio-close:hover{ opacity: 1; }
+
+.bio-content{ max-width: 60ch; margin: 0 auto; }
+.bio-content h2{ font-weight: 100; letter-spacing: .2em; margin: .25rem 0 1rem; text-align:center; }
+.bio-lines{ font-weight: 200; letter-spacing: .02em; line-height: 1.6; text-align: center; }
+.bio-details summary{
+  list-style: none; cursor: pointer; margin: 1rem auto; text-align: center; font-weight: 200; letter-spacing: .15em;
+}
+.bio-details summary::-webkit-details-marker{ display:none; }
+.bio-details[open] summary{ opacity: .7; }
+.bio-details h3{ font-weight: 300; letter-spacing: .06em; margin: 1.25rem 0 .5rem; }
+.bio-details ul{ margin: 0; padding-left: 1em; }
+</style>
+
+<style>
+/* === BIO type harmonize — Option A === */
+.bio-sheet { 
+  font-family: inherit;
+  -webkit-font-smoothing: antialiased; 
+  -moz-osx-font-smoothing: grayscale;
+  font-synthesis-weight: none;
+}
+.bio-content { max-width: 58ch; }
+.bio-content h2,
+.bio-details summary { 
+  font-weight: 200; letter-spacing: .18em; text-transform: uppercase;
+}
+.bio-lines{
+  font-weight: 300; 
+  font-size: clamp(15px, 1.6vw, 17px);
+  line-height: 1.65; 
+  letter-spacing: .01em; 
+  text-align: center;
+  text-wrap: balance;
+}
+.bio-details h3{ font-weight: 300; letter-spacing: .06em; }
+.bio-details ul{ margin: .2rem 0 0; padding-left: 1.1em; }
+.bio-details li,
+.bio-details p{ font-weight: 300; line-height: 1.6; }
+</style>
+
+<style>
+/* === BIO visual tweaks: raise content and add heavier bottom gradient === */
+.bio-sheet{
+  /* darker toward bottom to mask page links */
+  background: linear-gradient(to bottom,
+    rgba(20,20,20,0.35) 0%,
+    rgba(20,20,20,0.55) 40%,
+    rgba(20,20,20,0.80) 100%);
+  padding-bottom: calc(2.25rem + 72px); /* space above bottom nav peeking through */
+}
+/* extra breathing room so "card" and "More" sit higher */
+.bio-lines{ margin-bottom: .9rem; }
+.bio-details{ padding-bottom: .3rem; }
+</style>
+
+<style>
+/* === BIO mobile parity + UX tweaks === */
+/* Heavier glass to match mobile feel, with bottom-weighted gradient */
+.bio-sheet{
+  background: linear-gradient(to bottom,
+    rgba(20,20,20,0.55) 0%,
+    rgba(20,20,20,0.78) 60%,
+    rgba(20,20,20,0.90) 100%);
+}
+@media (min-width: 900px){
   .bio-sheet{
-    position: fixed; left: 50%; transform: translateX(-50%) translateY(100%);
-    bottom: 0; width: min(860px, 92vw); max-height: 80vh; overflow: auto;
     background: linear-gradient(to bottom,
       rgba(20,20,20,0.65) 0%,
       rgba(20,20,20,0.88) 70%,
       rgba(20,20,20,0.92) 100%);
-    /* NO display property here */
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 20px 60px rgba(0,0,0,0.45);
-    border-radius: 18px 18px 0 0; padding: 1.25rem 1.25rem 0; color: #f5f5f5; z-index: 99;
-    transition: transform .38s cubic-bezier(.2,.8,.2,1);
   }
-  .bio-sheet.open{ transform: translateX(-50%) translateY(0); }
-  .bio-close{
-    position: sticky; top: 6px; margin-left: auto; display: inline-block;
-    background: rgba(0,0,0,0.15); color: #fff; border: 0; font-size: 1.75rem; line-height: 1;
-    opacity: .9; cursor: pointer; z-index: 5; border-radius: 9999px; padding: 2px 10px;
-  }
-  .bio-content{ max-width: 58ch; margin: 0 auto; position: relative; z-index: 3; padding-bottom: 140px; }
-  .bio-footer{
-    position: sticky; bottom: 0; left: 0; right: 0; z-index: 4;
-    background: rgba(20,20,20,0.98); backdrop-filter: blur(10px);
-    border-top: 1px solid rgba(255,255,255,0.10);
-    padding: .75rem 0 max(1.1rem, env(safe-area-inset-bottom));
-    display: flex; justify-content: center;
-  }
-  /* Only when open do we use flex layout for the sheet to keep footer pinned */
-  .bio-sheet.open{ display: flex; flex-direction: column; }
-  </style>
+}
+/* Keep the top X visible and above content */
+.bio-close{
+  position: sticky; top: 6px; z-index: 3;
+  padding: 2px 10px; border-radius: 9999px;
+  background: rgba(0,0,0,0.15);
+}
+.bio-close:hover{ background: rgba(0,0,0,0.22); }
+/* Bottom close button */
+.bio-close-bottom{
+  position: sticky; bottom: 6px; z-index: 3;
+  display: block; margin: 1rem auto 0; width: 44px; height: 44px;
+  border-radius: 9999px; border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.08); color: #fff;
+  font-size: 22px; line-height: 42px; text-align: center;
+  cursor: pointer;
+}
+.bio-close-bottom:hover{ background: rgba(255,255,255,0.14); }
+/* Prevent weird bullets overflow on small screens */
+.bio-details ul{ padding-left: 1.1em; }
+</style>
+
+<style>
+/* === BIO footer + refined opacity === */
+.bio-sheet{
+  background: linear-gradient(to bottom,
+    rgba(20,20,20,0.65) 0%,
+    rgba(20,20,20,0.88) 70%,
+    rgba(20,20,20,0.92) 100%);
+  padding-bottom: 0; /* footer provides spacing */
+  display: flex; flex-direction: column;
+}
+.bio-content{ padding-bottom: .75rem; }
+.bio-footer{
+  position: sticky; bottom: 0; left: 0; right: 0;
+  backdrop-filter: blur(10px);
+  background: linear-gradient(to top, rgba(20,20,20,0.65), rgba(20,20,20,0));
+  padding: .75rem 0 1.1rem;
+  display: flex; justify-content: center;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.bio-close-bottom{
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 84px; height: 42px; padding: 0 14px;
+  border-radius: 9999px; border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.08); color: #fff;
+  font-size: 14px; letter-spacing: .12em; text-transform: uppercase;
+  cursor: pointer;
+}
+.bio-close-bottom:hover{ background: rgba(255,255,255,0.14); }
+/* Keep top X visible but subtle */
+.bio-close{ position: sticky; top: 6px; z-index: 3; padding: 2px 10px; border-radius: 9999px; background: rgba(0,0,0,0.15); }
+</style>
+
+<style>
+/* === Unify desktop opacity to mobile + tidy mobile type === */
+/* Use the heavier mobile-style glass everywhere */
+.bio-sheet{
+  background: linear-gradient(to bottom,
+    rgba(20,20,20,0.65) 0%,
+    rgba(20,20,20,0.88) 70%,
+    rgba(20,20,20,0.92) 100%) !important;
+}
+
+/* Harmonize heading and summary across breakpoints */
+.bio-content h2,
+.bio-details summary{
+  font-weight: 200 !important;
+  letter-spacing: .18em !important;
+  text-transform: uppercase !important;
+}
+
+/* Make the top "card" consistent and stable on small screens */
+.bio-lines{
+  font-weight: 300 !important;
+  font-size: clamp(15px, 1.6vw, 17px) !important;
+  line-height: 1.65 !important;
+  letter-spacing: .01em !important;
+  text-align: center !important;
+  text-wrap: balance;
+  margin-left: auto; margin-right: auto;
+  max-width: 58ch;
+}
+
+/* Lists and paragraphs in details: consistent rhythm */
+.bio-details h3{ 
+  font-weight: 300 !important; 
+  letter-spacing: .06em !important; 
+  margin-top: 1.15rem !important;
+}
+.bio-details ul{ 
+  margin: .35rem 0 0 !important; 
+  padding-left: 1.1em !important; 
+}
+.bio-details li,
+.bio-details p{
+  font-weight: 300 !important; 
+  line-height: 1.6 !important; 
+  max-width: 60ch;
+}
+
+/* Footer close button: keep centered and clear above iOS bottom bar */
+.bio-footer{ 
+  padding: .75rem 0 max(1.1rem, env(safe-area-inset-bottom)) !important; 
+}
+.bio-close-bottom{
+  min-width: 96px; height: 44px; padding: 0 18px;
+  border-radius: 9999px; border: 1px solid rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.10); color: #fff;
+  font-size: 13px; letter-spacing: .16em; text-transform: uppercase;
+}
+</style>
 </head>
 <body>
   <div class="container">
@@ -199,186 +362,121 @@
     <nav class="bottom-nav">
       <a href="mailto:contact@katariinatamm.com">CONTACT</a>
       <a href="https://www.imdb.com/name/nm5518685/" target="_blank" rel="noopener">IMDB</a>
-      <!-- Use a JS button to open; no hash to avoid refresh-jump/flash -->
-      <button id="bio-open" type="button" aria-controls="bio" aria-expanded="false">BIO</button>
-    </nav>
+    
+  <a href="#bio" id="bio-open">BIO</a>
+</nav>
   </div>
 
-  <div class="bio-overlay" id="bio-overlay" aria-hidden="true"></div>
-  <div id="bio" class="bio-sheet" role="dialog" aria-modal="true" aria-labelledby="bio-title">
-    <button class="bio-close" id="bio-close" aria-label="Close bio">×</button>
-    <div class="bio-content">
-      <h2 id="bio-title">BIO</h2>
+<div class="bio-overlay" id="bio-overlay" aria-hidden="true"></div>
+<div id="bio" class="bio-sheet" role="dialog" aria-modal="true" aria-labelledby="bio-title">
+  <button class="bio-close" id="bio-close" aria-label="Close bio">×</button>
+  <div class="bio-content">
+    <h2 id="bio-title">BIO</h2>
 
-      <p class="bio-lines">
-        <span>Tallinn-based Estonian actor</span>
-        <span>MA Acting, RADA</span>
-        <span>Theatre Ekspeditsioon; Von Krahl Theatre; Estonian Theatre for Young Audiences</span>
-        <span>Nominee, Estonian Annual Theatre Awards (2023)</span>
-        <span>Languages: Estonian, English, Finnish, Russian</span>
-      </p>
+    <p class="bio-lines">
+      <span>Tallinn-based Estonian actor</span>
+      <span>MA Acting, RADA</span>
+      <span>Theatre Ekspeditsioon; Von Krahl Theatre; Estonian Theatre for Young Audiences</span>
+      <span>Nominee, Estonian Annual Theatre Awards (2023)</span>
+      <span>Languages: Estonian, English, Finnish, Russian</span>
+    </p>
 
-      <details class="bio-details">
-        <summary>More</summary>
-        <section>
-          <h3>Education and training</h3>
-          <ul>
-            <li>Royal Academy of Dramatic Art (RADA), London, MA Acting, 2016 to 2018</li>
-            <li>Turku University of Applied Sciences, Arts Academy, Finland, BA Visual Theatre, 2007 to 2011</li>
-            <li>Theatre Institute of Barcelona, Physical Theatre exchange, 2010 to 2011</li>
-          </ul>
-        </section>
-        <section>
-          <h3>Work</h3>
-          <ul>
-            <li>Freelance actor, 2024 to present</li>
-            <li>Theatre Ekspeditsioon, actor, 2022 to 2024</li>
-            <li>Von Krahl Theatre, actor, 2020 to 2022</li>
-            <li>Estonian Theatre for Young Audiences, actor, 2011 to 2016</li>
-          </ul>
-        </section>
-        <section>
-          <h3>Languages</h3>
-          <ul>
-            <li>Estonian native, English fluent, Finnish advanced, Russian intermediate</li>
-          </ul>
-        </section>
-        <section>
-          <h3>Recognition</h3>
-          <ul>
-            <li>Estonian Annual Theatre Awards nominee, 2023, <i>Melancholia</i> directed by Juhan Ulfsak, and <i>Wear Wolf</i> directed by Peeter Jalakas</li>
-          </ul>
-        </section>
-      </details>
-    </div>
-    <footer class="bio-footer">
-      <button class="bio-close-bottom" id="bio-close-bottom" aria-label="Close bio">Close</button>
-    </footer>
+
+    <details class="bio-details">
+  <summary>More</summary>
+  <section>
+    <h3>Education and training</h3>
+    <ul>
+      <li>Royal Academy of Dramatic Art (RADA), London, MA Acting, 2016 to 2018</li>
+      <li>Turku University of Applied Sciences, Arts Academy, Finland, BA Visual Theatre, 2007 to 2011</li>
+      <li>Theatre Institute of Barcelona, Physical Theatre exchange, 2010 to 2011</li>
+    </ul>
+  </section>
+  <section>
+    <h3>Work</h3>
+    <ul>
+      <li>Freelance actor, 2024 to present</li>
+      <li>Theatre Ekspeditsioon, actor, 2022 to 2024</li>
+      <li>Von Krahl Theatre, actor, 2020 to 2022</li>
+      <li>Estonian Theatre for Young Audiences, actor, 2011 to 2016</li>
+    </ul>
+  </section>
+  <section>
+    <h3>Languages</h3>
+    <ul>
+      <li>Estonian native, English fluent, Finnish advanced, Russian intermediate</li>
+    </ul>
+  </section>
+  <section>
+    <h3>Recognition</h3>
+    <ul>
+      <li>Estonian Annual Theatre Awards nominee, 2023, <i>Melancholia</i> directed by Juhan Ulfsak, and <i>Wear Wolf</i> directed by Peeter Jalakas</li>
+  </section>
+</details>
   </div>
+  <footer class="bio-footer">
+    <button class="bio-close-bottom" id="bio-close-bottom" aria-label="Close bio">Close</button>
+  </footer>
+</div>
 
-  <script>
 
-  (function(){
-    const sheet   = document.getElementById('bio');
-    const overlay = document.getElementById('bio-overlay');
-    const openBtn = document.getElementById('bio-open');
-    const closeBtn = document.getElementById('bio-close');
-    const closeBottom = document.getElementById('bio-close-bottom');
-    const details = sheet ? sheet.querySelector('.bio-details') : null;
-    const summary = details ? details.querySelector('summary') : null;
 
-    // Wrap details content for height animation while preserving <details> semantics
-    if (details){
-      const moreWrapper = document.createElement('div');
-      moreWrapper.className = 'bio-more';
-      // Move all siblings after summary into wrapper
-      const nodesToMove = [];
-      for (let n = summary.nextSibling; n; n = n.nextSibling){ nodesToMove.push(n); }
-      nodesToMove.forEach(n => moreWrapper.appendChild(n));
-      details.appendChild(moreWrapper);
-      // Ensure closed by default
-      details.open = false;
-      moreWrapper.style.maxHeight = '0px';
-      moreWrapper.style.overflow = 'hidden';
+<script>
+(function(){
+  const sheet   = document.getElementById('bio');
+  const overlay = document.getElementById('bio-overlay');
+  const openBtn = document.getElementById('bio-open');
+  const closeBtn = document.getElementById('bio-close');
+  const closeBottom = document.getElementById('bio-close-bottom');
+  const details = sheet ? sheet.querySelector('.bio-details') : null;
+  const summary = details ? details.querySelector('summary') : null;
+
+  function show(){
+    if (details) details.open = false; // always start with top fold only
+    if (sheet && overlay){
+      sheet.classList.add('open');
+      overlay.classList.add('open');
     }
+    if (location.hash !== '#bio'){ history.replaceState(null,'','#bio'); }
+  }
 
-    function beginOpen(){
-      overlay?.classList.remove('blur-on');
-      sheet?.classList.add('animating');
-      overlay?.classList.add('animating');
-// No blur while moving
-      overlay?.classList.remove('blur-on');
-      sheet?.classList.add('opening');
-      overlay?.classList.add('opening');
-      // lock details collapsed when (re)opening
-      if (details){
-        details.open = false;
-        const more = details.querySelector('.bio-more');
-        if (more){ more.style.maxHeight = '0px'; }
-      }
-      // next frame: make visible + translate in
-      requestAnimationFrame(()=>{
-        sheet?.classList.add('open');
-        overlay?.classList.add('open');
-        // After transition, enable blur
-        setTimeout(()=>{
-          sheet?.classList.remove('opening');
-          overlay?.classList.remove('opening');
-          sheet?.classList.remove('animating');
-          overlay?.classList.remove('animating');
-          overlay?.classList.add('blur-on');
-        }, 300);
-      });
-      openBtn?.setAttribute('aria-expanded','true');
+  function hide(){
+    if (sheet && overlay){
+      sheet.classList.remove('open');
+      overlay.classList.remove('open');
     }
+    if (details) details.open = false; // collapse bottom fold when closing
+    history.replaceState(null,'',' ');
+  }
 
-    function beginClose(){
-      overlay?.classList.remove('blur-on');
-      sheet?.classList.add('animating');
-      overlay?.classList.add('animating');
-// Remove blur first (cheap opacity-only fade remains)
-      overlay?.classList.remove('blur-on');
-      sheet?.classList.add('closing');
-      overlay?.classList.add('closing');
-      // end state
-      setTimeout(()=>{
-        sheet?.classList.remove('open','closing');
-        overlay?.classList.remove('open','closing');
-        sheet?.classList.remove('animating');
-        overlay?.classList.remove('animating');
-        openBtn?.setAttribute('aria-expanded','false');
-      }, 300);
-    }
+  // Bind both click and touchend for reliable iOS taps
+  const bindTap = (el, fn) => {
+    if (!el) return;
+    ['click','touchend'].forEach(ev=>{
+      el.addEventListener(ev, function(e){ e.preventDefault(); fn(); }, {passive:false});
+    });
+  };
 
-    // Bind both click and touchend for reliable iOS taps
-    const bindTap = (el, fn) => {
-      if (!el) return;
-      ['click','touchend'].forEach(ev=>{
-        el.addEventListener(ev, function(e){ e.preventDefault(); fn(); }, {passive:false});
-      });
-    };
+  // Openers
+  if (openBtn){ bindTap(openBtn, show); }
+  if (location.hash === '#bio'){ show(); }
 
-    if (openBtn){ bindTap(openBtn, beginOpen); }
-    bindTap(closeBtn, beginClose);
-    bindTap(closeBottom, beginClose);
-    bindTap(overlay, beginClose);
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') beginClose(); });
+  // Closers
+  bindTap(closeBtn, hide);
+  bindTap(closeBottom, hide);
+  bindTap(overlay, hide);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') hide(); });
 
-    // Details height animation (universal, no UA checks)
-    if (summary && details){
-      summary.addEventListener('click', function(e){
-        e.preventDefault();
-        const more = details.querySelector('.bio-more');
-        if (!more) return;
-        const isOpening = !details.open;
-        details.open = true; // keep details flagged as open for accessibility
-        if (isOpening){
-          // expand
-          const end = more.scrollHeight;
-          more.style.maxHeight = end + 'px';
-          // clear inline height after transition to allow responsive reflow
-          more.addEventListener('transitionend', function once(){
-            more.style.maxHeight = 'none';
-            more.removeEventListener('transitionend', once);
-          });
-        }else{
-          // collapse
-          // set explicit current height to transition from
-          const current = more.getBoundingClientRect().height;
-          more.style.maxHeight = current + 'px';
-          // force reflow then set to 0
-          void more.offsetHeight; // reflow
-          more.style.maxHeight = '0px';
-          // after collapse ends, mark details closed
-          more.addEventListener('transitionend', function once(){
-            details.open = false;
-            more.removeEventListener('transitionend', once);
-          });
-        }
-      });
-    }
-  })();
-
-  </script>
+  // Keep sheet scroll position stable when toggling details
+  if (summary && details){
+    summary.addEventListener('click', function(e){
+      e.preventDefault();
+      const y = sheet ? sheet.scrollTop : window.scrollY;
+      details.open = !details.open;
+      if (sheet){ sheet.scrollTop = y; } else { window.scrollTo(0, y); }
+    });
+  }
+})();
+</script>
 </body>
 </html>

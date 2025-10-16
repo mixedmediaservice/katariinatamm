@@ -417,3 +417,26 @@ html{ scroll-behavior: auto; }
 .bio-sheet.animating{ box-shadow: none !important; }
 .bio-overlay.animating{ backdrop-filter: none !important; }
 /* Keep existing blur when settled; we don't change its value */
+
+
+/* === Refined smoothness patch (visual-identical) — 2025-10-16 === */
+/* Promote moving sheet and use GPU-friendly transform */
+.bio-sheet{ transform: translate3d(-50%, 110%, 0) !important; backface-visibility: hidden; }
+.bio-sheet.open{ transform: translate3d(-50%, 0, 0) !important; }
+
+/* Keep the look of the large soft shadow but render it as a drop-shadow on the composited layer */
+.bio-sheet{
+  box-shadow: none !important; /* avoid re-raster during movement */
+  filter: drop-shadow(0 20px 60px rgba(0,0,0,0.45)) !important;
+}
+
+/* Keep overlay blur always on (no pop, no toggling). This preserves the exact visual. */
+.bio-overlay,
+.bio-overlay.open,
+.bio-overlay.animating,
+.bio-overlay.blur-on{
+  backdrop-filter: blur(12px) !important;
+}
+
+/* Ensure previous 'animating' rules do not visually change anything */
+.bio-sheet.animating{ filter: drop-shadow(0 20px 60px rgba(0,0,0,0.45)) !important; }
