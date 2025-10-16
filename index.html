@@ -423,10 +423,6 @@
   <a href="#bio" id="bio-open">BIO</a>
   <a href="#showreel" id="showreel-open">SHOWREEL</a>
 </nav>
-  <!-- dedicated backdrop for showreel -->
-  <div id="showreel-backdrop" class="showreel-backdrop" aria-hidden="true"></div>
-
-
   
 <div id="showreel-modal" class="showreel-modal" role="dialog" aria-modal="true">
   <div class="showreel-card">
@@ -499,7 +495,7 @@
 <script>
 (function(){
   const sheet   = document.getElementById('bio');
-  const backdrop = document.getElementById('showreel-backdrop');
+  const overlay = document.getElementById('bio-overlay');
   const openBtn = document.getElementById('bio-open');
   const closeBtn = document.getElementById('bio-close');
   const closeBottom = document.getElementById('bio-close-bottom');
@@ -565,7 +561,7 @@
 
 <script>
 (function(){
-  const backdrop = document.getElementById('showreel-backdrop'); // reuse overlay
+  const overlay = document.getElementById('bio-overlay'); // reuse overlay
   const bioSheet = document.getElementById('bio');
   const showreelModal = document.getElementById('showreel-modal');
   const showreelOpen = document.getElementById('showreel-open');
@@ -608,7 +604,7 @@
   }
   function closeShowreel(){
     showreelModal.classList.remove('open');
-    backdrop.classList.remove('open');
+    overlay.classList.remove('open');
     unmountIframe();
     // restore focus
     if (showreelOpen) showreelOpen.focus({ preventScroll: true });
@@ -623,8 +619,8 @@
   }
   if (showreelClose) showreelClose.addEventListener('click', closeShowreel);
   if (showreelCloseBottom) showreelCloseBottom.addEventListener('click', closeShowreel);
-  if (overlay) backdrop.addEventListener('click', function(e){
-    if (e.target === backdrop && showreelModal.classList.contains('open')) closeShowreel();
+  if (overlay) overlay.addEventListener('click', function(e){
+    if (e.target === overlay && showreelModal.classList.contains('open')) closeShowreel();
   });
   document.addEventListener('keydown', function(e){
     if (e.key === 'Escape' && showreelModal.classList.contains('open')) closeShowreel();
