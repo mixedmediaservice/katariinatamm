@@ -475,15 +475,17 @@
 <a href="https://www.imdb.com/name/nm5518685/" rel="noopener" target="_blank">IMDB</a>
 <a href="#bio" id="bio-open">BIO</a>
 <a href="#showreel" id="showreel-open">SHOWREEL</a>
-</nav>
+</nav></div>
+</div>
+</div>
+<div aria-hidden="true" class="bio-overlay" id="bio-overlay"></div>
+
 <div aria-modal="true" class="showreel-modal" id="showreel-modal" role="dialog">
 <div class="showreel-card">
 <button aria-label="Close showreel" class="showreel-close" id="showreel-close">×</button>
 <div class="showreel-frame" id="showreel-frame"></div>
-</div>
-</div>
-</div>
-<div aria-hidden="true" class="bio-overlay" id="bio-overlay"></div>
+
+
 <div aria-labelledby="bio-title" aria-modal="true" class="bio-sheet" id="bio" role="dialog">
 <button aria-label="Close bio" class="bio-close" id="bio-close">×</button>
 <div class="bio-content">
@@ -666,6 +668,7 @@
   function closeShowreel(){
     showreelModal.classList.remove('open');
     if (overlay) overlay.classList.remove('open');
+    if (overlay) overlay.style.pointerEvents = '';
     try {
       if (playerIframe && playerIframe.contentWindow) {
         playerIframe.contentWindow.postMessage(JSON.stringify({ method: 'pause' }), 'https://player.vimeo.com');
