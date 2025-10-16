@@ -147,54 +147,30 @@
       animation: ripple 0.6s ease-out;
     }
     @keyframes ripple { to { width: 100px; height: 100px; opacity: 0; } }
-  
-/* === SHOWREEL modal (minimal) + footer mobile spacing === */
-@media (max-width: 480px){
-  .bottom-nav{ gap: 1.1rem; bottom: 1.25rem; }
-  .bottom-nav a{ font-size: .9rem; letter-spacing: .08em; }
-}
-/* Centered modal container */
-.showreel-modal{
-  position: fixed; left: 50%; top: 50%;
-  transform: translate(-50%, -50%) scale(.96);
-  width: min(920px, 92vw); max-height: 80vh;
-  display: none; opacity: 0;
-  z-index: 101; pointer-events: none;
-  transition: opacity .25s ease, transform .25s ease;
-}
-.showreel-modal.open{ display:block; opacity:1; pointer-events:auto; transform: translate(-50%, -50%) scale(1); }
-/* Card surface kept extremely light; no heavy blur */
-.showreel-card{
-  background: rgba(18,18,18,0.4);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 18px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.45);
-  padding: .9rem .9rem 4.25rem; /* extra bottom room for floating Close */
-  position: relative;
-}
-/* Remove header title per request; only video area */
-.showreel-frame{
-  aspect-ratio: 16 / 9;
-  width: 100%;
-  background: #000;
-  border-radius: 12px;
-  overflow: hidden;
-}
-/* Top-right × */
-.showreel-close{
-  position: absolute; top: .5rem; right: .6rem;
-  width: 36px; height: 36px; border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.14);
-  background: rgba(24,24,24,0.65);
-  color: #fff; font-size: 18px; line-height: 34px; text-align: center;
-  cursor: pointer;
-}
-.showreel-close:focus{ outline: none; box-shadow: 0 0 0 2px rgba(255,255,255,0.2) inset; }
-/* Floating bottom Close button */
-</style>
+  </style>
 
 <style>
 /* === BIO bottom sheet & overlay (non-destructive) === */
+
+<style>
+/* Showreel player */
+.showreel-frame{
+  position: relative;
+  width: 100%;
+  max-width: min(920px, 92vw);
+  margin: 0 auto;
+  /* 16:9 */
+  padding-top: 56.25%;
+  background: #000;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+}
+.showreel-frame > iframe{
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  display: block;
+}
+</style>
 .bio-overlay{
   position: fixed; inset: 0; background: rgba(0,0,0,0.35);
   backdrop-filter: none; opacity: 0; pointer-events: none; transition: opacity .3s ease; z-index: 90;
@@ -398,19 +374,6 @@
   background: rgba(255,255,255,0.10); color: #fff;
   font-size: 13px; letter-spacing: .16em; text-transform: uppercase;
 }
-
-/* Performance hints: keep BIO opening smooth without 'pop' */
-.bio-sheet{
-  will-change: transform;
-  contain: layout paint style;
-  transform: translateX(-50%) translateY(100%);
-}
-.bio-sheet.open{ transform: translateX(-50%) translateY(0); }
-.bio-overlay{ will-change: opacity; }
-@media (prefers-reduced-motion: reduce){
-  .bio-sheet{ transition: none !important; }
-  .bio-overlay{ transition: none !important; }
-}
 </style>
 </head>
 <body>
@@ -423,15 +386,7 @@
   <a href="#bio" id="bio-open">BIO</a>
   <a href="#showreel" id="showreel-open">SHOWREEL</a>
 </nav>
-  
-<div id="showreel-modal" class="showreel-modal" role="dialog" aria-modal="true">
-  <div class="showreel-card">
-    <button class="showreel-close" id="showreel-close" aria-label="Close showreel">×</button>
-    <div class="showreel-frame" id="showreel-frame"></div>
-    
   </div>
-</div>
-</div>
 
 <div class="bio-overlay" id="bio-overlay" aria-hidden="true"></div>
 <div id="bio" class="bio-sheet" role="dialog" aria-modal="true" aria-labelledby="bio-title">
@@ -473,21 +428,31 @@
       <li>Estonian native, English fluent, Finnish advanced, Russian intermediate</li>
     </ul>
   </section>
-      <section>
-        <h3>Recognition</h3>
-        <ul>
-          <li>
-            Estonian Annual Theatre Awards nominee, 2023,
-            <i>Melancholia</i> directed by Juhan Ulfsak, and
-            <i>Wear Wolf</i> directed by Peeter Jalakas
-          </li>
-        </ul>
-      </section>
+  <section>
+    <h3>Recognition</h3>
+    <ul>
+      <li>Estonian Annual Theatre Awards nominee, 2023, <i>Melancholia</i> directed by Juhan Ulfsak, and <i>Wear Wolf</i> directed by Peeter Jalakas</li>
+  </section>
 </details>
   </div>
   <footer class="bio-footer">
     <button class="bio-close-bottom" id="bio-close-bottom" aria-label="Close bio">Close</button>
   </footer>
+
+<div class="bio-overlay" id="showreel-overlay" aria-hidden="true"></div>
+<div id="showreel" class="bio-sheet" role="dialog" aria-modal="true" aria-labelledby="showreel-title">
+  <button class="bio-close" id="showreel-close" aria-label="Close showreel">×</button>
+  <div class="bio-content">
+    <h2 id="showreel-title">SHOWREEL</h2>
+    <div class="showreel-frame" id="showreel-player" aria-label="Video player">
+      <!-- The iframe will be injected on open -->
+    </div>
+  </div>
+  <footer class="bio-footer">
+    <button class="bio-close-bottom" id="showreel-close-bottom" aria-label="Close showreel">Close</button>
+  </footer>
+</div>
+
 </div>
 
 
@@ -530,16 +495,7 @@
 
   // Openers
   if (openBtn){ bindTap(openBtn, show); }
-  if (location.hash === '#bio'){
-    // Open BIO without animation on initial load to avoid the 'pop-in'
-    if (sheet) sheet.style.transition = 'none';
-    if (overlay) overlay.style.transition = 'none';
-    show();
-    requestAnimationFrame(()=>{
-      if (sheet) sheet.style.transition = '';
-      if (overlay) overlay.style.transition = '';
-    });
-  }
+  if (location.hash === '#bio'){ show(); }
 
   // Closers
   bindTap(closeBtn, hide);
@@ -559,84 +515,83 @@
 })();
 </script>
 
+<script src="https://player.vimeo.com/api/player.js"></script>
 <script>
 (function(){
-  const overlay = document.getElementById('bio-overlay'); // reuse overlay
-  const bioSheet = document.getElementById('bio');
-  const showreelModal = document.getElementById('showreel-modal');
-  const showreelOpen = document.getElementById('showreel-open');
-  const showreelClose = document.getElementById('showreel-close');
-  const showreelCloseBottom = document.getElementById('showreel-close-bottom');
-  const frame = document.getElementById('showreel-frame');
-  if (showreelModal) showreelModal.addEventListener('click', function(e){ e.stopPropagation(); });
-  let playerIframe = null;
+  const sheet   = document.getElementById('showreel');
+  const overlay = document.getElementById('showreel-overlay');
+  const openBtn = document.getElementById('showreel-open');
+  const closeTop = document.getElementById('showreel-close');
+  const closeBottom = document.getElementById('showreel-close-bottom');
+  const mount = document.getElementById('showreel-player');
+  let mounted = false;
+  let player = null;
 
-  function mountIframe(){
-    if (playerIframe) return;
-    const url = 'https://player.vimeo.com/video/1127883519?autoplay=1&muted=1&dnt=1&title=0&byline=0&portrait=0&playsinline=1';
-    playerIframe = document.createElement('iframe');
-    playerIframe.setAttribute('src', url);
-    playerIframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share');
-    playerIframe.setAttribute('allowfullscreen', 'true');
-    playerIframe.setAttribute('frameborder', '0');
-    playerIframe.style.width = '100%';
-    playerIframe.style.height = '100%';
-    playerIframe.title = 'Katariina Tamm Showreel';
-    frame.appendChild(playerIframe);
+  function mountPlayer(){
+    if (mounted || !mount) return;
+    const wrapper = document.createElement('div');
+    wrapper.style.position = 'relative';
+    wrapper.style.width = '100%';
+    wrapper.style.height = '100%';
+    wrapper.style.position = 'absolute';
+    wrapper.style.top = '0'; wrapper.style.left = '0';
+    // build iframe
+    const iframe = document.createElement('iframe');
+    iframe.src = 'https://player.vimeo.com/video/1127883519?autoplay=1&muted=1&dnt=1&title=0&byline=0&portrait=0&app_id=58479';
+    iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share');
+    iframe.setAttribute('allowfullscreen', '');
+    iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+    iframe.style.position = 'absolute';
+    iframe.style.top = '0'; iframe.style.left = '0';
+    iframe.style.width = '100%'; iframe.style.height = '100%';
+    wrapper.appendChild(iframe);
+    mount.appendChild(wrapper);
+    mounted = true;
+    try { player = new Vimeo.Player(iframe); } catch(e){ /* optional */ }
   }
-  function unmountIframe(){
-    if (playerIframe){
-      playerIframe.remove();
-      playerIframe = null;
-    }
+
+  function unmountPlayer(){
+    if (!mounted) return;
+    mount.innerHTML = '';
+    mounted = false;
+    player = null;
   }
-  function openShowreel(pushHash=true){
-    // Close BIO if open
+
+  function open(){
+    // close BIO if open
+    const bioSheet = document.getElementById('bio');
+    const bioOverlay = document.getElementById('bio-overlay');
     if (bioSheet && bioSheet.classList.contains('open')){
       bioSheet.classList.remove('open');
+      bioOverlay && bioOverlay.classList.remove('open');
     }
-    overlay.classList.add('open');
-    showreelModal.classList.add('open');
-    mountIframe();
-    if (pushHash) location.hash = '#showreel';
-    // focus for a11y
-    showreelClose.focus({ preventScroll: true });
+    sheet.classList.add('open'); overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    mountPlayer();
+    // Focus management
+    setTimeout(()=>closeTop.focus(), 0);
   }
-  function closeShowreel(){
-    showreelModal.classList.remove('open');
-    overlay.classList.remove('open');
-    unmountIframe();
-    // restore focus
-    if (showreelOpen) showreelOpen.focus({ preventScroll: true });
-    if (location.hash === '#showreel') history.replaceState(null, '', location.pathname + location.search);
+  function close(){
+    sheet.classList.remove('open'); overlay.classList.remove('open');
+    document.body.style.overflow = '';
+    unmountPlayer();
+    openBtn && openBtn.focus();
+    if (location.hash === '#showreel'){ history.replaceState(null,'',location.pathname + location.search); }
   }
 
-  if (showreelOpen){
-    showreelOpen.addEventListener('click', function(e){
-      e.preventDefault();
-      openShowreel(true);
-    });
+  openBtn && openBtn.addEventListener('click', (e)=>{ e.preventDefault(); location.hash = 'showreel'; });
+  overlay && overlay.addEventListener('click', close);
+  closeTop && closeTop.addEventListener('click', close);
+  closeBottom && closeBottom.addEventListener('click', close);
+  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape' && sheet.classList.contains('open')) close(); });
+
+  function onHash(){
+    if (location.hash === '#showreel'){ open(); }
+    else if (sheet.classList.contains('open')){ close(); }
   }
-  if (showreelClose) showreelClose.addEventListener('click', closeShowreel);
-  if (showreelCloseBottom) showreelCloseBottom.addEventListener('click', closeShowreel);
-  if (overlay) overlay.addEventListener('click', function(e){
-    if (e.target === overlay && showreelModal.classList.contains('open')) closeShowreel();
-  });
-  document.addEventListener('keydown', function(e){
-    if (e.key === 'Escape' && showreelModal.classList.contains('open')) closeShowreel();
-  });
-  // Deep link
-  window.addEventListener('hashchange', function(){
-    if (location.hash === '#showreel') openShowreel(false);
-    else if (showreelModal.classList.contains('open')) closeShowreel();
-  });
-  if (location.hash === '#showreel') openShowreel(false);
+  window.addEventListener('hashchange', onHash);
+  onHash();
 })();
 </script>
-
-
-<!-- Dev note: If WebStorm reports "Element ul is not closed", search for any "<ul" without a matching "</ul>".
-Typical spots are the BIO lists. Ensure each <ul> wraps only <li> children and is closed before </details> or </section>. -->
-
 </body>
 </html>
