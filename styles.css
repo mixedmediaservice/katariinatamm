@@ -338,3 +338,66 @@ html, body{
   backdrop-filter: blur(12px) !important;
   will-change: opacity;
 }
+
+
+/* === Performance modes ===================================== */
+:root { --glass-blur: 12px; --glass-bg: rgba(20,20,20,0.40); --shadow-lg: 0 20px 60px rgba(0,0,0,0.45); }
+
+/* Default (full quality) */
+.bio-overlay{ backdrop-filter: blur(var(--glass-blur)) !important; }
+.bio-sheet{ background-color: var(--glass-bg); box-shadow: var(--shadow-lg); }
+
+/* Chrome desktop lightweight mode (set via body.perf-lite) */
+body.perf-lite .bio-overlay{ backdrop-filter: none !important; }
+body.perf-lite .bio-sheet{
+  /* Replace blur+heavy shadow with fast composited layers */
+  background: rgba(18,18,18,0.92);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* During open animation, we can temporarily disable blur to avoid sampling cost */
+.bio-overlay.blur-disabled{ backdrop-filter: none !important; }
+
+/* Containment to isolate paints/layout and defer offscreen rendering */
+.bio-sheet{ contain: paint layout style; }
+.bio-content, .bio-details{ content-visibility: auto; contain-intrinsic-size: 600px; }
+.bio-details section{ contain: paint; }
+
+/* Promote layers explicitly */
+.bio-overlay{ will-change: opacity; }
+.bio-sheet{ will-change: transform; }
+
+/* Avoid expensive filters on the moving element in all modes */
+.bio-sheet{ filter: none !important; }
+
+/* Smooth scroll optics without forced repaints */
+html{ scroll-behavior: auto; }
+
+
+/* === Universal performance states (no UA sniffing) ======================= */
+/* No blur during motion; fade blur in only when settled 'open' */
+.bio-overlay{ transition: opacity .28s ease; }
+.bio-overlay.open{ opacity: 1; }
+.bio-overlay.blur-on{ backdrop-filter: blur(10px); }
+.bio-overlay:not(.blur-on){ backdrop-filter: none; }
+
+/* Opening/closing only transform/opacity change; no filter/box-shadow changes */
+.bio-sheet{ transition: transform .30s cubic-bezier(.2,.8,.2,1); }
+.bio-sheet.open{ transform: translateX(-50%) translateY(0); }
+.bio-sheet.opening,
+.bio-sheet.closing{ /* nothing extra; states exist for JS timing only */ }
+
+/* Height animation wrapper for MORE */
+.bio-more{
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .28s ease;
+}
+
+/* Keep visuals consistent while cheaper to render */
+.bio-sheet{
+  /* fixed background, no changing filters on the moving element */
+  filter: none !important;
+  box-shadow: 0 16px 44px rgba(0,0,0,0.40);
+}
