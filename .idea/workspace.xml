@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bfba1251-b3ab-4635-8b7b-f812997112f5" name="Changes" comment="New index and image cards" />
+    <list default="true" id="bfba1251-b3ab-4635-8b7b-f812997112f5" name="Changes" comment="bio fix v1">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -64,6 +66,7 @@
       <workItem from="1756454169861" duration="12873000" />
       <workItem from="1760258828948" duration="1716000" />
       <workItem from="1760387360556" duration="5000" />
+      <workItem from="1761987226068" duration="492000" />
     </task>
     <task id="LOCAL-00001" summary="New 1200 x 630 image, reduced heo image file size. Updated metadata text">
       <option name="closed" value="true" />
@@ -105,16 +108,238 @@
       <option name="project" value="LOCAL" />
       <updated>1760260536101</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="rollback">
+      <option name="closed" value="true" />
+      <created>1760627388023</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1760627388023</updated>
+    </task>
+    <task id="LOCAL-00007" summary="lets see if this fixed everything">
+      <option name="closed" value="true" />
+      <created>1760632966672</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1760632966672</updated>
+    </task>
+    <task id="LOCAL-00008" summary="1.21 remove the frame around vieo">
+      <option name="closed" value="true" />
+      <created>1760633250728</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1760633250728</updated>
+    </task>
+    <task id="LOCAL-00009" summary="1.22 remove the frame altogether">
+      <option name="closed" value="true" />
+      <created>1760633479513</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1760633479513</updated>
+    </task>
+    <task id="LOCAL-00010" summary="1.23 frameless fix">
+      <option name="closed" value="true" />
+      <created>1760633629875</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1760633629875</updated>
+    </task>
+    <task id="LOCAL-00011" summary="1.23 frameless fix x is back">
+      <option name="closed" value="true" />
+      <created>1760634277106</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1760634277106</updated>
+    </task>
+    <task id="LOCAL-00012" summary="1.24 moved the x and changed the size">
+      <option name="closed" value="true" />
+      <created>1760634685023</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1760634685023</updated>
+    </task>
+    <task id="LOCAL-00013" summary="1.25Video stops playing on close">
+      <option name="closed" value="true" />
+      <created>1760634887795</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1760634887795</updated>
+    </task>
+    <task id="LOCAL-00014" summary="1.26 video stops playing on close">
+      <option name="closed" value="true" />
+      <created>1760635318355</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1760635318355</updated>
+    </task>
+    <task id="LOCAL-00015" summary="1.27 tap anywehre to close video">
+      <option name="closed" value="true" />
+      <created>1760635476188</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1760635476188</updated>
+    </task>
+    <task id="LOCAL-00016" summary="1.28 Moved X">
+      <option name="closed" value="true" />
+      <created>1760635622198</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1760635622198</updated>
+    </task>
+    <task id="LOCAL-00017" summary="1.28 restored clickable video">
+      <option name="closed" value="true" />
+      <created>1760635781664</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1760635781664</updated>
+    </task>
+    <task id="LOCAL-00018" summary="moved x restore functionality">
+      <option name="closed" value="true" />
+      <created>1760636192538</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1760636192538</updated>
+    </task>
+    <task id="LOCAL-00019" summary="video position restoreed">
+      <option name="closed" value="true" />
+      <created>1760636387717</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1760636387717</updated>
+    </task>
+    <task id="LOCAL-00020" summary="video position centered no x">
+      <option name="closed" value="true" />
+      <created>1760636964426</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1760636964426</updated>
+    </task>
+    <task id="LOCAL-00021" summary="restore">
+      <option name="closed" value="true" />
+      <created>1760637075625</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1760637075625</updated>
+    </task>
+    <task id="LOCAL-00022" summary="fix to video touch">
+      <option name="closed" value="true" />
+      <created>1760637510310</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1760637510310</updated>
+    </task>
+    <task id="LOCAL-00023" summary="fix to video touch v2">
+      <option name="closed" value="true" />
+      <created>1760637889965</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1760637889965</updated>
+    </task>
+    <task id="LOCAL-00024" summary="fix to video touch v3">
+      <option name="closed" value="true" />
+      <created>1760638239075</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1760638239075</updated>
+    </task>
+    <task id="LOCAL-00025" summary="fix to video touch v4">
+      <option name="closed" value="true" />
+      <created>1760638464463</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1760638464463</updated>
+    </task>
+    <task id="LOCAL-00026" summary="removed the coubhle click">
+      <option name="closed" value="true" />
+      <created>1760638854759</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1760638854759</updated>
+    </task>
+    <task id="LOCAL-00027" summary="removed the coubhle  v2">
+      <option name="closed" value="true" />
+      <created>1760639160047</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1760639160047</updated>
+    </task>
+    <task id="LOCAL-00028" summary="resotred">
+      <option name="closed" value="true" />
+      <created>1760639223808</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1760639223808</updated>
+    </task>
+    <task id="LOCAL-00029" summary="overlay fix v1">
+      <option name="closed" value="true" />
+      <created>1760640354740</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1760640354740</updated>
+    </task>
+    <task id="LOCAL-00030" summary="bio fix v1">
+      <option name="closed" value="true" />
+      <created>1760640718732</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1760640718732</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="New 1200 x 630 image, reduced heo image file size. Updated metadata text" />
-    <MESSAGE value="New index" />
-    <MESSAGE value="New index and image cards" />
-    <option name="LAST_COMMIT_MESSAGE" value="New index and image cards" />
+    <MESSAGE value="rollback" />
+    <MESSAGE value="lets see if this fixed everything" />
+    <MESSAGE value="1.21 remove the frame around vieo" />
+    <MESSAGE value="1.22 remove the frame altogether" />
+    <MESSAGE value="1.23 frameless fix" />
+    <MESSAGE value="1.23 frameless fix x is back" />
+    <MESSAGE value="1.24 moved the x and changed the size" />
+    <MESSAGE value="1.25Video stops playing on close" />
+    <MESSAGE value="1.26 video stops playing on close" />
+    <MESSAGE value="1.27 tap anywehre to close video" />
+    <MESSAGE value="1.28 Moved X" />
+    <MESSAGE value="1.28 restored clickable video" />
+    <MESSAGE value="moved x restore functionality" />
+    <MESSAGE value="video position restoreed" />
+    <MESSAGE value="video position centered no x" />
+    <MESSAGE value="restore" />
+    <MESSAGE value="fix to video touch" />
+    <MESSAGE value="fix to video touch v2" />
+    <MESSAGE value="fix to video touch v3" />
+    <MESSAGE value="fix to video touch v4" />
+    <MESSAGE value="removed the coubhle click" />
+    <MESSAGE value="removed the coubhle  v2" />
+    <MESSAGE value="resotred" />
+    <MESSAGE value="overlay fix v1" />
+    <MESSAGE value="bio fix v1" />
+    <option name="LAST_COMMIT_MESSAGE" value="bio fix v1" />
   </component>
 </project>
