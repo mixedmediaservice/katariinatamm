@@ -1,40 +1,44 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<!-- Basics -->
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Katariina Tamm - Actor</title>
-<meta content="Official website of Estonian actor Katariina Tamm." name="description"/>
-<meta content="Katariina Tamm" name="author"/>
-<meta content="index,follow,max-image-preview:large" name="robots"/>
-<link href="https://katariinatamm.com/" rel="canonical"/>
-<!-- Icons / Manifest -->
-<link href="apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
-<link href="favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
-<link href="favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
-<link href="site.webmanifest" rel="manifest"/>
-<link href="favicon.ico" rel="shortcut icon"/>
-<!-- Open Graph (cards use 1200×630; site keeps hero-image.jpg in CSS) -->
-<meta content="website" property="og:type"/>
-<meta content="https://katariinatamm.com/" property="og:url"/>
-<meta content="Katariina Tamm" property="og:site_name"/>
-<meta content="Katariina Tamm - Actor" property="og:title"/>
-<meta content="Official website of Estonian actor Katariina Tamm." property="og:description"/>
-<meta content="https://katariinatamm.com/katariina-tamm-1200x630.jpg?v=4" property="og:image"/>
-<meta content="1200" property="og:image:width"/>
-<meta content="630" property="og:image:height"/>
-<meta content="Portrait of actor Katariina Tamm" property="og:image:alt"/>
-<!-- Twitter (X) -->
-<meta content="summary_large_image" name="twitter:card"/>
-<meta content="https://katariinatamm.com/" name="twitter:url"/>
-<meta content="Katariina Tamm - Actor" name="twitter:title"/>
-<meta content="Official website of Estonian actor Katariina Tamm." name="twitter:description"/>
-<meta content="https://katariinatamm.com/katariina-tamm-1200x630.jpg?v=4" name="twitter:image"/>
-<meta content="Portrait of actor Katariina Tamm" name="twitter:image:alt"/>
-<!-- JSON-LD (Person) -->
-<script type="application/ld+json">
+  <!-- Basics -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Katariina Tamm - Actor</title>
+  <meta name="description" content="Official website of Estonian actor Katariina Tamm.">
+  <meta name="author" content="Katariina Tamm">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <link rel="canonical" href="https://katariinatamm.com/">
+
+  <!-- Icons / Manifest -->
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="shortcut icon" href="favicon.ico">
+
+  <!-- Open Graph (cards use 1200×630; site keeps hero-image.jpg in CSS) -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://katariinatamm.com/">
+  <meta property="og:site_name" content="Katariina Tamm">
+  <meta property="og:title" content="Katariina Tamm - Actor">
+  <meta property="og:description" content="Official website of Estonian actor Katariina Tamm.">
+  <meta property="og:image" content="https://katariinatamm.com/katariina-tamm-1200x630.jpg?v=4">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Portrait of actor Katariina Tamm">
+
+  <!-- Twitter (X) -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://katariinatamm.com/">
+  <meta name="twitter:title" content="Katariina Tamm - Actor">
+  <meta name="twitter:description" content="Official website of Estonian actor Katariina Tamm.">
+  <meta name="twitter:image" content="https://katariinatamm.com/katariina-tamm-1200x630.jpg?v=4">
+  <meta name="twitter:image:alt" content="Portrait of actor Katariina Tamm">
+
+  <!-- JSON-LD (Person) -->
+  <script type="application/ld+json">
   {
     "@context":"https://schema.org",
     "@type":"Person",
@@ -47,8 +51,9 @@
     "sameAs":["https://www.imdb.com/name/nm5518685/"]
   }
   </script>
-<!-- JSON-LD (WebSite) -->
-<script type="application/ld+json">
+
+  <!-- JSON-LD (WebSite) -->
+  <script type="application/ld+json">
   {
     "@context":"https://schema.org",
     "@type":"WebSite",
@@ -57,8 +62,10 @@
     "inLanguage":"en"
   }
   </script>
-<link href="styles.css" rel="stylesheet"/>
-<style>
+
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
     /* original styling kept */
     body {
       margin: 0;
@@ -152,7 +159,7 @@
   transform: translate(-50%, -50%) scale(.96);
   width: min(920px, 92vw); max-height: 80vh;
   display: none; opacity: 0;
-  z-index: 1001; pointer-events: none;
+  z-index: 101; pointer-events: none;
   transition: opacity .25s ease, transform .25s ease;
 }
 .showreel-modal.open{ display:block; opacity:1; pointer-events:auto; transform: translate(-50%, -50%) scale(1); }
@@ -185,6 +192,7 @@
 .showreel-close:focus{ outline: none; box-shadow: 0 0 0 2px rgba(255,255,255,0.2) inset; }
 /* Floating bottom Close button */
 </style>
+
 <style>
 /* === BIO bottom sheet & overlay (non-destructive) === */
 .bio-overlay{
@@ -220,6 +228,7 @@
 .bio-details h3{ font-weight: 300; letter-spacing: .06em; margin: 1.25rem 0 .5rem; }
 .bio-details ul{ margin: 0; padding-left: 1em; }
 </style>
+
 <style>
 /* === BIO type harmonize — Option A === */
 .bio-sheet { 
@@ -246,6 +255,7 @@
 .bio-details li,
 .bio-details p{ font-weight: 300; line-height: 1.6; }
 </style>
+
 <style>
 /* === BIO visual tweaks: raise content and add heavier bottom gradient === */
 .bio-sheet{
@@ -260,6 +270,7 @@
 .bio-lines{ margin-bottom: .9rem; }
 .bio-details{ padding-bottom: .3rem; }
 </style>
+
 <style>
 /* === BIO mobile parity + UX tweaks === */
 /* Heavier glass to match mobile feel, with bottom-weighted gradient */
@@ -297,6 +308,7 @@
 /* Prevent weird bullets overflow on small screens */
 .bio-details ul{ padding-left: 1.1em; }
 </style>
+
 <style>
 /* === BIO footer + refined opacity === */
 .bio-sheet{
@@ -328,6 +340,7 @@
 /* Keep top X visible but subtle */
 .bio-close{ position: sticky; top: 6px; z-index: 3; padding: 2px 10px; border-radius: 9999px; background: rgba(0,0,0,0.15); }
 </style>
+
 <style>
 /* === Unify desktop opacity to mobile + tidy mobile type === */
 /* Use the heavier mobile-style glass everywhere */
@@ -385,162 +398,87 @@
   background: rgba(255,255,255,0.10); color: #fff;
   font-size: 13px; letter-spacing: .16em; text-transform: uppercase;
 }
-
-/* Performance hints: keep BIO opening smooth without 'pop' */
-.bio-sheet{
-  will-change: transform;
-  contain: layout paint style;
-  transform: translateX(-50%) translateY(100%);
-}
-.bio-sheet.open{ transform: translateX(-50%) translateY(0); }
-.bio-overlay{ will-change: opacity; }
-@media (prefers-reduced-motion: reduce){
-  .bio-sheet{ transition: none !important; }
-  .bio-overlay{ transition: none !important; }
-}
 </style>
-<style>
-/* === SHOWREEL: frameless look (video only) === */
-.showreel-card{
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-}
-/* Keep the video with a subtle rounded corner */
-.showreel-frame{ border-radius: 12px !important; }
-/* Keep the floating close button at the same visual spot */
-.showreel-close{
-  top: .5rem !important;
-  right: .6rem !important;
-}
-</style><style>
-/* === SHOWREEL: truly frameless (remove orange-highlighted frame) === */
-.showreel-modal{ background: transparent !important; }
-
-/* Kill any card chrome completely */
-.showreel-card,
-.showreel-card::before,
-.showreel-card::after{
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  outline: 0 !important;
-  padding: 0 !important;
-  filter: none !important;
-}
-
-/* Make the close button anchor to the video itself */
-.showreel-card{ position: static !important; }
-.showreel-frame{
-  position: relative !important;
-  margin: 0 !important;
-  border-radius: 12px !important; /* keep only the video rounding */
-  overflow: hidden !important;
-}
-.showreel-close{
-  position: absolute !important;
-  top: 6px !important;
-  right: 8px !important;
-  border: 0 !important;
-  background: rgba(0,0,0,0.35) !important;
-  box-shadow: none !important;
-}
-</style><style>.showreel-frame iframe{display:block;width:100%;height:100%;pointer-events:auto;}</style><style>
-/* === SHOWREEL: put the × back on the LEFT and ensure it sits above the video === */
-.showreel-close{
-  left: 8px !important;
-  right: auto !important;
-  z-index: 3 !important;
-}
-</style><style>
-/* === SHOWREEL: close button on RIGHT (like BIO) === */
-.showreel-close{
-  right: 8px !important;
-  left: auto !important;
-  z-index: 3 !important;
-}
-
-/* === BIO: make X the same size as the video X, keep it in the same spot (top-right) === */
-.bio-close{
-  font-size: 18px !important;   /* match .showreel-close font size */
-  line-height: 1 !important;
-}
-</style></head>
+</head>
 <body>
-<div class="container">
-<h1>KATARIINA TAMM</h1>
-<nav class="bottom-nav">
-<a href="mailto:contact@katariinatamm.com">CONTACT</a>
-<a href="https://www.imdb.com/name/nm5518685/" rel="noopener" target="_blank">IMDB</a>
-<a href="#bio" id="bio-open">BIO</a>
-<a href="#showreel" id="showreel-open">SHOWREEL</a>
-</nav></div>
+  <div class="container">
+    <h1>KATARIINA TAMM</h1>
+    <nav class="bottom-nav">
+      <a href="mailto:contact@katariinatamm.com">CONTACT</a>
+      <a href="https://www.imdb.com/name/nm5518685/" target="_blank" rel="noopener">IMDB</a>
+    
+  <a href="#bio" id="bio-open">BIO</a>
+  <a href="#showreel" id="showreel-open">SHOWREEL</a>
+</nav>
+  
+<div id="showreel-modal" class="showreel-modal" role="dialog" aria-modal="true">
+  <div class="showreel-card">
+    <button class="showreel-close" id="showreel-close" aria-label="Close showreel">×</button>
+    <div class="showreel-frame" id="showreel-frame"></div>
+    
+  </div>
 </div>
 </div>
-<div aria-hidden="true" class="bio-overlay" id="bio-overlay"></div>
 
-<div aria-modal="true" class="showreel-modal" id="showreel-modal" role="dialog">
-<div class="showreel-card">
-<button aria-label="Close showreel" class="showreel-close" id="showreel-close">×</button>
-<div class="showreel-frame" id="showreel-frame"></div>
+<div class="bio-overlay" id="bio-overlay" aria-hidden="true"></div>
+<div id="bio" class="bio-sheet" role="dialog" aria-modal="true" aria-labelledby="bio-title">
+  <button class="bio-close" id="bio-close" aria-label="Close bio">×</button>
+  <div class="bio-content">
+    <h2 id="bio-title">BIO</h2>
+
+    <p class="bio-lines">
+      <span>Tallinn-based Estonian actor</span>
+      <span>MA Acting, RADA</span>
+      <span>Theatre Ekspeditsioon; Von Krahl Theatre; Estonian Theatre for Young Audiences</span>
+      <span>Nominee, Estonian Annual Theatre Awards (2023)</span>
+      <span>Languages: Estonian, English, Finnish, Russian</span>
+    </p>
 
 
-
-</div>
-</div>
-<div aria-labelledby="bio-title" aria-modal="true" class="bio-sheet" id="bio" role="dialog">
-<button aria-label="Close bio" class="bio-close" id="bio-close">×</button>
-<div class="bio-content">
-<h2 id="bio-title">BIO</h2>
-<p class="bio-lines">
-<span>Tallinn-based Estonian actor</span>
-<span>MA Acting, RADA</span>
-<span>Theatre Ekspeditsioon; Von Krahl Theatre; Estonian Theatre for Young Audiences</span>
-<span>Nominee, Estonian Annual Theatre Awards (2023)</span>
-<span>Languages: Estonian, English, Finnish, Russian</span>
-</p>
-<details class="bio-details">
-<summary>More</summary>
-<section>
-<h3>Education and training</h3>
-<ul>
-<li>Royal Academy of Dramatic Art (RADA), London, MA Acting, 2016 to 2018</li>
-<li>Turku University of Applied Sciences, Arts Academy, Finland, BA Visual Theatre, 2007 to 2011</li>
-<li>Theatre Institute of Barcelona, Physical Theatre exchange, 2010 to 2011</li>
-</ul>
-</section>
-<section>
-<h3>Work</h3>
-<ul>
-<li>Freelance actor, 2024 to present</li>
-<li>Theatre Ekspeditsioon, actor, 2022 to 2024</li>
-<li>Von Krahl Theatre, actor, 2020 to 2022</li>
-<li>Estonian Theatre for Young Audiences, actor, 2011 to 2016</li>
-</ul>
-</section>
-<section>
-<h3>Languages</h3>
-<ul>
-<li>Estonian native, English fluent, Finnish advanced, Russian intermediate</li>
-</ul>
-</section>
-<section>
-<h3>Recognition</h3>
-<ul>
-<li>
+    <details class="bio-details">
+  <summary>More</summary>
+  <section>
+    <h3>Education and training</h3>
+    <ul>
+      <li>Royal Academy of Dramatic Art (RADA), London, MA Acting, 2016 to 2018</li>
+      <li>Turku University of Applied Sciences, Arts Academy, Finland, BA Visual Theatre, 2007 to 2011</li>
+      <li>Theatre Institute of Barcelona, Physical Theatre exchange, 2010 to 2011</li>
+    </ul>
+  </section>
+  <section>
+    <h3>Work</h3>
+    <ul>
+      <li>Freelance actor, 2024 to present</li>
+      <li>Theatre Ekspeditsioon, actor, 2022 to 2024</li>
+      <li>Von Krahl Theatre, actor, 2020 to 2022</li>
+      <li>Estonian Theatre for Young Audiences, actor, 2011 to 2016</li>
+    </ul>
+  </section>
+  <section>
+    <h3>Languages</h3>
+    <ul>
+      <li>Estonian native, English fluent, Finnish advanced, Russian intermediate</li>
+    </ul>
+  </section>
+      <section>
+        <h3>Recognition</h3>
+        <ul>
+          <li>
             Estonian Annual Theatre Awards nominee, 2023,
             <i>Melancholia</i> directed by Juhan Ulfsak, and
             <i>Wear Wolf</i> directed by Peeter Jalakas
           </li>
-</ul>
-</section>
+        </ul>
+      </section>
 </details>
+  </div>
+  <footer class="bio-footer">
+    <button class="bio-close-bottom" id="bio-close-bottom" aria-label="Close bio">Close</button>
+  </footer>
 </div>
-<footer class="bio-footer">
-<button aria-label="Close bio" class="bio-close-bottom" id="bio-close-bottom">Close</button>
-</footer>
-</div>
+
+
+
 <script>
 (function(){
   const sheet   = document.getElementById('bio');
@@ -552,7 +490,6 @@
   const summary = details ? details.querySelector('summary') : null;
 
   function show(){
-    if (overlay) overlay.style.pointerEvents = 'auto';
     if (details) details.open = false; // always start with top fold only
     if (sheet && overlay){
       sheet.classList.add('open');
@@ -562,7 +499,6 @@
   }
 
   function hide(){
-    if (overlay) overlay.style.pointerEvents = '';
     if (sheet && overlay){
       sheet.classList.remove('open');
       overlay.classList.remove('open');
@@ -581,16 +517,7 @@
 
   // Openers
   if (openBtn){ bindTap(openBtn, show); }
-  if (location.hash === '#bio'){
-    // Open BIO without animation on initial load to avoid the 'pop-in'
-    if (sheet) sheet.style.transition = 'none';
-    if (overlay) overlay.style.transition = 'none';
-    show();
-    requestAnimationFrame(()=>{
-      if (sheet) sheet.style.transition = '';
-      if (overlay) overlay.style.transition = '';
-    });
-  }
+  if (location.hash === '#bio'){ show(); }
 
   // Closers
   bindTap(closeBtn, hide);
@@ -619,30 +546,14 @@
   const showreelClose = document.getElementById('showreel-close');
   const showreelCloseBottom = document.getElementById('showreel-close-bottom');
   const frame = document.getElementById('showreel-frame');
-  if (showreelModal){
-    ['click','touchstart','pointerdown'].forEach(ev=>{
-      showreelModal.addEventListener(ev, function(e){ e.stopPropagation(); }, {passive:false, capture:true});
-    });
-  }
+  if (showreelModal) showreelModal.addEventListener('click', function(e){ e.stopPropagation(); });
   let playerIframe = null;
 
   function mountIframe(){
     if (playerIframe) return;
-    // Detect touch / mobile (no hover or coarse pointer)
-    const isTouch = (('ontouchstart' in window) || window.matchMedia('(hover: none)').matches || window.matchMedia('(pointer: coarse)').matches);
-    const params = new URLSearchParams({
-      autoplay: isTouch ? '0' : '1',
-      muted: isTouch ? '0' : '1',
-      dnt: '1',
-      title: '0',
-      byline: '0',
-      portrait: '0',
-      playsinline: '1'
-    });
-    const url = 'https://player.vimeo.com/video/1132065474?' + params.toString();
+    const url = 'https://player.vimeo.com/video/1132065474?autoplay=1&muted=1&dnt=1&title=0&byline=0&portrait=0&playsinline=1';
     playerIframe = document.createElement('iframe');
-    playerIframe.id = 'vimeo-showreel';
-    playerIframe.setAttribute('src', url + '&autopause=1');
+    playerIframe.setAttribute('src', url);
     playerIframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share');
     playerIframe.setAttribute('allowfullscreen', 'true');
     playerIframe.setAttribute('frameborder', '0');
@@ -651,142 +562,59 @@
     playerIframe.title = 'Katariina Tamm Showreel';
     frame.appendChild(playerIframe);
   }
-
+  function unmountIframe(){
+    if (playerIframe){
+      playerIframe.remove();
+      playerIframe = null;
+    }
+  }
   function openShowreel(pushHash=true){
-    if (overlay) overlay.style.pointerEvents = 'auto';
     // Close BIO if open
     if (bioSheet && bioSheet.classList.contains('open')){
       bioSheet.classList.remove('open');
     }
-    if (overlay) overlay.classList.add('open');
+    overlay.classList.add('open');
     showreelModal.classList.add('open');
     mountIframe();
     if (pushHash) location.hash = '#showreel';
     // focus for a11y
-    if (showreelClose && showreelClose.focus) {
-      try { showreelClose.focus({ preventScroll: true }); } catch(_){}
-    }
+    showreelClose.focus({ preventScroll: true });
   }
-
   function closeShowreel(){
     showreelModal.classList.remove('open');
-    if (overlay) overlay.classList.remove('open');
-    if (overlay) overlay.style.pointerEvents = '';
-    try {
-      if (playerIframe && playerIframe.contentWindow) {
-        playerIframe.contentWindow.postMessage(JSON.stringify({ method: 'pause' }), 'https://player.vimeo.com');
-      }
-    } catch (e) { /* ignore */ }
-    try { if (playerIframe) { playerIframe.src = 'about:blank'; } } catch (e) {}
-    // Tear down the entire frame container to guarantee media stop on Safari/iOS
-    try {
-      if (frame){ frame.innerHTML = ''; }
-    } catch (e) {}
-    playerIframe = null;
+    overlay.classList.remove('open');
+    unmountIframe();
     // restore focus
-    if (showreelOpen && showreelOpen.focus) {
-      try { showreelOpen.focus({ preventScroll: true }); } catch(_){}
-    }
-    if (location.hash === '#showreel') {
-      try { history.replaceState(null, '', location.pathname + location.search); } catch(_){}
-    }
+    if (showreelOpen) showreelOpen.focus({ preventScroll: true });
+    if (location.hash === '#showreel') history.replaceState(null, '', location.pathname + location.search);
   }
 
-  // --- Helpers for "outside" detection ---
-  const pointInRect = (x, y, r) => x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
-  const getEventXY = (evt) => {
-    if (evt.changedTouches && evt.changedTouches.length) {
-      return { x: evt.changedTouches[0].clientX, y: evt.changedTouches[0].clientY };
-    } else if (evt.touches && evt.touches.length) {
-      return { x: evt.touches[0].clientX, y: evt.touches[0].clientY };
-    } else {
-      return { x: evt.clientX, y: evt.clientY };
-    }
-  };
-  const isOutsideModalFromEvent = (evt) => {
-    if (!showreelModal || !showreelModal.classList.contains('open')) return false;
-    const r = showreelModal.getBoundingClientRect();
-    const { x, y } = getEventXY(evt);
-    return !pointInRect(x, y, r);
-  };
-
-  // --- Open / Toggle ---
   if (showreelOpen){
     showreelOpen.addEventListener('click', function(e){
       e.preventDefault();
-      e.stopPropagation(); // prevent global close-on-document from firing on this same click
-      if (showreelModal.classList.contains('open')) {
-        closeShowreel();
-      } else {
-        openShowreel(true);
-      }
+      openShowreel(true);
     });
-    // Support touch
-    showreelOpen.addEventListener('touchend', function(e){
-      e.preventDefault();
-      e.stopPropagation();
-      if (showreelModal.classList.contains('open')) {
-        closeShowreel();
-      } else {
-        openShowreel(true);
-      }
-    }, { passive: false });
   }
-
-  // --- Closers ---
-  // X button (click + touchend)
-  if (showreelClose){
-    showreelClose.addEventListener('click', closeShowreel);
-    showreelClose.addEventListener('touchend', function(e){ e.preventDefault(); closeShowreel(); }, { passive: false });
-  }
+  if (showreelClose) showreelClose.addEventListener('click', closeShowreel);
   if (showreelCloseBottom) showreelCloseBottom.addEventListener('click', closeShowreel);
-
-  // Overlay close: only when tapping/clicking OUTSIDE the modal.
-  if (overlay) {
-    ['pointerdown','pointerup','click','touchend'].forEach(type => {
-      overlay.addEventListener(type, function(e){
-        if (!isOutsideModalFromEvent(e)) return;
-        e.preventDefault();
-        e.stopPropagation();
-        closeShowreel();
-      }, {passive:false, capture:true});
-    });
-  }
-
-  // NEW: Global close-on-anywhere-else (icons, header, etc.) — not just links.
-  // If the showreel is open and a click/pointerdown occurs outside the modal bounds, close it.
-  ['pointerdown','click'].forEach(type => {
-    document.addEventListener(type, function(e){
-      if (!showreelModal.classList.contains('open')) return;
-      // Ignore if the event comes from inside the modal (robust check)
-      const path = (typeof e.composedPath === 'function') ? e.composedPath() : [];
-      if (path.includes(showreelModal) || showreelModal.contains(e.target)) return;
-      // Guard with geometry too (fixes Safari oddities)
-      if (!isOutsideModalFromEvent(e)) return;
-      // Close. Do not prevent default so page links still work.
-      closeShowreel();
-    }, { passive: true });
+  if (overlay) overlay.addEventListener('click', function(e){
+    if (e.target === overlay && showreelModal.classList.contains('open')) closeShowreel();
   });
-
-  // Close with Escape
   document.addEventListener('keydown', function(e){
     if (e.key === 'Escape' && showreelModal.classList.contains('open')) closeShowreel();
   });
-
   // Deep link
   window.addEventListener('hashchange', function(){
     if (location.hash === '#showreel') openShowreel(false);
     else if (showreelModal.classList.contains('open')) closeShowreel();
   });
-
-  // Removed visibilitychange-based auto-close to avoid unintended closes on media actions
   if (location.hash === '#showreel') openShowreel(false);
 })();
 </script>
-<!-- Dev note: If WebStorm reports "Element ul is not closed", search for any "<ul" without a matching "</ul>".
-Typical spots are the BIO lists. Ensure each <ul> wraps only <li> children and is closed before </details> or </section>. -->
+
 
 <!-- Dev note: If WebStorm reports "Element ul is not closed", search for any "<ul" without a matching "</ul>".
 Typical spots are the BIO lists. Ensure each <ul> wraps only <li> children and is closed before </details> or </section>. -->
+
 </body>
 </html>
