@@ -1,41 +1,41 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <!-- Basics -->
     <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Katariina Tamm - Actor</title>
-    <meta content="Estonian actor Katariina Tamm - RADA graduate, theatre performer, and Estonian Annual Theatre Awards nominee. Official website." name="description"/>
-    <meta content="Katariina Tamm" name="author"/>
-    <meta content="index,follow,max-image-preview:large" name="robots"/>
-    <link href="https://katariinatamm.com/" rel="canonical"/>
+    <meta name="description" content="Official website of Katariina Tamm, an Estonian actor based in Tallinn. RADA trained theatre performer and Estonian Annual Theatre Awards nominee."/>
+    <meta name="author" content="Katariina Tamm"/>
+    <meta name="robots" content="index,follow,max-image-preview:large"/>
+    <link rel="canonical" href="https://katariinatamm.com/"/>
+
     <!-- Icons / Manifest -->
-    <link href="apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
-    <link href="favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
-    <link href="favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
-    <link href="site.webmanifest" rel="manifest"/>
-    <link href="favicon.ico" rel="shortcut icon"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png"/>
+    <link rel="manifest" href="site.webmanifest"/>
+    <link rel="shortcut icon" href="favicon.ico"/>
     <meta name="theme-color" content="#000000"/>
 
-    <!-- Open Graph (cards use 1200x630; site keeps hero-image.jpg in CSS) -->
-    <meta content="website" property="og:type"/>
-    <meta content="https://katariinatamm.com/" property="og:url"/>
-    <meta content="Katariina Tamm" property="og:site_name"/>
-    <meta content="Katariina Tamm - Actor" property="og:title"/>
-    <meta content="Estonian actor Katariina Tamm - RADA graduate, theatre performer, and Estonian Annual Theatre Awards nominee. Official website." property="og:description"/>
-    <meta content="https://katariinatamm.com/katariina-tamm-1200x630.jpg?v=4" property="og:image"/>
-    <meta content="1200" property="og:image:width"/>
-    <meta content="630" property="og:image:height"/>
-    <meta content="Portrait of actor Katariina Tamm" property="og:image:alt"/>
+    <!-- Open Graph -->
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="https://katariinatamm.com/"/>
+    <meta property="og:site_name" content="Katariina Tamm"/>
+    <meta property="og:title" content="Katariina Tamm - Actor"/>
+    <meta property="og:description" content="Official website of Katariina Tamm, an Estonian actor based in Tallinn. RADA trained theatre performer and Estonian Annual Theatre Awards nominee."/>
+    <meta property="og:image" content="https://katariinatamm.com/katariina-tamm-1200x630.jpg?v=4"/>
+    <meta property="og:image:width" content="1200"/>
+    <meta property="og:image:height" content="630"/>
+    <meta property="og:image:alt" content="Portrait of actor Katariina Tamm"/>
 
     <!-- Twitter (X) -->
-    <meta content="summary_large_image" name="twitter:card"/>
-    <meta content="https://katariinatamm.com/" name="twitter:url"/>
-    <meta content="Katariina Tamm - Actor" name="twitter:title"/>
-    <meta content="Estonian actor Katariina Tamm - RADA graduate, theatre performer, and Estonian Annual Theatre Awards nominee. Official website." name="twitter:description"/>
-    <meta content="https://katariinatamm.com/katariina-tamm-1200x630.jpg?v=4" name="twitter:image"/>
-    <meta content="Portrait of actor Katariina Tamm" name="twitter:image:alt"/>
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:url" content="https://katariinatamm.com/"/>
+    <meta name="twitter:title" content="Katariina Tamm - Actor"/>
+    <meta name="twitter:description" content="Official website of Katariina Tamm, an Estonian actor based in Tallinn. RADA trained theatre performer and Estonian Annual Theatre Awards nominee."/>
+    <meta name="twitter:image" content="https://katariinatamm.com/katariina-tamm-1200x630.jpg?v=4"/>
+    <meta name="twitter:image:alt" content="Portrait of actor Katariina Tamm"/>
 
     <!-- JSON-LD (Person) -->
     <script type="application/ld+json">
@@ -66,7 +66,7 @@
         }
     </script>
 
-    <link href="styles.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="styles.css"/>
 
     <style>
         /* original styling kept */
@@ -114,17 +114,6 @@
             animation: fadeInText 2s ease-out 0.25s forwards;
         }
 
-        .intro {
-            font-size: 1.1rem;
-            font-weight: 200;
-            text-align: center;
-            color: #e8e8e8;
-            margin: 1rem 0 0;
-            letter-spacing: 0.05em;
-            opacity: 0;
-            animation: fadeInText 2s ease-out 0.5s forwards;
-        }
-
         @keyframes fadeInText {
             from { opacity: 0; transform: translateY(30px); }
             to   { opacity: 1; transform: translateY(0); }
@@ -167,16 +156,6 @@
         }
 
         @keyframes ripple { to { width: 100px; height: 100px; opacity: 0; } }
-
-        /* Keep intro text for Google, remove from visible layout */
-        .seo-intro {
-            position: absolute !important;
-            left: -9999px !important;
-            width: 1px !important;
-            height: 1px !important;
-            overflow: hidden !important;
-            white-space: nowrap !important;
-        }
 
         /* === SHOWREEL modal (minimal) + footer mobile spacing === */
         @media (max-width: 480px){
@@ -345,17 +324,12 @@
             line-height: 1 !important;
         }
     </style>
-
 </head>
+
 <body>
 
 <div class="container">
     <h1>KATARIINA TAMM</h1>
-
-    <!-- SEO snippet stabiliser (kept in HTML, not shown visually) -->
-    <p class="intro seo-intro">
-        Estonian actor Katariina Tamm - RADA graduate, theatre performer, and Estonian Annual Theatre Awards nominee. Official website.
-    </p>
 
     <nav class="bottom-nav">
         <a href="mailto:contact@katariinatamm.com">CONTACT</a>
@@ -365,17 +339,17 @@
     </nav>
 </div>
 
-<div aria-hidden="true" class="bio-overlay" id="bio-overlay"></div>
+<div class="bio-overlay" id="bio-overlay" aria-hidden="true"></div>
 
-<div aria-modal="true" class="showreel-modal" id="showreel-modal" role="dialog">
+<div class="showreel-modal" id="showreel-modal" role="dialog" aria-modal="true">
     <div class="showreel-card">
-        <button aria-label="Close showreel" class="showreel-close" id="showreel-close">×</button>
+        <button class="showreel-close" id="showreel-close" aria-label="Close showreel">×</button>
         <div class="showreel-frame" id="showreel-frame"></div>
     </div>
 </div>
 
-<div aria-labelledby="bio-title" aria-modal="true" class="bio-sheet" id="bio" role="dialog" data-nosnippet>
-    <button aria-label="Close bio" class="bio-close" id="bio-close">×</button>
+<div class="bio-sheet" id="bio" role="dialog" aria-modal="true" aria-labelledby="bio-title" data-nosnippet>
+    <button class="bio-close" id="bio-close" aria-label="Close bio">×</button>
 
     <div class="bio-content">
         <h2 id="bio-title">BIO</h2>
@@ -431,7 +405,7 @@
     </div>
 
     <footer class="bio-footer">
-        <button aria-label="Close bio" class="bio-close-bottom" id="bio-close-bottom">Close</button>
+        <button class="bio-close-bottom" id="bio-close-bottom" aria-label="Close bio">Close</button>
     </footer>
 </div>
 
@@ -508,11 +482,13 @@
         const showreelClose = document.getElementById('showreel-close');
         const showreelCloseBottom = document.getElementById('showreel-close-bottom');
         const frame = document.getElementById('showreel-frame');
+
         if (showreelModal){
             ['click','touchstart','pointerdown'].forEach(ev=>{
                 showreelModal.addEventListener(ev, function(e){ e.stopPropagation(); }, {passive:false, capture:true});
             });
         }
+
         let playerIframe = null;
 
         function mountIframe(){
@@ -528,6 +504,7 @@
                 playsinline: '1'
             });
             const url = 'https://player.vimeo.com/video/1132065474?' + params.toString();
+
             playerIframe = document.createElement('iframe');
             playerIframe.id = 'vimeo-showreel';
             playerIframe.setAttribute('src', url + '&autopause=1');
@@ -537,18 +514,23 @@
             playerIframe.style.width = '100%';
             playerIframe.style.height = '100%';
             playerIframe.title = 'Katariina Tamm Showreel';
+
             frame.appendChild(playerIframe);
         }
 
         function openShowreel(pushHash=true){
             if (overlay) overlay.style.pointerEvents = 'auto';
+
             if (bioSheet && bioSheet.classList.contains('open')){
                 bioSheet.classList.remove('open');
             }
+
             if (overlay) overlay.classList.add('open');
             showreelModal.classList.add('open');
             mountIframe();
+
             if (pushHash) location.hash = '#showreel';
+
             if (showreelClose && showreelClose.focus) {
                 try { showreelClose.focus({ preventScroll: true }); } catch(_){}
             }
@@ -558,17 +540,21 @@
             showreelModal.classList.remove('open');
             if (overlay) overlay.classList.remove('open');
             if (overlay) overlay.style.pointerEvents = '';
+
             try {
                 if (playerIframe && playerIframe.contentWindow) {
                     playerIframe.contentWindow.postMessage(JSON.stringify({ method: 'pause' }), 'https://player.vimeo.com');
                 }
             } catch (e) {}
+
             try { if (playerIframe) { playerIframe.src = 'about:blank'; } } catch (e) {}
             try { if (frame){ frame.innerHTML = ''; } } catch (e) {}
             playerIframe = null;
+
             if (showreelOpen && showreelOpen.focus) {
                 try { showreelOpen.focus({ preventScroll: true }); } catch(_){}
             }
+
             if (location.hash === '#showreel') {
                 try { history.replaceState(null, '', location.pathname + location.search); } catch(_){}
             }
@@ -584,6 +570,7 @@
                 return { x: evt.clientX, y: evt.clientY };
             }
         };
+
         const isOutsideModalFromEvent = (evt) => {
             if (!showreelModal || !showreelModal.classList.contains('open')) return false;
             const r = showreelModal.getBoundingClientRect();
@@ -595,20 +582,15 @@
             showreelOpen.addEventListener('click', function(e){
                 e.preventDefault();
                 e.stopPropagation();
-                if (showreelModal.classList.contains('open')) {
-                    closeShowreel();
-                } else {
-                    openShowreel(true);
-                }
+                if (showreelModal.classList.contains('open')) closeShowreel();
+                else openShowreel(true);
             });
+
             showreelOpen.addEventListener('touchend', function(e){
                 e.preventDefault();
                 e.stopPropagation();
-                if (showreelModal.classList.contains('open')) {
-                    closeShowreel();
-                } else {
-                    openShowreel(true);
-                }
+                if (showreelModal.classList.contains('open')) closeShowreel();
+                else openShowreel(true);
             }, { passive: false });
         }
 
@@ -616,6 +598,7 @@
             showreelClose.addEventListener('click', closeShowreel);
             showreelClose.addEventListener('touchend', function(e){ e.preventDefault(); closeShowreel(); }, { passive: false });
         }
+
         if (showreelCloseBottom) showreelCloseBottom.addEventListener('click', closeShowreel);
 
         if (overlay) {
