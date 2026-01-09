@@ -45,7 +45,10 @@
     "url":"https://katariinatamm.com/",
     "image":"https://katariinatamm.com/katariina-tamm-1200x630.jpg",
     "knowsLanguage":["et","en"],
-    "nationality":"Estonia",
+    "nationality": {
+      "@type": "Country",
+      "name": "Estonia"
+    },
     "sameAs":["https://www.imdb.com/name/nm5518685/"]
   }
   </script>
@@ -482,6 +485,7 @@
 <body>
 <div class="container">
 <h1>KATARIINA TAMM</h1>
+<p class="intro">Estonian actor Katariina Tamm - RADA graduate, theatre performer, and Estonian Annual Theatre Awards nominee. Official website.</p>
 <nav class="bottom-nav">
 <a href="mailto:contact@katariinatamm.com">CONTACT</a>
 <a href="https://www.imdb.com/name/nm5518685/" rel="noopener" target="_blank">IMDB</a>
@@ -501,7 +505,7 @@
 
 </div>
 </div>
-<div aria-labelledby="bio-title" aria-modal="true" class="bio-sheet" id="bio" role="dialog">
+<div aria-labelledby="bio-title" aria-modal="true" class="bio-sheet" id="bio" role="dialog" data-nosnippet>
 <button aria-label="Close bio" class="bio-close" id="bio-close">×</button>
 <div class="bio-content">
 <h2 id="bio-title">BIO</h2>
